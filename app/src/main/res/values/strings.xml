@@ -14,5 +14,8 @@
     <string name="user_phone_number">PhoneNumber</string>
     <string name="user_email_address">Email</string>
     <string name="user_date_of_birth">DateOfBirth</string>
-    <string name="user_input_register">Register</string>
+    <string name="user_registration">SignUp</string>
+    <string name="user_registration_page">User Registration</string>
+    <string name="user_password">Password</string>
+    <string name="user_confirm_password">ConfirmPassword</string>
 </resources>
