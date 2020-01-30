@@ -14,8 +14,10 @@ import java.util.regex.Pattern
 class RegexUtil {
 
     /**Function to validate User first name*/
-    fun validateFirstName(firstName: String) {
-
+    fun validateName(name: String): Boolean {
+        val nameExpression = "^[a-zA-Z\\s]*$"
+        val namePattern = Pattern.compile(nameExpression)
+        return namePattern.matcher(name).matches()
     }
 
     /** Function to validate user email address*/
@@ -27,8 +29,15 @@ class RegexUtil {
 
     /** Function to validate user email password*/
     fun validatePassword(password: String): Boolean {
-        val passwordExpression = "(?=.*[a-zA-Z])" + ".{5,})" //at least 5 character
+        val passwordExpression = "(?=.*[a-zA-Z])" + ".{5,}" //at least 5 character
         val passwordPattern = Pattern.compile(passwordExpression)
         return passwordPattern.matcher(password).matches()
+    }
+
+    /**Function to validate user phone number*/
+    fun validatePhone(phoneNumber: String): Boolean {
+        val phoneNumberExpression = "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*\$"
+        val phonePattern = Pattern.compile(phoneNumberExpression)
+        return phonePattern.matcher(phoneNumber).matches()
     }
 }
