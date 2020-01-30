@@ -11,8 +11,30 @@
         android:layout_height="wrap_content"
         tools:context=".user_module.registration.view.RegisterActivity">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/user_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/user_registration_page"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/firstName_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstName_input_text_layout"
+            android:id="@+id/firstName_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -20,16 +42,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/lastName_input_text_layout"
+            app:layout_constraintBottom_toTopOf="@+id/lastName_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/user_registration"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/first_name_edit_text"
+                android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_first_name"
@@ -38,7 +59,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastName_input_text_layout"
+            android:id="@+id/lastName_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -46,14 +67,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/dob_input_text_layout"
+            app:layout_constraintBottom_toTopOf="@+id/dob_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstName_input_text_layout"
+            app:layout_constraintTop_toBottomOf="@+id/firstName_layout"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/last_name_edit_text"
+                android:id="@+id/last_name_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_last_name"
@@ -61,7 +82,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_input_text_layout"
+            android:id="@+id/user_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -69,14 +90,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/phone_number_input_text_layout"
+            app:layout_constraintBottom_toTopOf="@+id/user_password_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dob_input_text_layout"
+            app:layout_constraintTop_toBottomOf="@+id/dob_layout"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_edit_text"
+                android:id="@+id/user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_email_address"
@@ -85,7 +106,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phone_number_input_text_layout"
+            android:id="@+id/phone_number_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -96,11 +117,11 @@
             app:layout_constraintBottom_toTopOf="@+id/register_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_input_text_layout"
+            app:layout_constraintTop_toBottomOf="@+id/confirm_password_layout"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneNumber_edit_text"
+                android:id="@+id/phoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_phone_number"
@@ -108,7 +129,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dob_input_text_layout"
+            android:id="@+id/dob_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -116,18 +137,18 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/email_input_text_layout"
+            app:layout_constraintBottom_toTopOf="@+id/user_email_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastName_input_text_layout"
+            app:layout_constraintTop_toBottomOf="@+id/lastName_layout"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dob_edit_text"
+                android:id="@+id/date_of_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_date_of_birth"
-                android:inputType="datetime"/>
+                android:inputType="datetime" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -139,11 +160,56 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text="@string/user_input_register"
+            android:text="@string/user_registration"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phone_number_input_text_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/phone_number_layout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_password_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_email_layout"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_password"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirm_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/phone_number_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_password_layout"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_confirm_password" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
