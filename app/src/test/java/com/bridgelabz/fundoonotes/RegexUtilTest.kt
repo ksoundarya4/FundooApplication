@@ -57,4 +57,15 @@ class RegexUtilTest {
         assertEquals(true,regexUtil.validatePhone(two))
         assertEquals(false,regexUtil.validatePhone(three))
     }
+
+    /**Function to test ValidateDOB function*/
+    @Test
+    fun testValidateDOB_isCOrrect(){
+        val date1 = "30/03/2020"
+        val date2 = "30-01-2020"
+        val date3 = "221220202"
+        assertEquals(true,regexUtil.validateDOB(date1))
+        assertEquals(true,regexUtil.validateDOB(date2))
+        assertEquals(false,regexUtil.validateDOB(date3))
+    }
 }
