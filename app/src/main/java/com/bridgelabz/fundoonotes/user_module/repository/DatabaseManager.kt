@@ -17,6 +17,6 @@ interface DatabaseManager {
     fun close()
     fun insert(user : User,description : String)
     fun fetch(): Cursor
-    fun update(KEY_ID : Long, user : User , description : String): Int
+    fun update(KEY_ID : Long, userPropert : String , description : String): Int
     fun delete()
 }
