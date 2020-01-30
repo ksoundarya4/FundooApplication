@@ -36,8 +36,17 @@ class RegexUtil {
 
     /**Function to validate user phone number*/
     fun validatePhone(phoneNumber: String): Boolean {
-        val phoneNumberExpression = "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*\$"
+        val phoneNumberExpression =
+            "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*\$"
         val phonePattern = Pattern.compile(phoneNumberExpression)
         return phonePattern.matcher(phoneNumber).matches()
+    }
+
+    /**Function to validate date of birth*/
+    fun validateDOB(dateOfBirth: String): Boolean {
+        val dateExpression =
+            "([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})\$"
+        val datePattern = Pattern.compile(dateExpression)
+        return datePattern.matcher(dateOfBirth).matches()
     }
 }
