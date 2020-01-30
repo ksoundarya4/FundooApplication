@@ -14,16 +14,47 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class RegexUtilTest {
+    private val regexUtil = RegexUtil()
 
-    /**
-     * Function to test validateEmail function.
-     */
+    /**Function to test validateEmail function. */
     @Test
-    fun getInstanceRegexUtil_testValidateEmail_isCorrect(){
-        val regexUtil = RegexUtil()
+    fun testValidateEmail_isCorrect() {
         val emailOne = "ksoundarya4@gmail.com"
         val emailTwo = "@soundarya@gamil.com"
-        assertEquals(true,regexUtil.validateEmail(emailOne))
-        assertEquals(false,regexUtil.validateEmail(emailTwo))
+        assertEquals(true, regexUtil.validateEmail(emailOne))
+        assertEquals(false, regexUtil.validateEmail(emailTwo))
+    }
+
+    /**Function to test validatePassword function*/
+    @Test
+    fun testValidatePassword_isCorrect() {
+        val passwordOne = "sound23567"
+        val passwordTwo = ".Soundarya@23"
+        val passwordThree = "arya"
+        assertEquals(true, regexUtil.validatePassword(passwordOne))
+        assertEquals(true, regexUtil.validatePassword(passwordTwo))
+        assertEquals(false, regexUtil.validatePassword(passwordThree))
+    }
+
+    /**Function to test validateNamefunction*/
+    @Test
+    fun testValidateName_isCorrect() {
+        val one = "soundarya"
+        val two = "Soundarya Krishna"
+        val three = "167gscb"
+        assertEquals(true, regexUtil.validateName(one))
+        assertEquals(true, regexUtil.validateName(two))
+        assertEquals(false, regexUtil.validateName(three))
+    }
+
+    /**Function to test validatePhone function*/
+    @Test
+    fun testValidatePhone_isCorrect(){
+        val one = "+91-8150080490"
+        val two = "815-008-0490"
+        val three = "86864"
+        assertEquals(true,regexUtil.validatePhone(one))
+        assertEquals(true,regexUtil.validatePhone(two))
+        assertEquals(false,regexUtil.validatePhone(three))
     }
 }
