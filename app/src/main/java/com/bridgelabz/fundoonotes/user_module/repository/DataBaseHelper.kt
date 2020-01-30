@@ -17,16 +17,16 @@ import android.database.sqlite.SQLiteOpenHelper
 class DataBaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
-        private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "UserDatabase"
-        private val TABLE_NAME = "UserTable"
-        private val KEY_ID = "id"
-        private val KEY_FIRSTNAME = "firstName"
-        private val KEY_LASTNAME = "lastName"
-        private val KEY_DOB = "dateOfBirth"
-        private val KEY_EMAIL = "email"
-        private val KEY_PASSWORD = "password"
-        private val KEY_PHONE_NUMBER = "phoneNumber"
+        val DATABASE_VERSION = 1
+        val DATABASE_NAME = "UserDatabase"
+        val TABLE_NAME = "UserTable"
+        val KEY_ID = "id"
+        val KEY_FIRSTNAME = "firstName"
+        val KEY_LASTNAME = "lastName"
+        val KEY_DOB = "dateOfBirth"
+        val KEY_EMAIL = "email"
+        val KEY_PASSWORD = "password"
+        val KEY_PHONE_NUMBER = "phoneNumber"
     }
 
     /**Function to create new User database*/
