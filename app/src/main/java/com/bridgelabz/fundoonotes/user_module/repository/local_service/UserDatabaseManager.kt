@@ -7,16 +7,17 @@
  * @version 1.0
  * @since 30/01/2020
  */
-package com.bridgelabz.fundoonotes.user_module.repository
+package com.bridgelabz.fundoonotes.user_module.repository.local_service
 
 import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
-interface DatabaseManager {
-    fun open(): DatabaseManager
+interface UserDatabaseManager {
+    fun open(): SQLiteDatabase
     fun close()
-    fun insert(user : User,description : String)
+    fun insert(user: User, description: String): Long
     fun fetch(): Cursor
-    fun update(KEY_ID : Long, userPropert : String , description : String): Int
-    fun delete()
+    fun update(_id: Long, user: User, description: String): Int
+    fun delete(_id: Long)
 }
