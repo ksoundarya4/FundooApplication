@@ -10,12 +10,10 @@
  */
 package com.bridgelabz.fundoonotes.user_module.registration.model
 
-import java.time.LocalDate
-
 data class User(
     val firstName: String,
     val lastName: String,
-    val dateOfBirth: LocalDate,
+    val dateOfBirth: String,
     val email: String,
     val password: String,
     val phoneNumber: String
