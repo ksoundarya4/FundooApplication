@@ -5,7 +5,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
-import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper.Companion.DATABASE_NAME
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_DOB
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_EMAIL
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_FIRSTNAME
@@ -33,12 +32,12 @@ class UserDbManagerImpl(
         val values = ContentValues().apply {
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
-            put(KEY_DOB, user.dateOfBirth.toString())
+            put(KEY_DOB, user.dateOfBirth)
             put(KEY_EMAIL, user.email)
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
-        return database.insert(DATABASE_NAME, null, values)
+        return database.insert(TABLE_NAME, null, values)
     }
 
     override fun fetch(): Cursor {
@@ -75,7 +74,7 @@ class UserDbManagerImpl(
         val values = ContentValues().apply {
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
-            put(KEY_DOB, user.dateOfBirth.toString())
+            put(KEY_DOB, user.dateOfBirth)
             put(KEY_EMAIL, user.email)
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
