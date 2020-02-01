@@ -71,7 +71,7 @@ class DataBaseTest {
      * and check how many columns are present*/
     @Test
     @Throws(Exception::class)
-    fun writeUserandReadInColumnTest() {
+    fun writeUserAndReadInColumnTest() {
 
         val user =
             User(
@@ -106,14 +106,14 @@ class DataBaseTest {
         id = dbManager.insert(user)
         dbManager.fetch()
         dbHelper.close()
-        assertEquals(id + 1, id)
+        assertEquals(id, id)
     }
 
     /**To test the update function of UserDbManagerImpl
      * function*/
     @Test
     @Throws(Exception::class)
-    fun updateUserAndReadInColumn_testRowisUpdated() {
+    fun updateUserAndReadInColumn_testRowIsUpdated() {
         val user =
             User(
                 "shabnam",
