@@ -10,14 +10,12 @@
 package com.bridgelabz.fundoonotes.user_module.repository.local_service
 
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
 interface UserDatabaseManager {
-    fun open(): SQLiteDatabase
-    fun close()
-    fun insert(user: User, description: String): Long
+    fun insert(user: User): Long
     fun fetch(): Cursor
-    fun update(_id: Long, user: User, description: String): Int
+    fun update(_id: Long, user: User): Int
     fun delete(_id: Long)
+    fun deleteAll()
 }
