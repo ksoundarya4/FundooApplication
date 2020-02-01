@@ -22,16 +22,16 @@ import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegis
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_PHONE_NUMBER
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.TABLE_NAME
 
-
 private const val CREATE_TABLE =
     " Create Table $TABLE_NAME (" +
             "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-            "$KEY_FIRSTNAME VARCHAR(15)," +
-            "$KEY_LASTNAME VARCHAR(15)," +
-            "$KEY_DOB VARCHAR(10)," +
+            "$KEY_FIRSTNAME CHAR(15)," +
+            "$KEY_LASTNAME CHAR(15)," +
+            "$KEY_DOB CHAR(10)," +
             "$KEY_EMAIL VARCHAR(200)," +
             "$KEY_PASSWORD VARCHAR(20)," +
-            "$KEY_PHONE_NUMBER VARCHAR(20))"
+            "$KEY_PHONE_NUMBER CHAR(20))"
+
 private const val DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
 
 class UserDbHelper(context: Context) :
@@ -57,8 +57,13 @@ class UserDbHelper(context: Context) :
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    companion object{
-        val DATABASE_VERSION = 1
-        val DATABASE_NAME = "UserRegistration.db"
+    /**Function to open database to write*/
+    fun open(): SQLiteDatabase {
+        return this.writableDatabase
+    }
+
+    companion object {
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "UserRegistration.db"
     }
 }
