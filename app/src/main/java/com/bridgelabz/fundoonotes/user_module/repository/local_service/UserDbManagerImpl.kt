@@ -34,7 +34,9 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
-        return database.insert(TABLE_NAME, null, values)
+        val rowId = database.insert(TABLE_NAME, null, values)
+        databaseHelper.close()
+        return rowId
     }
 
     /**
@@ -86,12 +88,14 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
-        return database.update(
+        val status = database.update(
             TABLE_NAME,
             values,
             BaseColumns._ID + "=" + _id,
             null
         )
+        databaseHelper.close()
+        return status
     }
 
     /**To delete a row in User Entry table
