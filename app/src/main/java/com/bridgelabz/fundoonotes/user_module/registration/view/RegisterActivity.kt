@@ -11,31 +11,22 @@ import com.google.android.material.textfield.TextInputEditText
 
 class RegisterActivity : AppCompatActivity() {
 
-    lateinit var registerViewModel: RegisterViewModel
+    private val registerViewModel by lazy { RegisterViewModel(UserDbHelper(this)) }
+
     lateinit var firstName: TextInputEditText
     lateinit var lastName: TextInputEditText
     lateinit var dateOfBirth: TextInputEditText
     lateinit var email: TextInputEditText
     lateinit var password: TextInputEditText
     lateinit var phoneNumber: TextInputEditText
-    lateinit var signUPButton :Button
-
+    lateinit var signUPButton: Button
+    lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         onViews()
-        registerViewModel = RegisterViewModel(UserDbHelper(this))
-
-
-
         onClickListener()
-
-
-
-
-
-
     }
 
     private fun onViews() {
@@ -45,21 +36,20 @@ class RegisterActivity : AppCompatActivity() {
         email = findViewById(R.id.user_email)
         password = findViewById(R.id.password)
         phoneNumber = findViewById(R.id.phoneNumber)
-        signUPButton =findViewById<Button>(R.id.button_sign_up)
+        signUPButton = findViewById<Button>(R.id.button_sign_up)
     }
 
-    private fun onClickListener(){
+    private fun onClickListener() {
         signUPButton.setOnClickListener {
 
-            val fname =firstName.editableText.toString()
-            val lname =lastName.editableText.toString()
-            val dob =dateOfBirth.editableText.toString()
-            email.editableText.toString()
-            password.editableText.toString()
-            phoneNumber.editableText.toString()
-            registerViewModel.validateUser(User(
-                "fj", "foas", "22/10/9182", "foiej@gmail","773ffee2", "423423423523"))
-
+            val fName = firstName.editableText.toString()
+            val lName = lastName.editableText.toString()
+            val dob = dateOfBirth.editableText.toString()
+            val userMail = email.editableText.toString()
+            val userPass = password.editableText.toString()
+            val userNumber = phoneNumber.editableText.toString()
+            user = User(fName, lName, dob, userMail, userPass, userNumber)
+            registerViewModel.validateUser(user)
         }
     }
 }
