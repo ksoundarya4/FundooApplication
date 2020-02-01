@@ -62,8 +62,6 @@ class RegisterViewModel(private val dbHelper: UserDbHelper) : ViewModel() {
             && validatePhone(user.phoneNumber)
         ) {
             dbManager.insert(user)
-            dbHelper.close()
-            dbManager.fetch()
         }
     }
 }
