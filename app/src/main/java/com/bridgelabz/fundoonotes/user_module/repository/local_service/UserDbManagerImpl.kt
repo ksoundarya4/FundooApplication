@@ -17,18 +17,15 @@ class UserDbManagerImpl(
     private val databaseHelper: UserDbHelper
 ) : UserDatabaseManager {
 
-    lateinit var database: SQLiteDatabase
+    private lateinit var database: SQLiteDatabase
 
-    override fun open(): SQLiteDatabase {
-        return databaseHelper.writableDatabase
-    }
-
-    override fun close() {
-        databaseHelper.close()
-    }
-
-    override fun insert(user: User, description: String): Long {
-
+    /**
+     * To insert a row into User Entry table
+     *
+     * @param user to be inserted
+     */
+    override fun insert(user: User): Long {
+        database = databaseHelper.open()
         val values = ContentValues().apply {
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
@@ -40,14 +37,19 @@ class UserDbManagerImpl(
         return database.insert(TABLE_NAME, null, values)
     }
 
+    /**
+     * To fetch User Entry
+     *
+     * @return Cursor object
+     */
     override fun fetch(): Cursor {
         database = databaseHelper.readableDatabase
 
         val columns =
-            arrayOf<String>(
+            arrayOf(
                 BaseColumns._ID, KEY_FIRSTNAME,
                 KEY_LASTNAME, KEY_DOB,
-                KEY_EMAIL, KEY_EMAIL,
+                KEY_EMAIL,
                 KEY_PASSWORD, KEY_PHONE_NUMBER
             )
         val selection = "${BaseColumns._ID} = ?"
@@ -63,13 +65,18 @@ class UserDbManagerImpl(
             null,
             sortOrder
         )
-
         cursor.moveToFirst()
         return cursor
     }
 
-    override fun update(_id: Long, user: User, description: String): Int {
-        database = open()
+    /**
+     * To update a row in User Entry Table
+     * @param _id of row to be updates
+     * @param user details to be inserted.
+     * @return positive integer if row successfully updated.
+     * */
+    override fun update(_id: Long, user: User): Int {
+        database = databaseHelper.open()
 
         val values = ContentValues().apply {
             put(KEY_FIRSTNAME, user.firstName)
@@ -79,16 +86,28 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
-        val selection = "{${BaseColumns._ID} LIKE $_id"
         return database.update(
             TABLE_NAME,
             values,
-            selection,
+            BaseColumns._ID + "=" + _id,
             null
         )
     }
 
+    /**To delete a row in User Entry table
+     *
+     * @param _id of row to be deleted.
+     */
     override fun delete(_id: Long) {
+        database = databaseHelper.open()
         database.delete(TABLE_NAME, BaseColumns._ID + "=" + _id, null)
+        database.close()
+    }
+
+    /**To delete all Entries of User Entry Table*/
+    override fun deleteAll() {
+        database = databaseHelper.open()
+        database.delete(TABLE_NAME, null, null)
+        database.close()
     }
 }
