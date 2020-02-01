@@ -135,7 +135,7 @@ class DataBaseTest {
      * UserDbManagerImpl
      */
     @Test
-    fun claerDatabsae_testDatabaseManagerDeleteFunction() {
+    fun clearDatabaseEntries_testDatabaseManagerDeleteFunction() {
         dbManager.deleteAll()
     }
 }
