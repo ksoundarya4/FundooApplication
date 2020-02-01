@@ -64,7 +64,6 @@ class RegisterViewModel(private val dbHelper: UserDbHelper) : ViewModel() {
             dbManager.insert(user)
             dbHelper.close()
             dbManager.fetch()
-            dbHelper.close()
         }
     }
 }
