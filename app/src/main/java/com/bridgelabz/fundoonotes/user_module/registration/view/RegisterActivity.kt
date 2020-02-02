@@ -1,3 +1,12 @@
+/**
+ * Fundoo Notes
+ * @description RegistrationActivity to get user information
+ * and store them into UserRegistration datbase
+ * @file RegisterActivity.kt
+ * @author ksoundarya4
+ * @version 1.0
+ * @since 02/02/2020
+ */
 package com.bridgelabz.fundoonotes.user_module.registration.view
 
 import android.content.Intent
@@ -9,16 +18,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.login.view.AuthListener
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
+import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
+import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.bridgelabz.fundoonotes.user_module.registration.viewmodel.RegisterViewModel
-import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
 import com.google.android.material.textfield.TextInputEditText
 
-class RegisterActivity : AppCompatActivity(), AuthListener {
+class RegisterActivity : AppCompatActivity(), RegistrationListener {
 
     private val registerViewModel by lazy {
         ViewModelProviders.of(this).get(RegisterViewModel::class.java)
@@ -33,11 +41,13 @@ class RegisterActivity : AppCompatActivity(), AuthListener {
     lateinit var signUPButton: Button
     lateinit var user: User
 
+    val regexUtil = RegexUtil()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         onViews()
-        registerViewModel.authListener = this
+        registerViewModel.registrationListener = this
         onClickListener()
     }
 
@@ -60,22 +70,35 @@ class RegisterActivity : AppCompatActivity(), AuthListener {
             val userMail = email.editableText.toString()
             val userPass = password.editableText.toString()
             val userNumber = phoneNumber.editableText.toString()
+            validateUserInputs()
             user = User(fName, lName, dob, userMail, userPass, userNumber)
             registerViewModel.validateUser((View(this)), user)
         }
     }
 
-    override fun onStarted() {
-        toast("Registration Started")
+    override fun onSuccess(liveDate: LiveData<RegistrationStatus>) {
+        liveDate.observe(this, Observer { toast("Registration $it") })
+        Intent(this, LoginActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
-    override fun onFailure(message: String) {
-        toast(message)
+    override fun onFailure(liveDate: LiveData<RegistrationStatus>) {
+        liveDate.observe(this, Observer { toast("Registration $it") })
     }
 
-    override fun onSuccess(liveData: LiveData<AuthState>) {
-        liveData.observe(this, Observer { toast(it.toString()) })
-        val loginIntent = Intent(this, LoginActivity::class.java)
-        startActivity(loginIntent)
+    private fun validateUserInputs() {
+        if (!regexUtil.validateName(firstName.toString()))
+            firstName.setError("Enter valid name")
+        if (!regexUtil.validateName(lastName.toString()))
+            lastName.setError("Enter valid name")
+        if (!regexUtil.validateDOB(dateOfBirth.toString()))
+            dateOfBirth.setError("Enter date of birth in dd/MM/yyyy format")
+        if (!regexUtil.validateEmail(email.toString()))
+            email.setError("Enter valid email address")
+        if (!regexUtil.validatePassword(password.toString()))
+            password.setError("Enter valid password")
+        if (!regexUtil.validatePhone(phoneNumber.toString()))
+            phoneNumber.setError("Enter valid phone number")
     }
 }

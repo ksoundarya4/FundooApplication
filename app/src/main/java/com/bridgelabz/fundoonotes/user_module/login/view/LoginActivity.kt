@@ -1,3 +1,12 @@
+/**
+ * Fundoo Notes
+ * @description LoginActivity class that contain
+ * user email and password to login.
+ * @file LoginActivity.kt
+ * @author ksoundarya4
+ * @version 1.0
+ * @since 02/02/2020
+ */
 package com.bridgelabz.fundoonotes.user_module.login.view
 
 import android.content.Intent
@@ -43,17 +52,20 @@ class LoginActivity : AppCompatActivity(), AuthListener {
     }
 
     private fun onClickListenere() {
-        email.editableText.toString()
-        password.editableText.toString()
+        val inputEmail = email.editableText.toString()
+
+        val inputPassword = password.editableText.toString()
+
         loginButton.setOnClickListener {
+
             viewModel.onLoginButtonClick(
                 View(this),
-                email.toString(),
-                password.toString()
+                inputEmail,
+                inputPassword
             )
         }
         registerButton.setOnClickListener {
-            val registerIntent = Intent(this,RegisterActivity::class.java)
+            val registerIntent = Intent(this, RegisterActivity::class.java)
             startActivity(registerIntent)
         }
     }

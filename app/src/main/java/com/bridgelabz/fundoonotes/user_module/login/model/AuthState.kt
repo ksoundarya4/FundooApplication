@@ -10,4 +10,4 @@
  */
 package com.bridgelabz.fundoonotes.user_module.login.model
 
-enum class AuthState { NOT_AUTH,AUTH,AUTH_FAILED}
+enum class AuthState { NOT_AUTH, AUTH, AUTH_FAILED }

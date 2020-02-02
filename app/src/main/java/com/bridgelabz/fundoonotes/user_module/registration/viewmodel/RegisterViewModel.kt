@@ -1,3 +1,11 @@
+/**
+ * Fundoo Notes
+ * @description RegistrationViewModel class that extends the ViewModel
+ * @file AuthViewModel.kt
+ * @author ksoundarya4
+ * @version 1.0
+ * @since 02/02/2020
+ */
 package com.bridgelabz.fundoonotes.user_module.registration.viewmodel
 
 import android.view.View
@@ -5,7 +13,9 @@ import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.login.view.AuthListener
 import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
+import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.registration.view.RegistrationListener
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbManagerImpl
@@ -14,7 +24,7 @@ class RegisterViewModel : ViewModel() {
 
     lateinit var dbManager: UserDatabaseManager
     private val regexUtil = RegexUtil()
-    var authListener: AuthListener? = null
+    var registrationListener: RegistrationListener? = null
 
     fun validateFirstName(firstName: String): Boolean {
         if (regexUtil.validateName(firstName)
@@ -68,11 +78,11 @@ class RegisterViewModel : ViewModel() {
         ) {
             dbManager = UserDbManagerImpl(UserDbHelper(view.context))
             dbManager.insert(user)
-            val registrationResponse = dbManager.authenticate(user)
-            if (registrationResponse.value == AuthState.AUTH)
-                authListener?.onSuccess(registrationResponse)
-            if (registrationResponse.value == AuthState.AUTH_FAILED)
-                authListener?.onFailure("Enter valid inputs")
+            val registrationResponse = dbManager.verifyRegistration(user)
+            if (registrationResponse.value == RegistrationStatus.Successful)
+                registrationListener?.onSuccess(registrationResponse)
+            if (registrationResponse.value == RegistrationStatus.Failed)
+                registrationListener?.onFailure(registrationResponse)
         }
     }
 }

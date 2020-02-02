@@ -9,6 +9,7 @@ import android.provider.BaseColumns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_DOB
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_EMAIL
@@ -125,16 +126,16 @@ class UserDbManagerImpl(
     }
 
     /**
-     * Function To authenticate whether the user is present
+     * Function To verify whether the user is present
      * in User Entry.
      *
      * @param user to be authenticated
-     * @return User if authenticated
+     * @return live data of AuthState
      */
     @SuppressLint("Recycle")
-    override fun authenticate(user: User): LiveData<AuthState> {
+    override fun verifyRegistration(user: User): LiveData<RegistrationStatus> {
 
-        val registrationStatus = MutableLiveData<AuthState>()
+        val registrationStatus = MutableLiveData<RegistrationStatus>()
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -161,35 +162,24 @@ class UserDbManagerImpl(
         )
         //if cursor has value then in user database there is user associated with this given email
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            val user1 =
-                User(
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6)
-                )
-            //Match both passwords check they are same or not
-            if (user.password.equals(user1.password, ignoreCase = true)) {
-                registrationStatus.value = AuthState.AUTH
-               return registrationStatus
-            }
+            registrationStatus.value = RegistrationStatus.Successful
+            return registrationStatus
         }
-        //if user password does not matches or there is no record with that email then return @false
-        registrationStatus.value = AuthState.AUTH_FAILED
+        //if user is not inserted into database.
+        registrationStatus.value = RegistrationStatus.Failed
         return registrationStatus
     }
 
     /**
-     * Function to check if email is present
-     * in User Entry or not.
+     * Function to authenticate if email is and password
+     * entered matches the actual email and password present
+     * in User Entry.
      *
-     * @param email and  password to be searched.
-     * @return true if email and password exists
+     * @param email to be searched.
+     * @return live data of AuthState
      */
     @SuppressLint("Recycle")
-    override fun isEmailAndPasswordExists(email: String, password: String): LiveData<AuthState> {
+    override fun authenticate(email: String, password: String): LiveData<AuthState> {
 
         val loginResponse = MutableLiveData<AuthState>()
 
@@ -216,19 +206,18 @@ class UserDbManagerImpl(
             null,
             null
         )
-        val userEmail = cursor.getString(4)
-        val userPassword = cursor.getString(5)
-        /**if cursor has value then in user database there is
-         * user associated with this given email
-        and password.*/
+        //if cursor has value then in user database there is user associated with this given email so return true
         if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
+            val userEmail = cursor.getString(4)
+            val userPassword = cursor.getString(5)
             if (userEmail == email && userPassword == password) {
                 loginResponse.value = AuthState.AUTH
                 return loginResponse
             }
             loginResponse.value = AuthState.AUTH_FAILED
+            return loginResponse
         }
-        //if email does not exist.
+        //if email does not exist return false
         loginResponse.value = AuthState.NOT_AUTH
         return loginResponse
     }
