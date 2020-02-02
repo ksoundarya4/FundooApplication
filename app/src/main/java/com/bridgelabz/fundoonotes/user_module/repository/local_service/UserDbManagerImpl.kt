@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.user_module.repository.local_service
 
+
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -44,31 +46,35 @@ class UserDbManagerImpl(
      *
      * @return Cursor object
      */
+    @SuppressLint("Recycle")
     override fun fetch(): Cursor {
         database = databaseHelper.readableDatabase
 
         val columns =
             arrayOf(
-                BaseColumns._ID, KEY_FIRSTNAME,
-                KEY_LASTNAME, KEY_DOB,
+                BaseColumns._ID,
+                KEY_FIRSTNAME,
+                KEY_LASTNAME,
+                KEY_DOB,
                 KEY_EMAIL,
-                KEY_PASSWORD, KEY_PHONE_NUMBER
+                KEY_PASSWORD,
+                KEY_PHONE_NUMBER
             )
-        val selection = "${BaseColumns._ID} = ?"
-        val selectionArgs = arrayOf(KEY_FIRSTNAME)
-        val sortOrder = "$KEY_FIRSTNAME DESC"
+        //val selection = "$KEY_EMAIL = ?"
+        // val selectionArgs = arrayOf(KEY_FIRSTNAME)
+        // val sortOrder = "$KEY_FIRSTNAME DESC"
 
-        val cursor: Cursor = database.query(
+        return database.query(
             TABLE_NAME,
             columns,
-            selection,
-            selectionArgs,
             null,
             null,
-            sortOrder
-        )
-        cursor.moveToFirst()
-        return cursor
+            null,
+            null,
+            null
+        ).apply {
+            moveToFirst()
+        }
     }
 
     /**
@@ -113,5 +119,97 @@ class UserDbManagerImpl(
         database = databaseHelper.open()
         database.delete(TABLE_NAME, null, null)
         database.close()
+    }
+
+    /**
+     * Function To authenticate whether the user is present
+     * in User Entry.
+     *
+     * @param user to be authenticated
+     * @return User if authenticated
+     */
+    @SuppressLint("Recycle")
+    fun authenticate(user: User): User? {
+        database = databaseHelper.readableDatabase
+
+        val columns =
+            arrayOf(
+                BaseColumns._ID,
+                KEY_FIRSTNAME,
+                KEY_LASTNAME,
+                KEY_DOB,
+                KEY_EMAIL,
+                KEY_PASSWORD,
+                KEY_PHONE_NUMBER
+            )
+        val selection = "$KEY_EMAIL=?"
+        val selectionArgs = arrayOf(user.email)
+
+        val cursor = database.query(
+            TABLE_NAME,
+            columns,
+            selection,
+            selectionArgs,      //Where clause
+            null,
+            null,
+            null
+        )
+        //if cursor has value then in user database there is user associated with this given email
+        if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
+            val user1 =
+                User(
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6)
+                )
+            //Match both passwords check they are same or not
+            if (user.password.equals(user1.password, ignoreCase = true)) {
+                return user1
+            }
+        }
+        //if user password does not matches or there is no record with that email then return @false
+        return null
+    }
+
+    /**
+     * Function to check if email is present
+     * in User Entry or not.
+     *
+     * @param email to be searched.
+     * @return true if email exixts
+     */
+    @SuppressLint("Recycle")
+    fun isEmailExists(email: String): Boolean {
+        database = databaseHelper.readableDatabase
+
+        val columns = arrayOf(
+            BaseColumns._ID,
+            KEY_FIRSTNAME,
+            KEY_LASTNAME,
+            KEY_DOB,
+            KEY_EMAIL,
+            KEY_PASSWORD,
+            KEY_PHONE_NUMBER
+        )
+        val selection = "$KEY_EMAIL =?"
+        val selectionArgs = arrayOf(email)
+
+        val cursor = database.query(
+            TABLE_NAME,// Selecting Table
+            columns,//Selecting columns want to query
+            selection,
+            selectionArgs,//Where clause
+            null,
+            null,
+            null
+        )
+        //if cursor has value then in user database there is user associated with this given email so return true
+        if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0)
+            return true
+        //if email does not exist return false
+        return false
     }
 }
