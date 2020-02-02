@@ -1,0 +1,35 @@
+package com.bridgelabz.fundoonotes.user_module.login.viewmodel
+
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.login.view.AuthListener
+import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
+import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
+import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
+import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbManagerImpl
+import java.net.CacheResponse
+
+class AuthViewModel : ViewModel() {
+
+    lateinit var dbManager: UserDatabaseManager
+    lateinit var loginResponse: LiveData<AuthState>
+    var authListener: AuthListener? = null
+    val regex = RegexUtil()
+
+    fun onLoginButtonClick(view: View, email: String, password: String) {
+        authListener?.onStarted()
+
+        dbManager = UserDbManagerImpl(UserDbHelper(view.context))
+        loginResponse = dbManager.isEmailAndPasswordExists(email, password)
+
+        if (loginResponse.value == AuthState.AUTH)
+            authListener?.onSuccess(loginResponse)
+        if (loginResponse.value == AuthState.AUTH_FAILED)
+            authListener?.onFailure("Enter Valid Email and Password")
+        if (loginResponse.value == AuthState.NOT_AUTH)
+            authListener?.onFailure("First Register and then try to login")
+    }
+}

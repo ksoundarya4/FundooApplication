@@ -10,6 +10,8 @@
 package com.bridgelabz.fundoonotes.user_module.repository.local_service
 
 import android.database.Cursor
+import androidx.lifecycle.LiveData
+import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
 interface UserDatabaseManager {
@@ -18,4 +20,6 @@ interface UserDatabaseManager {
     fun update(_id: Long, user: User): Int
     fun delete(_id: Long)
     fun deleteAll()
+    fun isEmailAndPasswordExists(email: String , password : String): LiveData<AuthState>
+    fun authenticate(user: User): LiveData<AuthState>
 }

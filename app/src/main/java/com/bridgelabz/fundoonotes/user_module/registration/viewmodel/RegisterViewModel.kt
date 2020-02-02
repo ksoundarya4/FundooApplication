@@ -1,15 +1,20 @@
 package com.bridgelabz.fundoonotes.user_module.registration.viewmodel
 
+import android.view.View
 import androidx.lifecycle.ViewModel
+import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.login.view.AuthListener
 import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbManagerImpl
 
-class RegisterViewModel(private val dbHelper: UserDbHelper) : ViewModel() {
+class RegisterViewModel : ViewModel() {
 
-    private val dbManager = UserDbManagerImpl(dbHelper)
+    lateinit var dbManager: UserDatabaseManager
     private val regexUtil = RegexUtil()
+    var authListener: AuthListener? = null
 
     fun validateFirstName(firstName: String): Boolean {
         if (regexUtil.validateName(firstName)
@@ -53,7 +58,7 @@ class RegisterViewModel(private val dbHelper: UserDbHelper) : ViewModel() {
         return false
     }
 
-    fun validateUser(user: User) {
+    fun validateUser(view: View, user: User) {
         if (validateFirstName(user.firstName)
             && validateLastName(user.lastName)
             && validateDOB(user.dateOfBirth)
@@ -61,7 +66,13 @@ class RegisterViewModel(private val dbHelper: UserDbHelper) : ViewModel() {
             && validatePassword(user.password)
             && validatePhone(user.phoneNumber)
         ) {
+            dbManager = UserDbManagerImpl(UserDbHelper(view.context))
             dbManager.insert(user)
+            val registrationResponse = dbManager.authenticate(user)
+            if (registrationResponse.value == AuthState.AUTH)
+                authListener?.onSuccess(registrationResponse)
+            if (registrationResponse.value == AuthState.AUTH_FAILED)
+                authListener?.onFailure("Enter valid inputs")
         }
     }
 }

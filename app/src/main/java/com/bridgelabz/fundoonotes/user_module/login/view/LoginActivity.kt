@@ -1,13 +1,72 @@
 package com.bridgelabz.fundoonotes.user_module.login.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
+import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), AuthListener {
+
+    lateinit var email: TextInputEditText
+    lateinit var password: TextInputEditText
+    lateinit var loginButton: MaterialButton
+    lateinit var forgotPasswordButton: MaterialButton
+    lateinit var registerButton: MaterialButton
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(AuthViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        onViews()
+        viewModel.authListener = this
+        onClickListenere()
+    }
+
+    private fun onViews() {
+        email = findViewById(R.id.login_email)
+        password = findViewById(R.id.login_password)
+        loginButton = findViewById(R.id.button_login)
+        forgotPasswordButton = findViewById(R.id.button_forgot_password)
+        registerButton = findViewById(R.id.button_register)
+    }
+
+    private fun onClickListenere() {
+        email.editableText.toString()
+        password.editableText.toString()
+        loginButton.setOnClickListener {
+            viewModel.onLoginButtonClick(
+                View(this),
+                email.toString(),
+                password.toString()
+            )
+        }
+        registerButton.setOnClickListener {
+            val registerIntent = Intent(this,RegisterActivity::class.java)
+            startActivity(registerIntent)
+        }
+    }
+
+    override fun onStarted() {
+        toast("Login Started")
+    }
+
+    override fun onSuccess(liveData: LiveData<AuthState>) {
+        liveData.observe(this, Observer { toast(it.toString()) })
+    }
+
+    override fun onFailure(message: String) {
+        toast(message)
     }
 }

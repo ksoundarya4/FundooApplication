@@ -6,6 +6,9 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_DOB
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_EMAIL
@@ -129,7 +132,9 @@ class UserDbManagerImpl(
      * @return User if authenticated
      */
     @SuppressLint("Recycle")
-    fun authenticate(user: User): User? {
+    override fun authenticate(user: User): LiveData<AuthState> {
+
+        val registrationStatus = MutableLiveData<AuthState>()
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -167,22 +172,27 @@ class UserDbManagerImpl(
                 )
             //Match both passwords check they are same or not
             if (user.password.equals(user1.password, ignoreCase = true)) {
-                return user1
+                registrationStatus.value = AuthState.AUTH
+               return registrationStatus
             }
         }
         //if user password does not matches or there is no record with that email then return @false
-        return null
+        registrationStatus.value = AuthState.AUTH_FAILED
+        return registrationStatus
     }
 
     /**
      * Function to check if email is present
      * in User Entry or not.
      *
-     * @param email to be searched.
-     * @return true if email exixts
+     * @param email and  password to be searched.
+     * @return true if email and password exists
      */
     @SuppressLint("Recycle")
-    fun isEmailExists(email: String): Boolean {
+    override fun isEmailAndPasswordExists(email: String, password: String): LiveData<AuthState> {
+
+        val loginResponse = MutableLiveData<AuthState>()
+
         database = databaseHelper.readableDatabase
 
         val columns = arrayOf(
@@ -206,10 +216,20 @@ class UserDbManagerImpl(
             null,
             null
         )
-        //if cursor has value then in user database there is user associated with this given email so return true
-        if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0)
-            return true
-        //if email does not exist return false
-        return false
+        val userEmail = cursor.getString(4)
+        val userPassword = cursor.getString(5)
+        /**if cursor has value then in user database there is
+         * user associated with this given email
+        and password.*/
+        if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
+            if (userEmail == email && userPassword == password) {
+                loginResponse.value = AuthState.AUTH
+                return loginResponse
+            }
+            loginResponse.value = AuthState.AUTH_FAILED
+        }
+        //if email does not exist.
+        loginResponse.value = AuthState.NOT_AUTH
+        return loginResponse
     }
 }
