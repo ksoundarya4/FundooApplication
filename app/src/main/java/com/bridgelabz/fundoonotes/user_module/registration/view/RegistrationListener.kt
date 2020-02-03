@@ -9,11 +9,11 @@
  */
 package com.bridgelabz.fundoonotes.user_module.registration.view
 
-import android.drm.DrmStore
 import androidx.lifecycle.LiveData
 import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 
 interface RegistrationListener {
-    fun onSuccess(liveDate : LiveData<RegistrationStatus>)
-    fun onFailure(liveDate: LiveData<RegistrationStatus>)
+    fun onSuccess(liveDate: LiveData<RegistrationStatus>)
+    fun onFailure(message: String)
+    fun validateUserInput()
 }

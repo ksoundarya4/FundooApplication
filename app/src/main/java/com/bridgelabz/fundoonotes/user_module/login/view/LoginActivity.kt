@@ -10,9 +10,9 @@
 package com.bridgelabz.fundoonotes.user_module.login.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -52,11 +52,10 @@ class LoginActivity : AppCompatActivity(), AuthListener {
     }
 
     private fun onClickListenere() {
-        val inputEmail = email.editableText.toString()
-
-        val inputPassword = password.editableText.toString()
 
         loginButton.setOnClickListener {
+            val inputEmail = email.editableText.toString()
+            val inputPassword = password.editableText.toString()
 
             viewModel.onLoginButtonClick(
                 View(this),

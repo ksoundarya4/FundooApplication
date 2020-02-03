@@ -1,5 +1,13 @@
+/**
+ * Fundoo Notes
+ * @description UserDbManagerImpl that implements
+ * UserDatabaseManager interface
+ * @file UserDbManagerImpl.kt
+ * @author ksoundarya4
+ * @version 1.0
+ * @since 30/01/2020
+ */
 package com.bridgelabz.fundoonotes.user_module.repository.local_service
-
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -30,8 +38,10 @@ class UserDbManagerImpl(
      *
      * @param user to be inserted
      */
-    override fun insert(user: User): Long {
+    override fun insert(user: User): LiveData<RegistrationStatus> {
+        var confirmRegistration = MutableLiveData<RegistrationStatus>()
         database = databaseHelper.open()
+
         val values = ContentValues().apply {
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
@@ -40,9 +50,10 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
-        val rowId = database.insert(TABLE_NAME, null, values)
+        database.insert(TABLE_NAME, null, values)
+        confirmRegistration.value = RegistrationStatus.Successful
         databaseHelper.close()
-        return rowId
+        return confirmRegistration
     }
 
     /**
@@ -136,6 +147,7 @@ class UserDbManagerImpl(
     override fun verifyRegistration(user: User): LiveData<RegistrationStatus> {
 
         val registrationStatus = MutableLiveData<RegistrationStatus>()
+
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -149,6 +161,7 @@ class UserDbManagerImpl(
                 KEY_PHONE_NUMBER
             )
         val selection = "$KEY_EMAIL=?"
+
         val selectionArgs = arrayOf(user.email)
 
         val cursor = database.query(
@@ -160,6 +173,7 @@ class UserDbManagerImpl(
             null,
             null
         )
+
         //if cursor has value then in user database there is user associated with this given email
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
             registrationStatus.value = RegistrationStatus.Successful
@@ -195,6 +209,7 @@ class UserDbManagerImpl(
             KEY_PHONE_NUMBER
         )
         val selection = "$KEY_EMAIL =?"
+
         val selectionArgs = arrayOf(email)
 
         val cursor = database.query(

@@ -28,11 +28,11 @@ class AuthViewModel : ViewModel() {
 
         dbManager = UserDbManagerImpl(UserDbHelper(view.context))
         loginResponse = dbManager.authenticate(email, password)
-        if (loginResponse.value == AuthState.AUTH)
-            authListener?.onSuccess(loginResponse)
-        if (loginResponse.value == AuthState.AUTH_FAILED)
-            authListener?.onFailure("Enter Valid Email and Password")
-        if (loginResponse.value == AuthState.NOT_AUTH)
-            authListener?.onFailure("First Register and then try to login")
+
+        when (loginResponse.value) {
+            AuthState.AUTH -> authListener?.onSuccess(loginResponse)
+            AuthState.AUTH_FAILED -> authListener?.onFailure("Enter Valid Email and Password")
+            else -> authListener?.onFailure("First Register and then try to login")
+        }
     }
 }

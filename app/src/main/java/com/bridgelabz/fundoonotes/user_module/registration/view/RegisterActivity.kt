@@ -70,7 +70,6 @@ class RegisterActivity : AppCompatActivity(), RegistrationListener {
             val userMail = email.editableText.toString()
             val userPass = password.editableText.toString()
             val userNumber = phoneNumber.editableText.toString()
-            validateUserInputs()
             user = User(fName, lName, dob, userMail, userPass, userNumber)
             registerViewModel.validateUser((View(this)), user)
         }
@@ -83,22 +82,27 @@ class RegisterActivity : AppCompatActivity(), RegistrationListener {
         }
     }
 
-    override fun onFailure(liveDate: LiveData<RegistrationStatus>) {
-        liveDate.observe(this, Observer { toast("Registration $it") })
+    override fun onFailure(message: String) {
+        toast(message)
     }
 
-    private fun validateUserInputs() {
+    override fun validateUserInput() {
         if (!regexUtil.validateName(firstName.toString()))
-            firstName.setError("Enter valid name")
+            firstName.error = "Enter valid name"
+
         if (!regexUtil.validateName(lastName.toString()))
-            lastName.setError("Enter valid name")
+            lastName.error = "Enter valid name"
+
         if (!regexUtil.validateDOB(dateOfBirth.toString()))
-            dateOfBirth.setError("Enter date of birth in dd/MM/yyyy format")
+            dateOfBirth.error = "Enter date of birth in dd/MM/yyyy format"
+
         if (!regexUtil.validateEmail(email.toString()))
-            email.setError("Enter valid email address")
+            email.error = "Enter valid email address"
+
         if (!regexUtil.validatePassword(password.toString()))
-            password.setError("Enter valid password")
+            password.error = "Enter valid password"
+
         if (!regexUtil.validatePhone(phoneNumber.toString()))
-            phoneNumber.setError("Enter valid phone number")
+            phoneNumber.error = "Enter valid phone number"
     }
 }

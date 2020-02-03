@@ -42,9 +42,11 @@ class RegexUtilTest {
         val one = "soundarya"
         val two = "Soundarya Krishna"
         val three = "167gscb"
+        val four = "fhaisnnaknaa"
         assertEquals(true, regexUtil.validateName(one))
         assertEquals(true, regexUtil.validateName(two))
         assertEquals(false, regexUtil.validateName(three))
+        assertEquals(true,regexUtil.validateName(four))
     }
 
     /**Function to test validatePhone function*/

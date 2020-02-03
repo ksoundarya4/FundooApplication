@@ -9,9 +9,8 @@
 package com.bridgelabz.fundoonotes.user_module.registration.viewmodel
 
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.login.view.AuthListener
 import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
 import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
@@ -24,6 +23,7 @@ class RegisterViewModel : ViewModel() {
 
     lateinit var dbManager: UserDatabaseManager
     private val regexUtil = RegexUtil()
+    lateinit var registrationResponse: LiveData<RegistrationStatus>
     var registrationListener: RegistrationListener? = null
 
     fun validateFirstName(firstName: String): Boolean {
@@ -77,12 +77,10 @@ class RegisterViewModel : ViewModel() {
             && validatePhone(user.phoneNumber)
         ) {
             dbManager = UserDbManagerImpl(UserDbHelper(view.context))
-            dbManager.insert(user)
-            val registrationResponse = dbManager.verifyRegistration(user)
+            registrationResponse = dbManager.insert(user)
             if (registrationResponse.value == RegistrationStatus.Successful)
                 registrationListener?.onSuccess(registrationResponse)
-            if (registrationResponse.value == RegistrationStatus.Failed)
-                registrationListener?.onFailure(registrationResponse)
-        }
+        } else
+            registrationListener?.onFailure("Registration Failed")
     }
 }

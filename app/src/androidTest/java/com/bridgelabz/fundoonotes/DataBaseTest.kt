@@ -14,6 +14,8 @@ package com.bridgelabz.fundoonotes
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
@@ -28,7 +30,6 @@ class DataBaseTest {
 
     private lateinit var dbHelper: UserDbHelper
     private lateinit var dbManager: UserDatabaseManager
-    private var id: Long = 0
 
     /**To Create Database table called UserEntries*/
     @Before
@@ -60,11 +61,10 @@ class DataBaseTest {
                 "tasleema",
                 "8372542547"
             )
-        val userOneId = dbManager.insert(userTwo)
-        val userTwoId = dbManager.insert(userOne)
-        dbHelper.close()
-        dbManager.fetch()
-        assertEquals(userTwoId, userOneId + 1)
+        val confirmRegisterOfUserOne = dbManager.insert(userOne)
+        val confirmRegistrationOfUSerTwo = dbManager.insert(userTwo)
+        assertEquals(RegistrationStatus.Successful, confirmRegisterOfUserOne)
+        assertEquals(RegistrationStatus.Successful, confirmRegistrationOfUSerTwo)
     }
 
     /**To test inserting function of UserDbManager
@@ -72,7 +72,6 @@ class DataBaseTest {
     @Test
     @Throws(Exception::class)
     fun writeUserAndReadInColumnTest() {
-
         val user =
             User(
                 "soundarya",
@@ -82,11 +81,8 @@ class DataBaseTest {
                 "soundarya",
                 "8150080490"
             )
-        id = dbManager.insert(user)
-        val cursor = dbManager.fetch()
-        val columnNumbers = cursor.columnCount
-        dbHelper.close()
-        assertEquals(7, columnNumbers)
+        val confirmRegister = dbManager.insert(user)
+        assertEquals(RegistrationStatus.Successful, confirmRegister)
     }
 
     /**To Test whether the over sized name are accepted
@@ -103,10 +99,8 @@ class DataBaseTest {
                 "soundarya",
                 "8150080490"
             )
-        id = dbManager.insert(user)
-        dbManager.fetch()
-        dbHelper.close()
-        assertEquals(id, id)
+        val confirmRegister = dbManager.insert(user)
+        assertEquals(RegistrationStatus.Failed, confirmRegister)
     }
 
     /**To test the update function of UserDbManagerImpl
@@ -124,9 +118,7 @@ class DataBaseTest {
                 "8372542547"
             )
         dbManager.update(2L, user)
-        dbHelper.close()
         val cursor = dbManager.fetch()
-        dbHelper.close()
         assertEquals(7, cursor.columnCount)
     }
 
@@ -137,5 +129,17 @@ class DataBaseTest {
     @Test
     fun clearDatabaseEntries_testDatabaseManagerDeleteFunction() {
         dbManager.deleteAll()
+    }
+
+    /**
+     * Function to test authenticate function of
+     * UserDbManagerImpl
+     */
+    @Test
+    fun inputEmailAndPassword_testTheyAreAuthenticatedOrNot() {
+        val email = "madhu@gmail.com"
+        val password = "madhu1234"
+        val loginResponse = dbManager.authenticate(email, password)
+        assertEquals(AuthState.NOT_AUTH, loginResponse)
     }
 }
