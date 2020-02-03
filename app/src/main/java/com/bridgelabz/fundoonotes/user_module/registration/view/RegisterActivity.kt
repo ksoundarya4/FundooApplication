@@ -14,19 +14,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.registration.model.*
 import com.bridgelabz.fundoonotes.user_module.registration.viewmodel.RegisterViewModel
 import com.google.android.material.textfield.TextInputEditText
 
-class RegisterActivity : AppCompatActivity(), RegistrationListener {
+class RegisterActivity : AppCompatActivity() {
 
     private val registerViewModel by lazy {
         ViewModelProviders.of(this).get(RegisterViewModel::class.java)
@@ -47,7 +45,6 @@ class RegisterActivity : AppCompatActivity(), RegistrationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         onViews()
-        registerViewModel.registrationListener = this
         onClickListener()
     }
 
@@ -70,39 +67,49 @@ class RegisterActivity : AppCompatActivity(), RegistrationListener {
             val userMail = email.editableText.toString()
             val userPass = password.editableText.toString()
             val userNumber = phoneNumber.editableText.toString()
+
             user = User(fName, lName, dob, userMail, userPass, userNumber)
-            registerViewModel.validateUser((View(this)), user)
+            registerViewModel.onSingUpButtonClick((View(this)), user)
+            registerViewModel.getRegistrationStatus().observe(
+                this,
+                Observer { handleRegistrationStatus(it) })
         }
     }
 
-    override fun onSuccess(liveDate: LiveData<RegistrationStatus>) {
-        liveDate.observe(this, Observer { toast("Registration $it") })
-        Intent(this, LoginActivity::class.java).apply {
-            startActivity(this)
+    private fun handleRegistrationStatus(registrationStatus: RegistrationStatus) {
+        when (registrationStatus) {
+            RegistrationStatus.Successful -> {
+                toast("Registration Succesfull")
+                Intent(this, LoginActivity::class.java).apply {
+                    startActivity(this)
+                }
+            }
+            RegistrationStatus.Failed -> {
+                toast("Registration Failed")
+                validateUserInput()
+            }
         }
     }
 
-    override fun onFailure(message: String) {
-        toast(message)
-    }
 
-    override fun validateUserInput() {
-        if (!regexUtil.validateName(firstName.toString()))
+    private fun validateUserInput() {
+        if (!validateFirstName(user.firstName)) {
             firstName.error = "Enter valid name"
-
-        if (!regexUtil.validateName(lastName.toString()))
+        }
+        if (!validateLastName(user.lastName)) {
             lastName.error = "Enter valid name"
-
-        if (!regexUtil.validateDOB(dateOfBirth.toString()))
-            dateOfBirth.error = "Enter date of birth in dd/MM/yyyy format"
-
-        if (!regexUtil.validateEmail(email.toString()))
-            email.error = "Enter valid email address"
-
-        if (!regexUtil.validatePassword(password.toString()))
-            password.error = "Enter valid password"
-
-        if (!regexUtil.validatePhone(phoneNumber.toString()))
-            phoneNumber.error = "Enter valid phone number"
+        }
+        if (!validateDOB(user.dateOfBirth)) {
+            dateOfBirth.error = "Invalid date"
+        }
+        if (!validateEmail(user.email)) {
+            email.error = "Invalid email"
+        }
+        if (!validatePassword(user.password)) {
+            password.error = "Invalid password"
+        }
+        if (!validatePhone(user.phoneNumber)) {
+            phoneNumber.error = "Invalid phone number"
+        }
     }
 }

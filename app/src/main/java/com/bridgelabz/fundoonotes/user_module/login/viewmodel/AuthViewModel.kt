@@ -12,7 +12,6 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.login.view.AuthListener
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbManagerImpl
@@ -21,18 +20,18 @@ class AuthViewModel : ViewModel() {
 
     lateinit var dbManager: UserDatabaseManager
     lateinit var loginResponse: LiveData<AuthState>
-    var authListener: AuthListener? = null
 
     fun onLoginButtonClick(view: View, email: String, password: String) {
-        authListener?.onStarted()
 
         dbManager = UserDbManagerImpl(UserDbHelper(view.context))
-        loginResponse = dbManager.authenticate(email, password)
+        handleLogin(email, password)
+    }
 
-        when (loginResponse.value) {
-            AuthState.AUTH -> authListener?.onSuccess(loginResponse)
-            AuthState.AUTH_FAILED -> authListener?.onFailure("Enter Valid Email and Password")
-            else -> authListener?.onFailure("First Register and then try to login")
-        }
+    fun handleLogin(email: String, password: String) {
+        loginResponse = dbManager.authenticate(email, password)
+    }
+
+    fun getLoginStatus(): LiveData<AuthState> {
+        return loginResponse
     }
 }

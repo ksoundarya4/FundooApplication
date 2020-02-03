@@ -1,13 +1,22 @@
+/**
+ * Fundoo Notes
+ * @description Launch Activity that appears for 4s soon
+ * as application icon is clicked.
+ * @file LaunchActivity.kt
+ * @author ksoundarya4
+ * @version 1.0
+ * @since 03/02/2020
+ */
 package com.bridgelabz.fundoonotes.user_module.lunch
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 
-const val SPLASH_TIME = 2000
+const val SPLASH_TIME = 4000
 
 class LaunchActivity : AppCompatActivity() {
 
@@ -21,7 +30,7 @@ class LaunchActivity : AppCompatActivity() {
                 startActivity(loginIntent)
                 finish()
             }
-        }, SPLASH_TIME.toLong());
+        }, SPLASH_TIME.toLong())
     }
 }
 
