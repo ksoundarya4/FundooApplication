@@ -33,10 +33,18 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Function that assign the Registration status
+     * to registrationResponse if the user is
+     * inserted into USerDatabase.db
+     */
     fun handelRegistration(user: User) {
         registrationResponse.value = dbManager.insert(user)
     }
 
+    /**
+     * Function that returns RegistrationStatus live data
+     */
     fun getRegistrationStatus(): LiveData<RegistrationStatus> {
         return registrationResponse
     }
