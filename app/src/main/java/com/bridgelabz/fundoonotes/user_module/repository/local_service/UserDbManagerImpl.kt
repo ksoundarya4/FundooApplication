@@ -14,7 +14,6 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
-import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
@@ -143,9 +142,6 @@ class UserDbManagerImpl(
      */
     @SuppressLint("Recycle")
     override fun verifyRegistration(user: User): RegistrationStatus {
-
-        val registrationStatus = MutableLiveData<RegistrationStatus>()
-
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -191,9 +187,6 @@ class UserDbManagerImpl(
      */
     @SuppressLint("Recycle")
     override fun authenticate(email: String, password: String): AuthState {
-
-        val loginResponse = MutableLiveData<AuthState>()
-
         database = databaseHelper.readableDatabase
 
         val columns = arrayOf(
