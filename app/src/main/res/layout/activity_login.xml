@@ -14,22 +14,30 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_email_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
             android:animateLayoutChanges="true"
+            android:filterTouchesWhenObscured="true"
+            android:focusableInTouchMode="true"
             android:textColorHint="@color/colorBlue"
             app:boxBackgroundColor="@color/colorPrimaryWhite"
+            app:boxStrokeColor="@color/colorBlue"
+            app:helperTextEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
             app:hintTextColor="@color/colorBlue"
             app:layout_constraintBottom_toTopOf="@+id/login_password_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52"
             app:layout_constraintVertical_chainStyle="packed">
 
 
@@ -37,29 +45,37 @@
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#00FFFDFD"
                 android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textColorHint="@color/colorBlue" />
 
+            <TextView
+                android:id="@+id/email_error_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="@dimen/text_12sp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
             android:animateLayoutChanges="true"
             android:filterTouchesWhenObscured="true"
             android:focusableInTouchMode="true"
             android:textColorHint="@color/colorBlue"
             app:boxBackgroundColor="@color/colorPrimaryWhite"
+            app:boxStrokeColor="@color/colorBlue"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/colorBlue"
@@ -79,17 +95,24 @@
                 android:inputType="textPassword"
                 android:textColorHint="@color/colorBlue" />
 
+            <TextView
+                android:id="@+id/passwor_error_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="@dimen/text_12sp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
             android:text="@string/login_button"
             app:backgroundTint="@color/colorBlue"
             app:layout_constraintBottom_toTopOf="@+id/button_forgot_password"
@@ -102,11 +125,11 @@
             android:id="@+id/text_not_registered"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:layout_marginRight="@dimen/margin_8dp"
             android:text="@string/non_registered_user"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_register"
@@ -120,11 +143,11 @@
             android:id="@+id/button_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
             android:text="@string/registration_button"
             app:backgroundTint="@color/colorBlue"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -140,12 +163,11 @@
             android:id="@+id/button_forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
             android:text="@string/forgot_password"
             android:textAllCaps="false"
             android:textColor="@color/colorBlue"
@@ -156,7 +178,7 @@
             app:layout_constraintTop_toBottomOf="@+id/button_login"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintVertical_chainStyle="packed"
-            app:strokeColor="#032BFF" />
+            app:strokeColor="@color/colorBlue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

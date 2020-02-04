@@ -22,20 +22,19 @@ import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbMan
 class RegisterViewModel : ViewModel() {
 
     private lateinit var dbManager: UserDatabaseManager
-    lateinit var registrationResponse: LiveData<RegistrationStatus>
+    private val registrationResponse = MutableLiveData<RegistrationStatus>()
 
     fun onSingUpButtonClick(view: View, user: User) {
         if (validateUser(user)) {
             dbManager = UserDbManagerImpl(UserDbHelper(view.context))
             handelRegistration(user)
         } else {
-            registrationResponse =
-                MutableLiveData<RegistrationStatus>().apply { RegistrationStatus.Failed }
+            registrationResponse.value = RegistrationStatus.Failed
         }
     }
 
     fun handelRegistration(user: User) {
-        registrationResponse = dbManager.insert(user)
+        registrationResponse.value = dbManager.insert(user)
     }
 
     fun getRegistrationStatus(): LiveData<RegistrationStatus> {

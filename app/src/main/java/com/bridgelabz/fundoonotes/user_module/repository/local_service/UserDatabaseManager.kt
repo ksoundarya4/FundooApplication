@@ -10,17 +10,16 @@
 package com.bridgelabz.fundoonotes.user_module.repository.local_service
 
 import android.database.Cursor
-import androidx.lifecycle.LiveData
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
 interface UserDatabaseManager {
-    fun insert(user: User): LiveData<RegistrationStatus>
+    fun insert(user: User): RegistrationStatus
     fun fetch(): Cursor
     fun update(_id: Long, user: User): Int
     fun delete(_id: Long)
     fun deleteAll()
-    fun authenticate(email: String, password: String): LiveData<AuthState>
-    fun verifyRegistration(user: User): LiveData<RegistrationStatus>
+    fun authenticate(email: String, password: String): AuthState
+    fun verifyRegistration(user: User): RegistrationStatus
 }

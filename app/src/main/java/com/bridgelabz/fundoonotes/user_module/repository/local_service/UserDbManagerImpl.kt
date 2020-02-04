@@ -14,7 +14,6 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
@@ -38,8 +37,8 @@ class UserDbManagerImpl(
      *
      * @param user to be inserted
      */
-    override fun insert(user: User): LiveData<RegistrationStatus> {
-        var confirmRegistration = MutableLiveData<RegistrationStatus>()
+    override fun insert(user: User): RegistrationStatus {
+
         database = databaseHelper.open()
 
         val values = ContentValues().apply {
@@ -51,9 +50,8 @@ class UserDbManagerImpl(
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
         database.insert(TABLE_NAME, null, values)
-        confirmRegistration.value = RegistrationStatus.Successful
         databaseHelper.close()
-        return confirmRegistration
+        return RegistrationStatus.Successful
     }
 
     /**
@@ -144,7 +142,7 @@ class UserDbManagerImpl(
      * @return live data of AuthState
      */
     @SuppressLint("Recycle")
-    override fun verifyRegistration(user: User): LiveData<RegistrationStatus> {
+    override fun verifyRegistration(user: User): RegistrationStatus {
 
         val registrationStatus = MutableLiveData<RegistrationStatus>()
 
@@ -176,13 +174,12 @@ class UserDbManagerImpl(
 
         //if cursor has value then in user database there is user associated with this given email
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            registrationStatus.value = RegistrationStatus.Successful
-            return registrationStatus
+            return RegistrationStatus.Successful
         }
         //if user is not inserted into database.
-        registrationStatus.value = RegistrationStatus.Failed
-        return registrationStatus
+        return RegistrationStatus.Failed
     }
+
 
     /**
      * Function to authenticate if email is and password
@@ -193,7 +190,7 @@ class UserDbManagerImpl(
      * @return live data of AuthState
      */
     @SuppressLint("Recycle")
-    override fun authenticate(email: String, password: String): LiveData<AuthState> {
+    override fun authenticate(email: String, password: String): AuthState {
 
         val loginResponse = MutableLiveData<AuthState>()
 
@@ -226,14 +223,11 @@ class UserDbManagerImpl(
             val userEmail = cursor.getString(4)
             val userPassword = cursor.getString(5)
             if (userEmail == email && userPassword == password) {
-                loginResponse.value = AuthState.AUTH
-                return loginResponse
+                return AuthState.AUTH
             }
-            loginResponse.value = AuthState.AUTH_FAILED
-            return loginResponse
+            return AuthState.AUTH_FAILED
         }
         //if email does not exist return false
-        loginResponse.value = AuthState.NOT_AUTH
-        return loginResponse
+        return AuthState.NOT_AUTH
     }
 }

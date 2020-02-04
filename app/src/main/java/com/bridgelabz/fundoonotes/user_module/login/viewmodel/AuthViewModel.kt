@@ -10,6 +10,7 @@ package com.bridgelabz.fundoonotes.user_module.login.viewmodel
 
 import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
@@ -18,8 +19,8 @@ import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbMan
 
 class AuthViewModel : ViewModel() {
 
-    lateinit var dbManager: UserDatabaseManager
-    lateinit var loginResponse: LiveData<AuthState>
+    private lateinit var dbManager: UserDatabaseManager
+    private val loginResponse = MutableLiveData<AuthState>()
 
     fun onLoginButtonClick(view: View, email: String, password: String) {
 
@@ -28,7 +29,7 @@ class AuthViewModel : ViewModel() {
     }
 
     fun handleLogin(email: String, password: String) {
-        loginResponse = dbManager.authenticate(email, password)
+        loginResponse.value = dbManager.authenticate(email, password)
     }
 
     fun getLoginStatus(): LiveData<AuthState> {
