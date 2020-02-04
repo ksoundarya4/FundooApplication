@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
-import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
 import com.bridgelabz.fundoonotes.user_module.registration.model.*
 import com.bridgelabz.fundoonotes.user_module.registration.viewmodel.RegisterViewModel
 import com.google.android.material.textfield.TextInputEditText
@@ -35,11 +34,10 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var dateOfBirth: TextInputEditText
     lateinit var email: TextInputEditText
     lateinit var password: TextInputEditText
+    lateinit var confirmPassword: TextInputEditText
     lateinit var phoneNumber: TextInputEditText
     lateinit var signUPButton: Button
     lateinit var user: User
-
-    val regexUtil = RegexUtil()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +52,9 @@ class RegisterActivity : AppCompatActivity() {
         dateOfBirth = findViewById(R.id.date_of_birth)
         email = findViewById(R.id.user_email)
         password = findViewById(R.id.password)
+        confirmPassword = findViewById(R.id.confirm_password)
         phoneNumber = findViewById(R.id.phoneNumber)
-        signUPButton = findViewById<Button>(R.id.button_sign_up)
+        signUPButton = findViewById(R.id.button_sign_up)
     }
 
     private fun onClickListener() {
@@ -67,9 +66,9 @@ class RegisterActivity : AppCompatActivity() {
             val userMail = email.editableText.toString()
             val userPass = password.editableText.toString()
             val userNumber = phoneNumber.editableText.toString()
-
+            val cPassword = confirmPassword.editableText.toString()
             user = User(fName, lName, dob, userMail, userPass, userNumber)
-            registerViewModel.onSingUpButtonClick((View(this)), user)
+                registerViewModel.onSingUpButtonClick((View(this)), user)
             registerViewModel.getRegistrationStatus().observe(
                 this,
                 Observer { handleRegistrationStatus(it) })
@@ -107,6 +106,9 @@ class RegisterActivity : AppCompatActivity() {
         }
         if (!validatePassword(user.password)) {
             password.error = "Invalid password"
+        }
+        if (password != confirmPassword) {
+            confirmPassword.error = "Did not match password"
         }
         if (!validatePhone(user.phoneNumber)) {
             phoneNumber.error = "Invalid phone number"
