@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,18 +24,30 @@ import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
 import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
-import com.google.android.material.button.MaterialButton
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var emailEditText: EditText
-    lateinit var passwordEditText: EditText
-    lateinit var emailErrorText: TextView
-    lateinit var passwordErrorText: TextView
-    lateinit var loginButton: MaterialButton
-    lateinit var forgotPasswordButton: MaterialButton
-    lateinit var registerButton: MaterialButton
-
+    private val emailEditText by lazy {
+        findViewById<EditText>(R.id.login_email)
+    }
+    private val passwordEditText by lazy {
+        findViewById<EditText>(R.id.login_password)
+    }
+    private val emailErrorText by lazy {
+        findViewById<TextView>(R.id.email_error_text)
+    }
+    private val passwordErrorText by lazy {
+        findViewById<TextView>(R.id.passwor_error_text)
+    }
+    private val loginButton by lazy {
+        findViewById<Button>(R.id.button_login)
+    }
+//    private val forgotPasswordButton by lazy {
+//        findViewById<Button>(R.id.button_forgot_password)
+//    }
+    private val registerButton by lazy {
+        findViewById<Button>(R.id.button_register)
+    }
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(AuthViewModel::class.java)
     }
@@ -42,28 +55,15 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        onViews()
-        onClickListener()
-    }
-
-    private fun onViews() {
-        emailEditText = findViewById(R.id.login_email)
         emailEditText.addTextChangedListener(emailWatcher)
-        passwordEditText = findViewById(R.id.login_password)
         passwordEditText.addTextChangedListener(passwordWatcher)
-        emailErrorText = findViewById(R.id.email_error_text)
-        passwordErrorText = findViewById(R.id.passwor_error_text)
-        loginButton = findViewById(R.id.button_login)
-        forgotPasswordButton = findViewById(R.id.button_forgot_password)
-        registerButton = findViewById(R.id.button_register)
+        setButtonClickListeners()
     }
 
-    private fun onClickListener() {
-
+    private fun setButtonClickListeners() {
         loginButton.setOnClickListener {
             val inputEmail = emailEditText.editableText.toString()
             val inputPassword = passwordEditText.editableText.toString()
-
             viewModel.onLoginButtonClick(
                 View(this),
                 inputEmail,
