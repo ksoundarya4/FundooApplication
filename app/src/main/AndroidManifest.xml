@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".note_module.dashboard_page.view.NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".note_module.dashboard_page.view.DashBoardActivity" />
         <activity android:name=".user_module.registration.view.RegisterActivity" />
-        <activity android:name=".user_module.lunch.LaunchActivity" />
         <activity android:name=".user_module.login.view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

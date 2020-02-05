@@ -1,7 +1,8 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.bridgelabz.fundoonotes.R
 
 class DashBoardActivity : AppCompatActivity() {
 
