@@ -36,8 +36,7 @@ class RegexUtil {
 
     /**Function to validate user phone number*/
     fun validatePhone(phoneNumber: String): Boolean {
-        val phoneNumberExpression =
-            "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*\$"
+        val phoneNumberExpression = "^\\d{10}$"
         val phonePattern = Pattern.compile(phoneNumberExpression)
         return phonePattern.matcher(phoneNumber).matches()
     }
