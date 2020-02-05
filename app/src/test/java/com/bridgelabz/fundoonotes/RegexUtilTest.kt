@@ -52,11 +52,11 @@ class RegexUtilTest {
     /**Function to test validatePhone function*/
     @Test
     fun testValidatePhone_isCorrect(){
-        val one = "+91-8150080490"
+        val one = "8150080490"
         val two = "815-008-0490"
-        val three = "86864"
+        val three = "86864876"
         assertEquals(true,regexUtil.validatePhone(one))
-        assertEquals(true,regexUtil.validatePhone(two))
+        assertEquals(false,regexUtil.validatePhone(two))
         assertEquals(false,regexUtil.validatePhone(three))
     }
 
