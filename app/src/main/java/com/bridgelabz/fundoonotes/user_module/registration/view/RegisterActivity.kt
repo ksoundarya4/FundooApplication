@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
             user = User(fName, lName, dob, userMail, userPass, userNumber)
 
             val cPassword = confirmPassword.editableText.toString()
-            registerViewModel.onSingUpButtonClick((View(this)), user,cPassword)
+            registerViewModel.onSignUpButtonClick((View(this)), user,cPassword)
 
             registerViewModel.getRegistrationStatus().observe(
                 this,
