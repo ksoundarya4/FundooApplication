@@ -28,36 +28,40 @@ class RegisterActivity : AppCompatActivity() {
     private val registerViewModel by lazy {
         ViewModelProviders.of(this).get(RegisterViewModel::class.java)
     }
-
-    lateinit var firstName: TextInputEditText
-    lateinit var lastName: TextInputEditText
-    lateinit var dateOfBirth: TextInputEditText
-    lateinit var email: TextInputEditText
-    lateinit var password: TextInputEditText
-    lateinit var confirmPassword: TextInputEditText
-    lateinit var phoneNumber: TextInputEditText
-    lateinit var signUPButton: Button
-    lateinit var user: User
+    private val firstName by lazy {
+        findViewById<TextInputEditText>(R.id.first_name)
+    }
+    private val lastName by lazy {
+        findViewById<TextInputEditText>(R.id.last_name_)
+    }
+    private val dateOfBirth by lazy {
+        findViewById<TextInputEditText>(R.id.date_of_birth)
+    }
+    private val email by lazy {
+        findViewById<TextInputEditText>(R.id.user_email)
+    }
+    private val password by lazy {
+        findViewById<TextInputEditText>(R.id.password)
+    }
+    private val confirmPassword by lazy {
+        findViewById<TextInputEditText>(R.id.confirm_password)
+    }
+    private val phoneNumber by lazy {
+        findViewById<TextInputEditText>(R.id.phoneNumber)
+    }
+    private val signUPButton by lazy {
+        findViewById<Button>(R.id.button_sign_up)
+    }
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        onViews()
-        onClickListener()
+
+        setSignUpClickListener()
     }
 
-    private fun onViews() {
-        firstName = findViewById(R.id.first_name)
-        lastName = findViewById(R.id.last_name_)
-        dateOfBirth = findViewById(R.id.date_of_birth)
-        email = findViewById(R.id.user_email)
-        password = findViewById(R.id.password)
-        confirmPassword = findViewById(R.id.confirm_password)
-        phoneNumber = findViewById(R.id.phoneNumber)
-        signUPButton = findViewById(R.id.button_sign_up)
-    }
-
-    private fun onClickListener() {
+    private fun setSignUpClickListener() {
         signUPButton.setOnClickListener {
 
             val fName = firstName.editableText.toString()
@@ -66,9 +70,11 @@ class RegisterActivity : AppCompatActivity() {
             val userMail = email.editableText.toString()
             val userPass = password.editableText.toString()
             val userNumber = phoneNumber.editableText.toString()
-            val cPassword = confirmPassword.editableText.toString()
             user = User(fName, lName, dob, userMail, userPass, userNumber)
-                registerViewModel.onSingUpButtonClick((View(this)), user)
+
+            val cPassword = confirmPassword.editableText.toString()
+            registerViewModel.onSingUpButtonClick((View(this)), user,cPassword)
+
             registerViewModel.getRegistrationStatus().observe(
                 this,
                 Observer { handleRegistrationStatus(it) })
@@ -78,7 +84,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun handleRegistrationStatus(registrationStatus: RegistrationStatus) {
         when (registrationStatus) {
             RegistrationStatus.Successful -> {
-                toast("Registration Succesfull")
+                toast("Registration Successful")
                 Intent(this, LoginActivity::class.java).apply {
                     startActivity(this)
                 }
@@ -89,7 +95,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun validateUserInput() {
         if (!validateFirstName(user.firstName)) {
