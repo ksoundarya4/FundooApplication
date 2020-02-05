@@ -49,6 +49,11 @@ fun validatePassword(password: String): Boolean {
     return false
 }
 
+fun validateConfirmPassword(password: String, confirmPassword: String): Boolean {
+    if (password == confirmPassword) return true
+    return false
+}
+
 fun validatePhone(phoneNumber: String): Boolean {
     if (regexUtil.validatePhone(phoneNumber)
         && phoneNumber.isNotEmpty()
