@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.DashBoardActivity
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
 import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
@@ -42,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
     private val loginButton by lazy {
         findViewById<Button>(R.id.button_login)
     }
-//    private val forgotPasswordButton by lazy {
+    //    private val forgotPasswordButton by lazy {
 //        findViewById<Button>(R.id.button_forgot_password)
 //    }
     private val registerButton by lazy {
@@ -93,6 +94,9 @@ class LoginActivity : AppCompatActivity() {
             }
             AuthState.AUTH -> {
                 toast("Login Successful")
+                Intent(this, DashBoardActivity::class.java).apply {
+                    startActivity(this)
+                }
             }
         }
     }
