@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryWhite">#FFFFFF</color>
     <color name="colorBlue">#0720FF</color>
+    <color name="backGroundColor">#94FFEB3B</color>
+    <color name="actionBarColor">#94FFEB3B</color>
 <!--    <color name="ic_launcher_backgound">#FFFFC107</color>-->
-    <color name="ic_launcher_background">#26A69A</color>
 </resources>
