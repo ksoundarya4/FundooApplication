@@ -42,8 +42,7 @@ class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper(
 
     /**Function to up grade existing database*/
     override fun onUpgrade(database: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        database.execSQL(DROP_ENTRIES)
-        onCreate(database)
+        //use migration to perform onUpgrade
     }
 
     /**Function to downgrade existing database*/
