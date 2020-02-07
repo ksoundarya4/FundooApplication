@@ -50,4 +50,9 @@ class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper(
         database.execSQL(DROP_ENTRIES)
         onCreate(database)
     }
+
+    /**Function to return return writable database*/
+    fun open() : SQLiteDatabase{
+        return this.writableDatabase
+    }
 }
