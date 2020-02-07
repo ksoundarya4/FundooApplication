@@ -29,11 +29,11 @@ class LaunchScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch_screen)
 
-//        handler.postDelayed({
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }, SPLASH_TIME)
+        handler.postDelayed({
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }, SPLASH_TIME)
         intent = Intent(this, LoginActivity::class.java)
 
         launchImage.startAnimation(antiRotateAnimation)
