@@ -85,5 +85,6 @@ class NoteDatabaseManagerImpl(
         database = noteDbHelper.open()
         val whereClause = "${BaseColumns._ID} = $_id"
         database.delete(TABLE_NAME, whereClause, null)
+        database.close()
     }
 }
