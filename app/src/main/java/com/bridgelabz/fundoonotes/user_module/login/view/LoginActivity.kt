@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.DashBoardActivity
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
 import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
@@ -94,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
             }
             AuthState.AUTH -> {
                 toast("Login Successful")
-                Intent(this, DashBoardActivity::class.java).apply {
+                Intent(this, HomeDashBoardActivity::class.java).apply {
                     startActivity(this)
                 }
             }
