@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".user_module.lunch.LaunchScreenActivity"
     android:background="@color/backGroundColor"
-    style="@style/LaunScreenTheme">
+    style="@style/LaunchScreenTheme">
 
     <ImageView
         android:id="@+id/image_launcher_icon"

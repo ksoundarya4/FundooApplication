@@ -7,37 +7,48 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.home.HomeFragment"
+        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/nav_sing_out"
+        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.SignOutFragment"
+        android:label="@string/sign_out"
+        tools:layout="@layout/fragment_sign_out" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_add_note"
+        android:name="com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment"
+        tools:layout="@layout/fragment_add_note"
+        android:label="@string/add_note"/>
 
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_gallery"-->
+    <!--        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.gallery.GalleryFragment"-->
+    <!--        android:label="@string/menu_gallery"-->
+    <!--        tools:layout="@layout/fragment_gallery" />-->
 
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_slideshow"-->
+    <!--        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.slideshow.SlideshowFragment"-->
+    <!--        android:label="@string/menu_slideshow"-->
+    <!--        tools:layout="@layout/fragment_slideshow" />-->
 
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_tools"-->
+    <!--        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.tools.ToolsFragment"-->
+    <!--        android:label="@string/menu_tools"-->
+    <!--        tools:layout="@layout/fragment_tools" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_share"-->
+    <!--        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.share.ShareFragment"-->
+    <!--        android:label="@string/menu_share"-->
+    <!--        tools:layout="@layout/fragment_share" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_send"-->
+    <!--        android:name="com.bridgelabz.fundoonotes.note_module.dashboard_page.view.ui.send.SendFragment"-->
+    <!--        android:label="@string/menu_send"-->
+    <!--        tools:layout="@layout/fragment_send" />-->
 </navigation>

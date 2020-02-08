@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".note_module.note_page.view.AddNoteActivity"></activity>
         <activity
             android:name=".note_module.dashboard_page.view.HomeDashBoardActivity"
             android:label="@string/title_activity_home_dash_board"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".user_module.lunch.LaunchScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
