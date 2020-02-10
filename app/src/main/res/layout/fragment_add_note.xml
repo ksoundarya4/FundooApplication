@@ -12,7 +12,7 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edit_text_title"
         style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16dp"
         android:layout_marginLeft="@dimen/margin_16dp"
@@ -33,7 +33,7 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edit_text_description"
         style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16dp"
         android:layout_marginLeft="@dimen/margin_16dp"
