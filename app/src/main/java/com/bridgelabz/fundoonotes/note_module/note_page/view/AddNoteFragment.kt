@@ -25,7 +25,7 @@ class AddNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_note, container, false)
-        view.findView()
+        findViews(view)
 
         saveNoteButton.setOnClickListener {
             val noteTitle = title.editableText.toString()
@@ -41,10 +41,10 @@ class AddNoteFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
     }
 
-    private fun View.findView() {
-        title = this.findViewById(R.id.edit_text_title)
-        description = this.findViewById(R.id.edit_text_description)
-        saveNoteButton = this.findViewById(R.id.button_save_note)
+    private fun findViews(view: View) {
+        title = view.findViewById(R.id.edit_text_title)
+        description = view.findViewById(R.id.edit_text_description)
+        saveNoteButton = view.findViewById(R.id.button_save_note)
     }
 
     private fun setClickListener(view: View, note: Note) {
