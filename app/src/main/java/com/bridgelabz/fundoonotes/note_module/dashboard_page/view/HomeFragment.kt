@@ -21,12 +21,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         sharedViewModel =
-                ViewModelProviders.of(this).get(SharedViewModel::class.java)
+            ViewModelProviders.of(this).get(SharedViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val textView: TextView = root.findViewById(R.id.text_home)
-        sharedViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
+        sharedViewModel.getNoteLiveData()
+            .observe(this, Observer { textView.text = "home Drawer"})
         return root
     }
 }
