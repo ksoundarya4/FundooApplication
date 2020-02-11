@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LaunchScreenTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user_module.lunch.LaunchScreenActivity"
-    android:background="@color/backGroundColor"
-    style="@style/LaunchScreenTheme">
+    android:background="@color/LightPrimaryColor"
+    tools:context=".user_module.launch_module.LaunchScreenActivity">
 
     <ImageView
         android:id="@+id/image_launcher_icon"

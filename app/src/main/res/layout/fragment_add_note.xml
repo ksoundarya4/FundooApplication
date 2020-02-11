@@ -21,7 +21,6 @@
         android:layout_marginRight="@dimen/margin_16dp"
         android:hint="@string/hint_title"
         android:inputType="text"
-        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/text_24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

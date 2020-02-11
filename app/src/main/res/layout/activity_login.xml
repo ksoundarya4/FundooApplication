@@ -26,14 +26,10 @@
             android:animateLayoutChanges="true"
             android:filterTouchesWhenObscured="true"
             android:focusableInTouchMode="true"
-            android:textColorHint="@color/colorPrimaryDark"
             app:boxBackgroundColor="@color/colorPrimaryWhite"
-            app:boxStrokeColor="@color/colorPrimaryDark"
-            app:endIconTint="@color/colorPrimaryDark"
             app:helperTextEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
-            app:hintTextColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/login_password_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.52"
@@ -50,8 +46,7 @@
                 android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:textColorHint="@color/colorBlue" />
+                android:singleLine="true"/>
 
             <TextView
                 android:id="@+id/email_error_text"
@@ -75,13 +70,9 @@
             android:animateLayoutChanges="true"
             android:filterTouchesWhenObscured="true"
             android:focusableInTouchMode="true"
-            android:textColorHint="@color/colorPrimaryDark"
             app:boxBackgroundColor="@color/colorPrimaryWhite"
-            app:boxStrokeColor="@color/colorPrimaryDark"
-            app:endIconTint="@color/colorPrimaryDark"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
-            app:hintTextColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/button_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.52"
@@ -95,8 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/input_password"
-                android:inputType="textPassword"
-                android:textColorHint="@color/colorBlue" />
+                android:inputType="textPassword" />
 
             <TextView
                 android:id="@+id/passwor_error_text"
@@ -117,7 +107,6 @@
             android:layout_marginRight="@dimen/margin_16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/login_button"
-            app:backgroundTint="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/button_forgot_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +140,6 @@
             android:layout_marginRight="@dimen/margin_16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/registration_button"
-            app:backgroundTint="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -172,15 +160,14 @@
             android:layout_marginBottom="8dp"
             android:text="@string/forgot_password"
             android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/AccentColor"
             app:backgroundTint="@color/colorPrimaryWhite"
             app:layout_constraintBottom_toTopOf="@+id/button_register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_login"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:strokeColor="@color/colorPrimaryDark" />
+            app:layout_constraintVertical_chainStyle="packed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

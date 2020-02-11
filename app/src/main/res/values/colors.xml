@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#030000</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="DarkPrimaryColor">#303F9F</color>
+    <color name="LightPrimaryColor">#C5CAE9</color>
+    <color name="PrimaryColor">#3F51B5</color>
+    <color name="Text">#FFFF</color>
+    <color name="AccentColor">#448AFF</color>
+    <color name="PrimaryText">#212121</color>
+    <color name="SecondaryText">#757575</color>
+    <color name="DividerColor">#BDBDBD</color>
     <color name="colorPrimaryWhite">#FFFFFF</color>
-    <color name="colorBlue">#0720FF</color>
-    <color name="backGroundColor">#B39DDB</color>
-    <color name="actionBarColor">#94FFEB3B</color>
-<!--    <color name="ic_launcher_backgound">#FFFFC107</color>-->
+    <!--    <color name="ic_launcher_backgound">#FFFFC107</color>-->
 </resources>
