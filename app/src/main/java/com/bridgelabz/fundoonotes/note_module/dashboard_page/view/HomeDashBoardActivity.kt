@@ -35,6 +35,26 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
+
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        actionBarDrawerToggle.syncState()
+
+        navigateToHome()
+
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+        fab.setOnClickListener {
+            navigateToAddNoteFragment()
+        }
+
         navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -50,23 +70,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 }
                 else -> return@setNavigationItemSelectedListener false
             }
-        }
-
-        val actionBarDrawerToggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(actionBarDrawerToggle)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        actionBarDrawerToggle.syncState()
-
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            navigateToAddNoteFragment()
         }
     }
 
@@ -90,7 +93,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val fragment = AddNoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -101,6 +103,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+//    private fun loadFragment(fragment: Fragment) {
+//        val transaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.fragment_container, fragment)
+//        transaction.commit()
+//    }
 
     private fun navigateToLoginScreen() {
         Intent(this, LoginActivity::class.java).apply {
