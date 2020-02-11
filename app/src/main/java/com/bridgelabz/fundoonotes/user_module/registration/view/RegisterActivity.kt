@@ -57,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setSignUpClickListener()
     }
 
@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
             user = User(fName, lName, dob, userMail, userPass, userNumber)
 
             val cPassword = confirmPassword.editableText.toString()
-            registerViewModel.onSignUpButtonClick((View(this)), user,cPassword)
+            registerViewModel.onSignUpButtonClick((View(this)), user, cPassword)
 
             registerViewModel.getRegistrationStatus().observe(
                 this,
@@ -90,7 +90,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
             RegistrationStatus.Failed -> {
-                toast("Registration Failed")
+                toast("User Already exits")
                 validateUserInput()
             }
         }
