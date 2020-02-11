@@ -90,7 +90,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
             RegistrationStatus.Failed -> {
-                toast("User Already exits")
+                toast("User already exist")
                 validateUserInput()
             }
         }
