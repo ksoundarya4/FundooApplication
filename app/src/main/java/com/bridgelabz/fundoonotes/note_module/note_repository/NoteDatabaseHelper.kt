@@ -32,7 +32,7 @@ class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper(
 ) {
     companion object {
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "FundooNotes.db"
+        const val DATABASE_NAME = "App.db"
     }
 
     /**Function to create FundooNotes.db database*/
