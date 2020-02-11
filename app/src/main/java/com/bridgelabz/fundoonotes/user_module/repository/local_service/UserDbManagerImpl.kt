@@ -15,7 +15,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_DOB
 import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserRegistrationContract.UserEntry.KEY_EMAIL
@@ -36,7 +35,7 @@ class UserDbManagerImpl(
      *
      * @param user to be inserted
      */
-    override fun insert(user: User): RegistrationStatus {
+    override fun insert(user: User): Long {
 
         database = databaseHelper.open()
 
@@ -48,9 +47,9 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
         }
-        database.insert(TABLE_NAME, null, values)
+        val rowId = database.insert(TABLE_NAME, null, values)
         databaseHelper.close()
-        return RegistrationStatus.Successful
+        return rowId
     }
 
     /**
@@ -141,7 +140,7 @@ class UserDbManagerImpl(
      * @return live data of AuthState
      */
     @SuppressLint("Recycle")
-    override fun verifyRegistration(user: User): RegistrationStatus {
+    override fun isUserRegistered(user: User): Boolean {
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -170,10 +169,10 @@ class UserDbManagerImpl(
 
         //if cursor has value then in user database there is user associated with this given email
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            return RegistrationStatus.Successful
+            return true
         }
         //if user is not inserted into database.
-        return RegistrationStatus.Failed
+        return false
     }
 
 
