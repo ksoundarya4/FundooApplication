@@ -31,8 +31,6 @@ class RegisterViewModel : ViewModel() {
         ) {
             dbManager = UserDbManagerImpl(UserDbHelper(view.context))
             handelRegistration(user)
-        } else {
-            registrationResponse.value = RegistrationStatus.Failed
         }
     }
 
@@ -42,7 +40,12 @@ class RegisterViewModel : ViewModel() {
      * inserted into USerDatabase.db
      */
     fun handelRegistration(user: User) {
-        registrationResponse.value = dbManager.insert(user)
+        if (dbManager.isUserRegistered(user))
+            registrationResponse.value = RegistrationStatus.Failed
+        else {
+            dbManager.insert(user)
+            registrationResponse.value = RegistrationStatus.Successful
+        }
     }
 
     /**
