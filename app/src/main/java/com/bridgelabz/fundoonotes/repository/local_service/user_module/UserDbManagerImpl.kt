@@ -230,6 +230,7 @@ class UserDbManagerImpl(
      * @param password to be updated
      * @return true if password is updated
      */
+    @SuppressLint("Recycle")
     override fun updatePassword(email: String, password: String): Boolean {
         database = databaseHelper.readableDatabase
 
