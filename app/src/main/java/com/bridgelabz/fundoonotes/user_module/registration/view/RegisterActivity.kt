@@ -73,11 +73,15 @@ class RegisterActivity : AppCompatActivity() {
             user = User(fName, lName, dob, userMail, userPass, userNumber)
 
             val cPassword = confirmPassword.editableText.toString()
-            registerViewModel.onSignUpButtonClick((View(this)), user, cPassword)
+            if (validateConfirmPassword(userPass, cPassword)) {
+                registerViewModel.onSignUpButtonClick((View(this)), user)
 
-            registerViewModel.getRegistrationStatus().observe(
-                this,
-                Observer { handleRegistrationStatus(it) })
+                registerViewModel.getRegistrationStatus().observe(
+                    this,
+                    Observer { handleRegistrationStatus(it) })
+            } else {
+                confirmPassword.error = "Did not match password"
+            }
         }
     }
 
@@ -111,9 +115,6 @@ class RegisterActivity : AppCompatActivity() {
         }
         if (!validatePassword(user.password)) {
             password.error = "Invalid password"
-        }
-        if (password != confirmPassword) {
-            confirmPassword.error = "Did not match password"
         }
         if (!validatePhone(user.phoneNumber)) {
             phoneNumber.error = "Invalid phone number"

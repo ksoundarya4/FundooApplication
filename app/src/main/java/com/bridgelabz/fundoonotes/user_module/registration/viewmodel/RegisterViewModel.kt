@@ -17,7 +17,6 @@ import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatab
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
-import com.bridgelabz.fundoonotes.user_module.registration.model.validateConfirmPassword
 import com.bridgelabz.fundoonotes.user_module.registration.model.validateUser
 
 class RegisterViewModel : ViewModel() {
@@ -25,10 +24,8 @@ class RegisterViewModel : ViewModel() {
     private lateinit var dbManager: UserDatabaseManager
     private val registrationResponse = MutableLiveData<RegistrationStatus>()
 
-    fun onSignUpButtonClick(view: View, user: User, confirmPassword: String) {
-        if (validateUser(user) &&
-            validateConfirmPassword(user.password, confirmPassword)
-        ) {
+    fun onSignUpButtonClick(view: View, user: User) {
+        if (validateUser(user)) {
             dbManager =
                 UserDbManagerImpl(
                     DatabaseHelper(view.context)
