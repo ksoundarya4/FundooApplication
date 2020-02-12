@@ -223,4 +223,51 @@ class UserDbManagerImpl(
         //if email does not exist return false
         return AuthState.NOT_AUTH
     }
+
+    /**Function to update password in user table
+     *
+     * @param email
+     * @param password to be updated
+     * @return true if password is updated
+     */
+    override fun updatePassword(email: String, password: String): Boolean {
+        database = databaseHelper.readableDatabase
+
+        val columns = arrayOf(
+            BaseColumns._ID,
+            KEY_FIRSTNAME,
+            KEY_LASTNAME,
+            KEY_DOB,
+            KEY_EMAIL,
+            KEY_PASSWORD,
+            KEY_PHONE_NUMBER
+        )
+        val selection = "$KEY_EMAIL =?"
+
+        val selectionArgs = arrayOf(email)
+
+        val cursor = database.query(
+            TABLE_USER,// Selecting Table
+            columns,//Selecting columns want to query
+            selection,
+            selectionArgs,//Where clause
+            null,
+            null,
+            null
+        )
+        //if cursor has value then in user database there is user associated with this given email so return true
+        if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
+            val rowId = cursor.getString(0).toLong()
+            val firstName = cursor.getString(1)
+            val lastName = cursor.getString(2)
+            val dateOfBirth = cursor.getString(3)
+            val userEmail = cursor.getString(4)
+            val phoneNumber = cursor.getString(6)
+            val user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
+            val updateStatus = update(rowId, user)
+            if (updateStatus > 1)
+                return true
+        }
+        return false
+    }
 }

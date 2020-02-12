@@ -21,4 +21,5 @@ interface UserDatabaseManager {
     fun deleteAll()
     fun authenticate(email: String, password: String): AuthState
     fun isUserRegistered(user: User): Boolean
+    fun updatePassword(email: String, password: String): Boolean
 }
