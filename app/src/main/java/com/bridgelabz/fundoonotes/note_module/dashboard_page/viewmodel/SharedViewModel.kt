@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.note_module.note_repository.NoteDatabaseHelper
-import com.bridgelabz.fundoonotes.note_module.note_repository.NoteDatabaseManager
-import com.bridgelabz.fundoonotes.note_module.note_repository.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.note_module.NoteDatabaseManager
+import com.bridgelabz.fundoonotes.repository.note_module.NoteDatabaseManagerImpl
 
 class SharedViewModel : ViewModel() {
 
@@ -15,7 +15,10 @@ class SharedViewModel : ViewModel() {
     private val noteLiveData = MutableLiveData<ArrayList<Note>>()
 
     fun onSaveButtonClick(view: View, note: Note) {
-        noteDbManager = NoteDatabaseManagerImpl(NoteDatabaseHelper(view.context))
+        noteDbManager =
+            NoteDatabaseManagerImpl(
+                DatabaseHelper(view.context)
+            )
         val rowId = noteDbManager.insert(note)
         if (rowId > 0)
             fetchNotes()

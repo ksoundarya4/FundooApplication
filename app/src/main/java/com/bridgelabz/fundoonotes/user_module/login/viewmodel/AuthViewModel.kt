@@ -12,10 +12,10 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.user_module.UserDatabaseManager
+import com.bridgelabz.fundoonotes.repository.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDatabaseManager
-import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbHelper
-import com.bridgelabz.fundoonotes.user_module.repository.local_service.UserDbManagerImpl
 
 class AuthViewModel : ViewModel() {
 
@@ -24,7 +24,10 @@ class AuthViewModel : ViewModel() {
 
     fun onLoginButtonClick(view: View, email: String, password: String) {
 
-        dbManager = UserDbManagerImpl(UserDbHelper(view.context))
+        dbManager =
+            UserDbManagerImpl(
+                DatabaseHelper(view.context)
+            )
         handleLogin(email, password)
     }
 
