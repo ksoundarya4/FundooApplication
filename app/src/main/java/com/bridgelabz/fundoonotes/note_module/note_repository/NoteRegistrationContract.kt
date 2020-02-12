@@ -14,7 +14,7 @@ import android.provider.BaseColumns
 
 object NoteRegistrationContract {
     object NoteEntry : BaseColumns {
-        const val TABLE_NAME = "FundooNotes"
+        const val TABLE_NAME = "Note"
         const val KEY_TITLE = "Title"
         const val KEY_DESCRIPTION = "Description"
     }
