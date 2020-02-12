@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -32,8 +33,12 @@ class AddNoteFragment : Fragment() {
         saveNoteButton.setOnClickListener {
             val noteTitle = title.editableText.toString()
             val noteDescription = description.editableText.toString()
-            note = Note(noteTitle, noteDescription)
-            setClickListener(view, note)
+            if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+                note = Note(noteTitle, noteDescription)
+                setClickListener(view, note)
+            } else {
+                Toast.makeText(view.context, "Empty note discarded", Toast.LENGTH_LONG).show()
+            }
         }
         return view
     }
