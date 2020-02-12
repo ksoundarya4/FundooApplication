@@ -43,9 +43,9 @@ class LoginActivity : AppCompatActivity() {
     private val loginButton by lazy {
         findViewById<Button>(R.id.button_login)
     }
-    //    private val forgotPasswordButton by lazy {
-//        findViewById<Button>(R.id.button_forgot_password)
-//    }
+    private val forgotPasswordButton by lazy {
+        findViewById<Button>(R.id.button_forgot_password)
+    }
     private val registerButton by lazy {
         findViewById<Button>(R.id.button_register)
     }
@@ -75,6 +75,13 @@ class LoginActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
             val registerIntent = Intent(this, RegisterActivity::class.java)
             startActivity(registerIntent)
+        }
+        forgotPasswordButton.setOnClickListener {
+            val email = emailEditText.editableText.toString()
+            Intent(this, ForgotPasswordActivity::class.java).apply {
+                putExtra("email", email)
+                startActivity(this)
+            }
         }
     }
 
