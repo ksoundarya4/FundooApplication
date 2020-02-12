@@ -21,6 +21,7 @@ class AuthViewModel : ViewModel() {
 
     private lateinit var dbManager: UserDatabaseManager
     private val loginResponse = MutableLiveData<AuthState>()
+    private val updatePasswordStatus = MutableLiveData<Boolean>()
 
     fun onLoginButtonClick(view: View, email: String, password: String) {
 
@@ -37,5 +38,20 @@ class AuthViewModel : ViewModel() {
 
     fun getLoginStatus(): LiveData<AuthState> {
         return loginResponse
+    }
+
+    fun onPasswordSubmitButtonClick(view: View, email: String, password: String){
+        dbManager = UserDbManagerImpl(
+            DatabaseHelper(view.context)
+        )
+        handleUpdatePassword(email, password)
+    }
+
+    fun handleUpdatePassword(email: String, password: String) {
+        updatePasswordStatus.value = dbManager.updatePassword(email, password)
+    }
+
+    fun getUpdateStatus(): LiveData<Boolean> {
+        return updatePasswordStatus
     }
 }
