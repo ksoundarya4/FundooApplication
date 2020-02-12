@@ -13,9 +13,9 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.note_module.note_repository.NoteDatabaseHelper
-import com.bridgelabz.fundoonotes.note_module.note_repository.NoteDatabaseManager
-import com.bridgelabz.fundoonotes.note_module.note_repository.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.note_module.NoteDatabaseManager
+import com.bridgelabz.fundoonotes.repository.note_module.NoteDatabaseManagerImpl
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -24,15 +24,18 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class NoteDataBaseTest {
 
-    private lateinit var noteDbHelper: NoteDatabaseHelper
+    private lateinit var noteDbHelper: DatabaseHelper
     private lateinit var noteDbManager: NoteDatabaseManager
     private var rowId: Long = 0L
 
     @Before
     fun oncreate() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        noteDbHelper = NoteDatabaseHelper(context)
-        noteDbManager = NoteDatabaseManagerImpl(noteDbHelper)
+        noteDbHelper = DatabaseHelper(context)
+        noteDbManager =
+            NoteDatabaseManagerImpl(
+                noteDbHelper
+            )
     }
 
     @Test
