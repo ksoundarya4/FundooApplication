@@ -10,10 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".user_module.login.view.ForgotPasswordActivity"
+            android:parentActivityName=".user_module.login.view.LoginActivity" />
+        <activity
             android:name=".note_module.dashboard_page.view.HomeDashBoardActivity"
             android:label="@string/title_activity_home_dash_board"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".user_module.launch_module.LaunchScreenActivity"
+        <activity
+            android:name=".user_module.launch_module.LaunchScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".user_module.registration.view.RegisterActivity" />
+        <activity
+            android:name=".user_module.registration.view.RegisterActivity"
+            android:parentActivityName=".user_module.login.view.LoginActivity" />
         <activity android:name=".user_module.login.view.LoginActivity" />
     </application>
 
