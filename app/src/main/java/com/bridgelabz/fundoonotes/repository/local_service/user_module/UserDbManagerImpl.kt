@@ -14,6 +14,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
+import android.util.Log
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_DOB
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_EMAIL
@@ -265,9 +266,9 @@ class UserDbManagerImpl(
             val userEmail = cursor.getString(4)
             val phoneNumber = cursor.getString(6)
             val user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
-            val updateStatus = update(rowId, user)
-            if (updateStatus > 1)
-                return true
+            Log.d("userInfo", user.toString())
+            update(rowId, user)
+            return true
         }
         return false
     }
