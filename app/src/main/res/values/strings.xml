@@ -41,4 +41,8 @@
     <string name="text_view_description">description</string>
     <string name="button_save_note">Save</string>
     <string name="add_note">AddNote</string>
+    <string name="user_info">UserProfile</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="hint_password">New Password</string>
+    <string name="new_password_submit_button">Submit</string>
 </resources>
