@@ -1,94 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/fragment_add_note_appBar"
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--        android:id="@+id/fragment_add_note_appBar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/colorPrimaryWhite"-->
+    <!--        android:theme="@style/AppTheme.AppBarOverlay">-->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragment_add_note_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryWhite"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/edit_text_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/fragment_add_note_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryWhite"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_add_note"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryWhite"
-            android:clickable="true"
-            android:focusable="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_title"
-                style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16dp"
-                android:layout_marginLeft="@dimen/margin_16dp"
-                android:layout_marginTop="@dimen/margin_16dp"
-                android:layout_marginEnd="@dimen/margin_16dp"
-                android:layout_marginRight="@dimen/margin_16dp"
-                android:hint="@string/hint_title"
-                android:inputType="text"
-                android:textSize="@dimen/text_24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_description"
-                style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16dp"
-                android:layout_marginLeft="@dimen/margin_16dp"
-                android:layout_marginTop="@dimen/margin_16dp"
-                android:layout_marginEnd="@dimen/margin_16dp"
-                android:layout_marginRight="@dimen/margin_16dp"
-                android:hint="@string/hint_description"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_text_title"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/fragment_add_note_bottom_app_bar"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edit_text_title"
+        style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/colorPrimaryWhite"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:fabAlignmentMode="end">
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginLeft="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:layout_marginRight="@dimen/margin_16dp"
+        android:hint="@string/hint_title"
+        android:inputType="text"
+        android:textSize="@dimen/text_24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_text_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_toolbar" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/fragment_add_note_bottom_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edit_text_description"
+        style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginLeft="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:layout_marginRight="@dimen/margin_16dp"
+        android:hint="@string/hint_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_title"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!--    <com.google.android.material.bottomappbar.BottomAppBar-->
+    <!--        android:id="@+id/fragment_add_note_bottom_app_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom"-->
+    <!--        android:background="@color/colorPrimaryWhite"-->
+    <!--        android:theme="@style/AppTheme.AppBarOverlay"-->
+    <!--        app:fabAlignmentMode="end">-->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragment_add_note_bottom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_description"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!--    </com.google.android.material.bottomappbar.BottomAppBar>-->
+</androidx.constraintlayout.widget.ConstraintLayout>
