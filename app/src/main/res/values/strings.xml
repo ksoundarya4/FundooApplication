@@ -45,4 +45,5 @@
     <string name="enter_new_password">Enter New Password</string>
     <string name="hint_password">New Password</string>
     <string name="new_password_submit_button">Submit</string>
+    <string name="back_to_home">BackHome</string>
 </resources>
