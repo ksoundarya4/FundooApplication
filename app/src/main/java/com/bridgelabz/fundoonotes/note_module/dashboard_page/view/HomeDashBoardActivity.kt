@@ -24,8 +24,6 @@ import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
-
-@Suppress("DEPRECATION")
 class HomeDashBoardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +45,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
             R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
         actionBarDrawerToggle.syncState()
 
         navigateToHome()
@@ -104,23 +100,23 @@ class HomeDashBoardActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home_dash_board, menu)
 
-        val item: MenuItem = menu.getItem(0)
+//        val item: MenuItem = menu.getItem(0)
 
-        if (item.itemId == R.id.app_bar_user_info) {
-            item.icon = resources.getDrawable(R.drawable.download)
-//                getDrawable(R.drawable.download)
-//            var imageView = ImageView(this)
-//            imageView.setImageResource(R.drawable.download)
-//            imageView.maxWidth = 10
-//            imageView.maxHeight = 10
-//            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-////            imageView.setPadding(50, 0, 50, 0)
-//            item.actionView = imageView
-//
-//            imageView.setOnClickListener {
-//                Toast.makeText(this, "Clicked ImageView", Toast.LENGTH_SHORT).show()
-//            }
-        }
+//        if (item.itemId == R.id.app_bar_user_info) {
+//            item.icon = resources.getDrawable(R.drawable.profilepic)
+////                getDrawable(R.drawable.download)
+////            var imageView = ImageView(this)
+////            imageView.setImageResource(R.drawable.download)
+////            imageView.maxWidth = 10
+////            imageView.maxHeight = 10
+////            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+//////            imageView.setPadding(50, 0, 50, 0)
+////            item.actionView = imageView
+////
+////            imageView.setOnClickListener {
+////                Toast.makeText(this, "Clicked ImageView", Toast.LENGTH_SHORT).show()
+////            }
+//        }
         return true
     }
 
@@ -137,15 +133,15 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun navigateToAddNoteFragment() {
         val fragment = AddNoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
+        transaction.add(R.id.fragment_container, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
     private fun navigateToHome() {
         val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
+        transaction.add(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
@@ -158,6 +154,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun navigateToLoginScreen() {
         Intent(this, LoginActivity::class.java).apply {
             startActivity(this)
+            finish()
         }
     }
 }
