@@ -48,17 +48,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home_dash_board)
 
         setSupportActionBar(toolbar)
-
-        val actionBarDrawerToggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(actionBarDrawerToggle)
-        actionBarDrawerToggle.syncState()
-
+        setActionBarToggle()
         replaceHomeFragment()
 
         floatingActionButton.setOnClickListener {
@@ -78,6 +68,18 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+    }
+
+    private fun setActionBarToggle() {
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
     }
 
     private fun onSignOutMenuClick() {
@@ -171,7 +173,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun replaceHomeFragment() {
-        val fragment = HomeFragment()
+        val fragment = NoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, fragment)
         transaction.commit()
