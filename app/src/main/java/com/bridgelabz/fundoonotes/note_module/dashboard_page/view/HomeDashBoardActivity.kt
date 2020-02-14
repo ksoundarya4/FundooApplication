@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
@@ -26,16 +27,27 @@ import com.google.android.material.navigation.NavigationView
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
+    private val toolbar: Toolbar by lazy {
+        findViewById<Toolbar>(R.id.toolbar)
+    }
+
+    private val drawerLayout: DrawerLayout by lazy {
+        findViewById<DrawerLayout>(R.id.drawer_layout)
+    }
+
+    private val navigationView: NavigationView by lazy {
+        findViewById<NavigationView>(R.id.nav_view)
+    }
+
+    private val floatingActionButton: FloatingActionButton by lazy {
+        findViewById<FloatingActionButton>(R.id.fab)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_dash_board)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
@@ -47,28 +59,35 @@ class HomeDashBoardActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
-        navigateToHome()
+        replaceHomeFragment()
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            navigateToAddNoteFragment()
+        floatingActionButton.setOnClickListener {
+            replaceAddNoteFragment()
         }
 
         navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    drawerLayout.closeDrawer(navigationView)
-                    navigateToHome()
-                    toast("Home Tapped")
+                    onHomeMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
-                    signOutAlertDialog()
+                    onSignOutMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+    }
+
+    private fun onSignOutMenuClick() {
+        signOutAlertDialog()
+    }
+
+    private fun onHomeMenuClick() {
+        drawerLayout.closeDrawer(navigationView)
+        replaceHomeFragment()
+        toast("Home Tapped")
     }
 
     private fun signOutAlertDialog() {
@@ -89,6 +108,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
             }
         alertDialogBuilder.setNegativeButton("NO")
         { dialog, _ ->
+            drawerLayout.closeDrawer(navigationView)
             dialog.cancel()
         }
 
@@ -97,7 +117,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home_dash_board, menu)
 
 //        val item: MenuItem = menu.getItem(0)
@@ -130,7 +149,20 @@ class HomeDashBoardActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToAddNoteFragment() {
+    override fun onBackPressed() {
+        tellFragments()
+        super.onBackPressed()
+    }
+
+    private fun tellFragments() {
+        val fragments: List<Fragment> = supportFragmentManager.fragments
+        for (fragment in fragments) {
+            if (fragment is OnBackPressed)
+                fragment.onBackPressed()
+        }
+    }
+
+    private fun replaceAddNoteFragment() {
         val fragment = AddNoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, fragment)
@@ -138,7 +170,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    private fun navigateToHome() {
+    private fun replaceHomeFragment() {
         val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, fragment)
