@@ -9,9 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.OnBackPressed
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
@@ -20,17 +21,17 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-class AddNoteFragment : Fragment() {
+class AddNoteFragment : Fragment(), OnBackPressed {
 
+    private lateinit var title: EditText
+    private lateinit var description: EditText
+    private lateinit var note: Note
     private val noteFactory by lazy {
         NoteDbManagerFactory(NoteDatabaseManagerImpl(DatabaseHelper(requireContext())))
     }
     private val viewModel by lazy {
-        ViewModelProviders.of(this, noteFactory).get(SharedViewModel::class.java)
+        ViewModelProvider (this, noteFactory).get(SharedViewModel::class.java)
     }
-    private lateinit var title: EditText
-    private lateinit var description: EditText
-    private lateinit var note: Note
     private val bottomAppBar by lazy {
         requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
     }
@@ -60,16 +61,8 @@ class AddNoteFragment : Fragment() {
     private fun setUpFragmentToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
         toolbar.setNavigationOnClickListener {
-            val noteTitle = title.editableText.toString()
-            val noteDescription = description.editableText.toString()
-            if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
-                note = Note(noteTitle, noteDescription)
-                setClickListener(note)
-                requireActivity().supportFragmentManager.popBackStack()
-            } else {
-                Toast.makeText(requireContext(), "Empty note discarded", Toast.LENGTH_LONG).show()
-                requireActivity().supportFragmentManager.popBackStack()
-            }
+            onBackPressed()
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 
@@ -96,10 +89,20 @@ class AddNoteFragment : Fragment() {
     private fun findViews(view: View) {
         title = view.findViewById(R.id.edit_text_title)
         description = view.findViewById(R.id.edit_text_description)
-//        saveNoteButton = view.findViewById(R.id.button_save_note)
     }
 
     private fun setClickListener(note: Note) {
         viewModel.onSaveButtonClick(note)
+    }
+
+    override fun onBackPressed() {
+        val noteTitle = title.editableText.toString()
+        val noteDescription = description.editableText.toString()
+        if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+            note = Note(noteTitle, noteDescription)
+            setClickListener(note)
+        } else {
+            Toast.makeText(requireContext(), "Empty note discarded", Toast.LENGTH_LONG).show()
+        }
     }
 }
