@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.note_module.NoteDatabaseManager
-import com.bridgelabz.fundoonotes.repository.note_module.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManager
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
 
 class NoteViewModel : ViewModel() {
 
