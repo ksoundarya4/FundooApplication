@@ -46,4 +46,11 @@
     <string name="hint_password">New Password</string>
     <string name="new_password_submit_button">Submit</string>
     <string name="back_to_home">BackHome</string>
+    <string name="sign_out_alert_message">Do you want to sign out ?</string>
+    <string name="toast_when_note_menu_tapped">Note Tapped</string>
+    <string name="sign_out_alert_title">ALERT!</string>
+    <string name="sign_out_alert_positive_button">Yes</string>
+    <string name="toast_when_sign_out_alert_positive_button_clicked">Signing Out</string>
+    <string name="sign_out_alerst_negative_button">NO</string>
+    <string name="tast_when_user_profile_clicked">Clicked User Info</string>
 </resources>
