@@ -19,13 +19,13 @@ private const val CREATE_USER_TABLE =
             "${DatabaseHelper.UserRegistrationContract.UserEntry.KEY_PHONE_NUMBER} CHAR(20))"
 
 private const val CREATE_NOTE_TABLE =
-    " Create Table $TABLE_NOTE ( " +
+    " Create Table If Not Exists $TABLE_NOTE ( " +
             "${BaseColumns._ID} INTEGER PRIMARY KEY, " +
             "${DatabaseHelper.NoteRegistrationContract.NoteEntry.KEY_TITLE} TEXT NOT NULL, " +
             "${DatabaseHelper.NoteRegistrationContract.NoteEntry.KEY_DESCRIPTION} TEXT NOT NULL)"
 
 private const val CREATE_USER_NOTE_TABLE =
-    "Create Table $TABLE_USER_NOTE (" +
+    "Create Table If Not Exists $TABLE_USER_NOTE (" +
             " ${BaseColumns._ID} INTEGER PRIMARY KEY, " +
             "${DatabaseHelper.UserNoteRegistrationContract.UserNote.KEY_USER_ID} INTEGER, " +
             "${DatabaseHelper.UserNoteRegistrationContract.UserNote.KEY_NOTE_ID} INTEGER)"
