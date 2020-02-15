@@ -49,16 +49,45 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         setActionBarToggle()
-        replaceHomeFragment()
+        replaceNoteFragment()
+        setFloatingActionBarClicked()
+        setNavigationItemClicked()
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.home_dash_board, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.app_bar_user_info -> {
+                toast(getString(R.string.tast_when_user_profile_clicked))
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onBackPressed() {
+        tellFragments()
+        replaceNoteFragment()
+        super.onBackPressed()
+    }
+
+    /**Function to set Floating Action Bar when it is clicked*/
+    private fun setFloatingActionBarClicked() {
         floatingActionButton.setOnClickListener {
             replaceAddNoteFragment()
         }
+    }
 
+    /**Function to set Navigation Items when they are clicked*/
+    private fun setNavigationItemClicked() {
         navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    onHomeMenuClick()
+                    onNoteMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -70,6 +99,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         }
     }
 
+    /**Function to set Action Bar Toggle of Drawer Layout*/
     private fun setActionBarToggle() {
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
@@ -82,33 +112,38 @@ class HomeDashBoardActivity : AppCompatActivity() {
         actionBarDrawerToggle.syncState()
     }
 
+    /**Function to set alert dialog when SignOut
+     * Menu item is clicked */
     private fun onSignOutMenuClick() {
         signOutAlertDialog()
     }
 
-    private fun onHomeMenuClick() {
+    /**Function to replace homeDashBoard with
+    Note Fragment when note menu item clicked*/
+    private fun onNoteMenuClick() {
         drawerLayout.closeDrawer(navigationView)
-        replaceHomeFragment()
-        toast("Home Tapped")
+        replaceNoteFragment()
+        toast(getString(R.string.toast_when_note_menu_tapped))
     }
 
+    /**Function that performs sign out alert operation*/
     private fun signOutAlertDialog() {
         val alertDialogBuilder = AlertDialog.Builder(this)
 
-        alertDialogBuilder.setMessage("Do you want to sign out ?")
-        alertDialogBuilder.setTitle("ALERT!")
+        alertDialogBuilder.setMessage(getString(R.string.sign_out_alert_message))
+        alertDialogBuilder.setTitle(getString(R.string.sign_out_alert_title))
         alertDialogBuilder.setCancelable(false)
 
         alertDialogBuilder
             .setPositiveButton(
-                "Yes"
+                getString(R.string.sign_out_alert_positive_button)
             ) { _, _ ->
                 navigateToLoginScreen()
                 toast(
-                    "Signing Out"
+                    getString(R.string.toast_when_sign_out_alert_positive_button_clicked)
                 )
             }
-        alertDialogBuilder.setNegativeButton("NO")
+        alertDialogBuilder.setNegativeButton(getString(R.string.sign_out_alerst_negative_button))
         { dialog, _ ->
             drawerLayout.closeDrawer(navigationView)
             dialog.cancel()
@@ -118,44 +153,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.home_dash_board, menu)
-
-//        val item: MenuItem = menu.getItem(0)
-
-//        if (item.itemId == R.id.app_bar_user_info) {
-//            item.icon = resources.getDrawable(R.drawable.profilepic)
-////                getDrawable(R.drawable.download)
-////            var imageView = ImageView(this)
-////            imageView.setImageResource(R.drawable.download)
-////            imageView.maxWidth = 10
-////            imageView.maxHeight = 10
-////            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-//////            imageView.setPadding(50, 0, 50, 0)
-////            item.actionView = imageView
-////
-////            imageView.setOnClickListener {
-////                Toast.makeText(this, "Clicked ImageView", Toast.LENGTH_SHORT).show()
-////            }
-//        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.app_bar_user_info -> {
-                toast("Clicked User Info")
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onBackPressed() {
-        tellFragments()
-        super.onBackPressed()
-    }
-
+    /**Function to tell fragment that back navigation is Pressed*/
     private fun tellFragments() {
         val fragments: List<Fragment> = supportFragmentManager.fragments
         for (fragment in fragments) {
@@ -164,27 +162,24 @@ class HomeDashBoardActivity : AppCompatActivity() {
         }
     }
 
+    /**Function to replace home dash board with AddNoteFragment*/
     private fun replaceAddNoteFragment() {
         val fragment = AddNoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, fragment)
+        transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
 
-    private fun replaceHomeFragment() {
+    /**Function to replace home dash board with noteFragment*/
+    private fun replaceNoteFragment() {
         val fragment = NoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
-//    private fun loadFragment(fragment: Fragment) {
-//        val transaction = supportFragmentManager.beginTransaction()
-//        transaction.replace(R.id.fragment_container, fragment)
-//        transaction.commit()
-//    }
-
+    /**Function to navigate to LoginActivity*/
     private fun navigateToLoginScreen() {
         Intent(this, LoginActivity::class.java).apply {
             startActivity(this)
