@@ -49,7 +49,7 @@ class NoteDatabaseManagerImpl(
      *
      * @return List of Notes.
      */
-    override fun fetch(): List<Note> {
+    override fun fetch(): ArrayList<Note> {
         val notes = ArrayList<Note>()
         database = noteDbHelper.readableDatabase
 
