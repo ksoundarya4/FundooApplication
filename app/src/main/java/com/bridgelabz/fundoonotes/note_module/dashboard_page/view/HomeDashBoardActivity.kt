@@ -175,7 +175,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun replaceNoteFragment() {
         val fragment = NoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, fragment)
+        transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
