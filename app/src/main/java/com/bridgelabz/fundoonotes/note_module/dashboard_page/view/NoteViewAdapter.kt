@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 
-class NoteAdapter(private val notes: List<Note>) :
-    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteViewAdapter(private var notes: List<Note>) :
+    RecyclerView.Adapter<NoteViewAdapter.NoteViewHolder>() {
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.text_view_note_title)
@@ -30,5 +30,9 @@ class NoteAdapter(private val notes: List<Note>) :
         val note = notes[position]
         holder.title.text = note.tile
         holder.description.text = note.description
+    }
+
+    fun setListOfNotes(notes: List<Note>) {
+        this.notes = notes
     }
 }
