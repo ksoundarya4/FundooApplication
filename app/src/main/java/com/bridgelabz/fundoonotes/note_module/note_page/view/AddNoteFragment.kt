@@ -30,7 +30,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         NoteDbManagerFactory(NoteDatabaseManagerImpl(DatabaseHelper(requireContext())))
     }
     private val viewModel by lazy {
-        ViewModelProvider (this, noteFactory).get(SharedViewModel::class.java)
+        ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
     private val bottomAppBar by lazy {
         requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
@@ -61,8 +61,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     private fun setUpFragmentToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
-            requireActivity().supportFragmentManager.popBackStack()
+            requireActivity().onBackPressed()
         }
     }
 
