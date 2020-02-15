@@ -42,7 +42,7 @@ class DatabaseHelper(context: Context) :
         db.execSQL(CREATE_USER_TABLE)
     }
 
-    /**Function to upgade the existing user database*/
+    /**Function to upgrade the existing user database*/
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (DATABASE_VERSION > VERSION_ONE) {
             db.execSQL(CREATE_NOTE_TABLE)
@@ -93,8 +93,8 @@ class DatabaseHelper(context: Context) :
     object UserNoteRegistrationContract {
         object UserNote : BaseColumns {
             const val TABLE_USER_NOTE = "User Notes"
-            const val KEY_USER_ID = "User Id"
-            const val KEY_NOTE_ID = "Note Id"
+            const val KEY_USER_ID = "User_Id"
+            const val KEY_NOTE_ID = "Note_Id"
         }
     }
 }
