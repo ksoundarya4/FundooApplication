@@ -16,7 +16,6 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbMan
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
-import java.util.*
 
 class NoteFragment : Fragment() {
 
@@ -30,7 +29,7 @@ class NoteFragment : Fragment() {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
-    private val noteAdapter = NoteViewAdapter(Collections.emptyList<Note>())
+    private val noteAdapter = NoteViewAdapter(ArrayList<Note>())
 //    private val noteViewManager: RecyclerView.LayoutManager by lazy {
 //        LinearLayoutManager(requireActivity())
 //    }
