@@ -10,16 +10,13 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 
 class NoteViewAdapter(private var notes: ArrayList<Note>) :
-    RecyclerView.Adapter<NoteViewAdapter.NoteViewHolder>() {
+    RecyclerView.Adapter<NoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView =
@@ -33,17 +30,10 @@ class NoteViewAdapter(private var notes: ArrayList<Note>) :
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes[position]
-        holder.title.text = note.tile
-        holder.description.text = note.description
+        holder.bindNote(note)
     }
 
     fun setListOfNotes(notes: ArrayList<Note>) {
         this.notes = notes
-    }
-
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardView: CardView = itemView.findViewById(R.id.note_card_view)
-        val title: TextView = itemView.findViewById(R.id.text_view_note_title)
-        val description: TextView = itemView.findViewById(R.id.text_view_note_description)
     }
 }
