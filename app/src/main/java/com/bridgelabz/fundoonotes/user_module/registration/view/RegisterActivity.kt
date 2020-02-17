@@ -14,10 +14,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
+import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.*
 import com.bridgelabz.fundoonotes.user_module.registration.viewmodel.RegisterViewModel
@@ -52,6 +54,9 @@ class RegisterActivity : AppCompatActivity() {
     private val signUPButton by lazy {
         findViewById<Button>(R.id.button_sign_up)
     }
+    private val registerActivity by lazy {
+        findViewById<ConstraintLayout>(R.id.register_constraint_layout)
+    }
     private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +64,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setSignUpClickListener()
+        setHideKeyboardOnTouch(this, registerActivity)
     }
 
     private fun setSignUpClickListener() {

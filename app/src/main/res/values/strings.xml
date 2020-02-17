@@ -53,4 +53,13 @@
     <string name="toast_when_sign_out_alert_positive_button_clicked">Signing Out</string>
     <string name="sign_out_alerst_negative_button">NO</string>
     <string name="tast_when_user_profile_clicked">Clicked User Info</string>
+    <string name="emptyEmail">email cannot be empty</string>
+    <string name="emailTooLong">email length is too long</string>
+    <string name="emptyPassword">password cannot be empty</string>
+    <string name="shortPasswordLength">password length too short</string>
+    <string name="validPasswordLength">valid password length</string>
+    <string name="toast_email_not_registered">Not Registered. First Register and then try to login</string>
+    <string name="toast_login_unsuccessful">Login Unsuccessful</string>
+    <string name="invalidPassword">Invalid Password</string>
+    <string name="toast_login_successful">Login Successful</string>
 </resources>

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
@@ -27,13 +28,16 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(AuthViewModel::class.java)
     }
+    private val forgotPasswordActivity by lazy {
+        findViewById<ConstraintLayout>(R.id.forgot_password_constraint_layout)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setSubmitButtonClickListener()
-
+        setHideKeyboardOnTouch(this,forgotPasswordActivity)
     }
 
     private fun setSubmitButtonClickListener() {

@@ -7,7 +7,7 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout"
+        android:id="@+id/login_constaint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".user_module.login.view.LoginActivity">

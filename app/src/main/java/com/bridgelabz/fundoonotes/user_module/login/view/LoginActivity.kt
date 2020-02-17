@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bridgelabz.fundoonotes.R
@@ -52,6 +53,9 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(AuthViewModel::class.java)
     }
+    private val loginActivity by lazy {
+        findViewById<ConstraintLayout>(R.id.login_constaint_layout)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
         emailEditText.addTextChangedListener(emailWatcher)
         passwordEditText.addTextChangedListener(passwordWatcher)
         setButtonClickListeners()
+        setHideKeyboardOnTouch(context = this, view = loginActivity)
     }
 
     private fun setButtonClickListeners() {
