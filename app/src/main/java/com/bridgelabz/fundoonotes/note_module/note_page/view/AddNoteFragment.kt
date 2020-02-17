@@ -17,6 +17,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbMan
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -78,6 +79,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         super.onStop()
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
         showBottomAppBar()
+        view?.hideKeyboard()
     }
 
     private fun showBottomAppBar() {
