@@ -93,14 +93,14 @@ class LoginActivity : AppCompatActivity() {
     private fun handelLoginStatus(loginStatus: AuthState) {
         when (loginStatus) {
             AuthState.NOT_AUTH -> {
-                toast("Not Registered. First Register and then try to login")
+                toast(getString(R.string.toast_email_not_registered))
             }
             AuthState.AUTH_FAILED -> {
-                toast("Login Unsuccessful")
-                passwordEditText.error = "Invalid Password"
+                toast(getString(R.string.toast_login_unsuccessful))
+                passwordEditText.error = getString(R.string.invalidPassword)
             }
             AuthState.AUTH -> {
-                toast("Login Successful")
+                toast(getString(R.string.toast_login_successful))
                 Intent(this, HomeDashBoardActivity::class.java).apply {
                     startActivity(this)
                 }
@@ -113,9 +113,9 @@ class LoginActivity : AppCompatActivity() {
 
         override fun afterTextChanged(editableEmail: Editable?) {
             if (editableEmail.isNullOrEmpty())
-                emailErrorText.text = DisplayErrorMessage.emptyEmail
+                emailErrorText.text = getString(R.string.emptyEmail)
             if (editableEmail!!.length >= 30)
-                emailErrorText.text = DisplayErrorMessage.emailTooLong
+                emailErrorText.text = getString(R.string.emailTooLong)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -129,12 +129,12 @@ class LoginActivity : AppCompatActivity() {
     private val passwordWatcher = object : TextWatcher {
         override fun afterTextChanged(editablePassword: Editable?) {
             if (editablePassword.isNullOrEmpty())
-                passwordErrorText.text = DisplayErrorMessage.emptyPassword
+                passwordErrorText.text = getString(R.string.emptyPassword)
             else {
                 if (editablePassword.length < 5)
-                    passwordErrorText.text = DisplayErrorMessage.shortPasswordLength
+                    passwordErrorText.text = getString(R.string.shortPasswordLength)
                 else
-                    passwordErrorText.text = DisplayErrorMessage.validPasswordLength
+                    passwordErrorText.text = getString(R.string.validPasswordLength)
             }
         }
 
