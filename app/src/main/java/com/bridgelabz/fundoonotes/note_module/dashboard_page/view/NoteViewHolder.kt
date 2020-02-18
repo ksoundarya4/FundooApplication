@@ -21,9 +21,15 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val title: TextView = itemView.findViewById(R.id.text_view_note_title)
     private val description: TextView = itemView.findViewById(R.id.text_view_note_description)
 
-    fun bindNote(note: Note) {
-        title.text = note.tile
+    fun bindNote(
+        note: Note,
+        onItemClickListener: RecyclerClickListener
+    ) {
+        title.text = note.title
         description.text = note.description
+        itemView.setOnClickListener {
+            onItemClickListener.onClick(note)
+        }
     }
 
 }
