@@ -9,9 +9,9 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
-import android.view.View
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 
 interface RecyclerClickListener {
-    fun onClick(view: View, position: Int)
-    fun onLongClick(view: View, position: Int)
+    fun onClick(note: Note)
+    fun onLongClick(note: Note)
 }
