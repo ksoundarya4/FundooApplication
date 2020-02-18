@@ -9,26 +9,45 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
-import android.content.Context
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerTouchListener(
-    private val context: Context,
-    private val recyclerView: RecyclerView,
+//    context: Context,
+//    recyclerView: RecyclerView,
     private val clickListener: RecyclerClickListener
 ) : RecyclerView.OnItemTouchListener {
 
-
-    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+//    private val gestureDetector =
+//        GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+//            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+//                return true
+//            }
+//
+//            override fun onLongPress(e: MotionEvent?) {
+//                val childView = recyclerView.findChildViewUnder(e!!.x, e.y)
+//                if (childView != null)
+//                    clickListener.onClick(
+//                        view = childView,
+//                        position = recyclerView.getChildAdapterPosition(childView)
+//                    )
+//            }
+//        })
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        val childView = rv.findChildViewUnder(e.x, e.y)
+//        if (childView != null && gestureDetector.onTouchEvent(e)) {
+//            clickListener.onClick(
+//                view = childView,
+//                position = rv.getChildAdapterPosition(childView)
+//            )
+//        }
+        return false
+    }
+
+    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
     }
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
