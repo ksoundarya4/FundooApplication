@@ -35,7 +35,7 @@ class NoteDatabaseManagerImpl(
         database = noteDbHelper.open()
 
         val values = ContentValues().apply {
-            put(KEY_TITLE, note.tile)
+            put(KEY_TITLE, note.title)
             put(KEY_DESCRIPTION, note.description)
         }
 
