@@ -62,4 +62,11 @@
     <string name="toast_login_unsuccessful">Login Unsuccessful</string>
     <string name="invalidPassword">Invalid Password</string>
     <string name="toast_login_successful">Login Successful</string>
+    <string name="delete_notes">delete</string>
+    <string name="archive_note">Archive</string>
+    <string name="add_lable">Add Label</string>
+    <string name="add_colour">Add Colour</string>
+    <string name="add_remainder">Add Remainder</string>
+    <string name="menu_notes">Notes</string>
+    <string name="Note">Note</string>
 </resources>
