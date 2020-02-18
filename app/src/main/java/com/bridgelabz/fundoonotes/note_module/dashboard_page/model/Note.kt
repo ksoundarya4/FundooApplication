@@ -9,4 +9,6 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.model
 
-data class Note(val tile: String, val description: String)
+import java.io.Serializable
+
+data class Note(val title: String, val description: String) : Serializable
