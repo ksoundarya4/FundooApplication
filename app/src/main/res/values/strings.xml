@@ -69,4 +69,7 @@
     <string name="add_remainder">Add Remainder</string>
     <string name="menu_notes">Notes</string>
     <string name="title_notes">Notes</string>
+    <string name="grid_view">GridView</string>
+    <string name="list_view">ListView</string>
+    <string name="switch_view">SwitchView</string>
 </resources>
