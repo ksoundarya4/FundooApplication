@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
+import com.bridgelabz.fundoonotes.note_module.note_page.view.DetailNoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
 
@@ -62,7 +64,9 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     }
 
     override fun onClick(adapterPosition: Int) {
-        replaceWithDetailNoteFragment(notes[adapterPosition])
+        sharedViewModel.handleNoteAt(notes[adapterPosition])
+        replaceWithDetailNoteFragment()
+        Log.d("adapterPosition", adapterPosition.toString())
         Toast.makeText(requireActivity(), "onClick", Toast.LENGTH_SHORT).show()
     }
 
@@ -70,7 +74,12 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         Toast.makeText(requireActivity(), "onLongClick", Toast.LENGTH_SHORT).show()
     }
 
-    private fun replaceWithDetailNoteFragment(note: Note) {
+    private fun replaceWithDetailNoteFragment() {
 
+        val detailFragment = DetailNoteFragment()
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, detailFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
