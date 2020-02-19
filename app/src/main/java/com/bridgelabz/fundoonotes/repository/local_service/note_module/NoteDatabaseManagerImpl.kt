@@ -10,6 +10,7 @@
  */
 package com.bridgelabz.fundoonotes.repository.local_service.note_module
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
@@ -95,6 +96,7 @@ class NoteDatabaseManagerImpl(
      * @param note
      * @return row id
      */
+    @SuppressLint("Recycle")
     override fun fetchNoteId(note: Note): Long {
         var rowId = 0L
         database = noteDbHelper.readableDatabase
@@ -122,6 +124,23 @@ class NoteDatabaseManagerImpl(
             )
                 rowId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)).toLong()
         }
+        database.close()
         return rowId
+    }
+
+    override fun updateNote(rowId: Long, note: Note) {
+        database = noteDbHelper.open()
+
+        val values = ContentValues().apply {
+            put(KEY_TITLE, note.title)
+            put(KEY_DESCRIPTION, note.description)
+        }
+        database.update(
+            TABLE_NOTE,
+            values,
+            BaseColumns._ID + "=" + rowId,
+            null
+        )
+        database.close()
     }
 }
