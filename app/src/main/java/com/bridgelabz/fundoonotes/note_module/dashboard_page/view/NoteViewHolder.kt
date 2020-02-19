@@ -22,14 +22,23 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val description: TextView = itemView.findViewById(R.id.text_view_note_description)
 
     fun bindNote(
-        note: Note,
-        onItemClickListener: RecyclerClickListener
+        note: Note
     ) {
         title.text = note.title
         description.text = note.description
+    }
+
+    fun onNoteCLickListener(onNoteClick: OnNoteClickListener, adapterPosition: Int) {
         itemView.setOnClickListener {
-            onItemClickListener.onClick(note)
+            onNoteClick.onClick(adapterPosition)
+        }
+        itemView.setOnLongClickListener {
+            onLongClick(onNoteClick, adapterPosition)
         }
     }
 
+    private fun onLongClick(onNoteClick: OnNoteClickListener, adapterPosition: Int): Boolean {
+        onNoteClick.onLongClick(adapterPosition)
+        return true
+    }
 }
