@@ -17,11 +17,9 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 
 class NoteViewAdapter(
     private var notes: ArrayList<Note>,
-    private val onItemClickListener: RecyclerClickListener
+    private val onItemClickListener: OnNoteClickListener
 ) :
     RecyclerView.Adapter<NoteViewHolder>() {
-
-//    private var selectedItemsIds = SparseBooleanArray()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView =
@@ -35,42 +33,12 @@ class NoteViewAdapter(
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes[position]
-        holder.bindNote(note, onItemClickListener)
+        holder.bindNote(note)
+        holder.onNoteCLickListener(onItemClickListener,position)
     }
 
     /**Set array of notes*/
     fun setListOfNotes(notes: ArrayList<Note>) {
         this.notes = notes
     }
-//
-//    /**Toggle selection function*/
-//    fun toggleSelection(position: Int) {
-//        selectView(position = position, value = !selectedItemsIds.get(position))
-//    }
-//
-//    /**Remove selected selection */
-//    fun removeSelection() {
-//        selectedItemsIds = SparseBooleanArray()
-//        notifyDataSetChanged()
-//    }
-//
-//    /**Put or delete selected item view position
-//     * into SparseBooleanArray*/
-//    private fun selectView(position: Int, value: Boolean) {
-//        if (value)
-//            selectedItemsIds.put(position, value)
-//        else
-//            selectedItemsIds.delete(position)
-//        notifyDataSetChanged()
-//    }
-//
-//    /**Get total selected item view count*/
-//    fun getSelectedItemCount(): Int {
-//        return selectedItemsIds.size()
-//    }
-//
-//    /**Return all selected item view ids*/
-//    fun getSelectedItem(): SparseBooleanArray {
-//        return selectedItemsIds
-//    }
 }
