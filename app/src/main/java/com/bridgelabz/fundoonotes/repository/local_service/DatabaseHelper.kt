@@ -19,7 +19,7 @@ private const val CREATE_USER_TABLE =
             "${DatabaseHelper.UserRegistrationContract.UserEntry.KEY_PHONE_NUMBER} CHAR(20))"
 
 private const val CREATE_NOTE_TABLE =
-    " Create Table If Not Exists $TABLE_NOTE ( " +
+    " Create Table $TABLE_NOTE ( " +
             "${BaseColumns._ID} INTEGER PRIMARY KEY, " +
             "${DatabaseHelper.NoteRegistrationContract.NoteEntry.KEY_TITLE} TEXT NOT NULL, " +
             "${DatabaseHelper.NoteRegistrationContract.NoteEntry.KEY_DESCRIPTION} TEXT NOT NULL)"
@@ -44,10 +44,10 @@ class DatabaseHelper(context: Context) :
 
     /**Function to upgrade the existing user database*/
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (DATABASE_VERSION > VERSION_ONE) {
+        if (DATABASE_VERSION < VERSION_TWO) {
             db.execSQL(CREATE_NOTE_TABLE)
         }
-        if (DATABASE_VERSION > VERSION_TWO) {
+        if (DATABASE_VERSION < VERSION_THREE) {
             db.execSQL(CREATE_USER_NOTE_TABLE)
         }
     }
@@ -66,7 +66,7 @@ class DatabaseHelper(context: Context) :
         const val VERSION_ONE = 1
         const val VERSION_TWO = 2
         const val VERSION_THREE = 3
-        const val DATABASE_VERSION = VERSION_THREE
+        const val DATABASE_VERSION = VERSION_ONE
         const val DATABASE_NAME = "App.db"
     }
 
