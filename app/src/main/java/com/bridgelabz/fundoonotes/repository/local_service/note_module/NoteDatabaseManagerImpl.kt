@@ -49,7 +49,7 @@ class NoteDatabaseManagerImpl(
      *
      * @return List of Notes.
      */
-    override fun fetch(): ArrayList<Note> {
+    override fun fetchNotes(): ArrayList<Note> {
         val notes = ArrayList<Note>()
         database = noteDbHelper.readableDatabase
 
@@ -69,8 +69,9 @@ class NoteDatabaseManagerImpl(
         )
         cursor.moveToFirst()
         do {
-
-            notes.add(Note(cursor.getString(1), cursor.getString(2)))
+            val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+            val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+            notes.add(Note(title, description))
         } while (cursor.moveToNext())
         cursor.close()
         database.close()
@@ -87,5 +88,40 @@ class NoteDatabaseManagerImpl(
         val whereClause = "${BaseColumns._ID} = $_id"
         database.delete(TABLE_NOTE, whereClause, null)
         database.close()
+    }
+
+    /**Function to fetch row id of note
+     *
+     * @param note
+     * @return row id
+     */
+    override fun fetchNoteId(note: Note): Long {
+        var rowId = 0L
+        database = noteDbHelper.readableDatabase
+
+        val columns = arrayOf(
+            BaseColumns._ID,
+            KEY_TITLE,
+            KEY_DESCRIPTION
+        )
+
+        val selection = "$KEY_TITLE=?"
+        val selectionArgs = arrayOf(note.title)
+        val cursor = database.query(
+            TABLE_NOTE,
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        if (cursor != null && cursor.moveToNext() && cursor.count > 0) {
+            if (note.title == cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                && note.description == cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+            )
+                rowId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)).toLong()
+        }
+        return rowId
     }
 }

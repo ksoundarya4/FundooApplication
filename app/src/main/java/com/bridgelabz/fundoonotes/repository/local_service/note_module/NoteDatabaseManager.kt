@@ -13,6 +13,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 
 interface NoteDatabaseManager {
     fun insert(note: Note): Long
-    fun fetch(): ArrayList<Note>
-    fun delete(_id : Long)
+    fun fetchNotes(): ArrayList<Note>
+    fun delete(_id: Long)
+    fun fetchNoteId(note: Note): Long
 }
