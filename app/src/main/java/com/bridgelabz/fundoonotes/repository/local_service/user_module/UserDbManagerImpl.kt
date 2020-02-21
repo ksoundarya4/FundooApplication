@@ -16,19 +16,33 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import android.util.Log
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_DOB
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_EMAIL
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_FIRSTNAME
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_LASTNAME
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_PASSWORD
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.KEY_PHONE_NUMBER
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserRegistrationContract.UserEntry.TABLE_USER
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
 class UserDbManagerImpl(
     private val databaseHelper: DatabaseHelper
 ) : UserDatabaseManager {
+
+    companion object UserEntry : BaseColumns {
+        private const val TABLE_USER = "UserEntry"
+        private const val KEY_FIRSTNAME = "FirstName"
+        private const val KEY_LASTNAME = "LastName"
+        private const val KEY_DOB = "DateOfBirth"
+        private const val KEY_EMAIL = "Email"
+        private const val KEY_PASSWORD = "Password"
+        private const val KEY_PHONE_NUMBER = "PhoneNumber"
+
+        const val CREATE_USER_TABLE =
+            " Create Table $TABLE_USER (" +
+                    "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                    "$KEY_FIRSTNAME CHAR(15)," +
+                    "$KEY_LASTNAME CHAR(15)," +
+                    "$KEY_DOB CHAR(10)," +
+                    "$KEY_EMAIL VARCHAR(200)," +
+                    "$KEY_PASSWORD VARCHAR(20)," +
+
+                    "$KEY_PHONE_NUMBER CHAR(20))"
+    }
 
     private lateinit var database: SQLiteDatabase
 
@@ -259,12 +273,12 @@ class UserDbManagerImpl(
         )
         //if cursor has value then in user database there is user associated with this given email so return true
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            val rowId = cursor.getString(0).toLong()
-            val firstName = cursor.getString(1)
-            val lastName = cursor.getString(2)
-            val dateOfBirth = cursor.getString(3)
-            val userEmail = cursor.getString(4)
-            val phoneNumber = cursor.getString(6)
+            val rowId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
+            val firstName = cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME))
+            val lastName = cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
+            val dateOfBirth = cursor.getString(cursor.getColumnIndex(KEY_DOB))
+            val userEmail = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
+            val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
             val user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
             Log.d("userInfo", user.toString())
             update(rowId, user)
