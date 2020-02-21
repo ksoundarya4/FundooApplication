@@ -61,7 +61,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     }
 
     private fun getNoteArgument() {
-        if(arguments != null){
+        if (arguments != null) {
             note = arguments!!.get(getString(R.string.note)) as Note
             title.setText(note.title)
             description.setText(note.description)
@@ -101,16 +101,32 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         description = view.findViewById(R.id.edit_text_description)
     }
 
-    private fun setClickListener(note: Note) {
-        viewModel.onSaveButtonClick(note)
+    override fun onBackPressed() {
+        if (::note.isInitialized) {
+            updateNote(note)
+        } else {
+            insertNote()
+        }
     }
 
-    override fun onBackPressed() {
+    private fun insertNote() {
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
             note = Note(noteTitle, noteDescription)
-            setClickListener(note)
+            viewModel.insertNoteOnCLick(note)
+        } else {
+            Toast.makeText(requireContext(), "Empty note discarded", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun updateNote(note: Note) {
+        viewModel.handleNoteAt(note)
+        val noteTitle = title.editableText.toString()
+        val noteDescription = description.editableText.toString()
+        if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+            this.note = Note(noteTitle, noteDescription)
+            viewModel.updateNoteOnClick(this.note)
         } else {
             Toast.makeText(requireContext(), "Empty note discarded", Toast.LENGTH_LONG).show()
         }
