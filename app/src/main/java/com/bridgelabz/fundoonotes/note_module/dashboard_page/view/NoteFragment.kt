@@ -16,6 +16,7 @@ import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
+import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.note_module.note_page.view.DetailNoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
@@ -64,22 +65,20 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     }
 
     override fun onClick(adapterPosition: Int) {
-        sharedViewModel.handleNoteAt(notes[adapterPosition])
-        replaceWithDetailNoteFragment()
-        Log.d("adapterPosition", adapterPosition.toString())
-        Toast.makeText(requireActivity(), "onClick", Toast.LENGTH_SHORT).show()
+        val note = notes[adapterPosition]
+        val bundle = Bundle()
+        bundle.putSerializable(getString(R.string.note), note)
+        replaceWithAddNoteFragment(bundle)
     }
 
     override fun onLongClick(adapterPosition: Int) {
         Toast.makeText(requireActivity(), "onLongClick", Toast.LENGTH_SHORT).show()
     }
 
-    private fun replaceWithDetailNoteFragment() {
-
-        val detailFragment = DetailNoteFragment()
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, detailFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+    private fun replaceWithAddNoteFragment(bundle: Bundle) {
+        val addNoteFragment = AddNoteFragment()
+        addNoteFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, addNoteFragment).addToBackStack(null).commit()
     }
 }
