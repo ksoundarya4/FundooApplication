@@ -54,9 +54,18 @@ class AddNoteFragment : Fragment(), OnBackPressed {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getNoteArgument()
         hideActivityToolbar()
         setUpFragmentToolbar()
         hideBottomAppbar()
+    }
+
+    private fun getNoteArgument() {
+        if(arguments != null){
+            note = arguments!!.get(getString(R.string.note)) as Note
+            title.setText(note.title)
+            description.setText(note.description)
+        }
     }
 
     private fun setUpFragmentToolbar() {
