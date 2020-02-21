@@ -16,13 +16,22 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.NoteRegistrationContract.NoteEntry.KEY_DESCRIPTION
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.NoteRegistrationContract.NoteEntry.KEY_TITLE
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.NoteRegistrationContract.NoteEntry.TABLE_NOTE
 
 class NoteDatabaseManagerImpl(
     private val noteDbHelper: DatabaseHelper
 ) : NoteDatabaseManager {
+
+    companion object NoteEntry : BaseColumns {
+        private const val TABLE_NOTE = "Notes"
+        private const val KEY_TITLE = "Title"
+        private const val KEY_DESCRIPTION = "Description"
+        val CREATE_NOTE_TABLE =
+            " Create Table $TABLE_NOTE ( " +
+                    "${BaseColumns._ID} INTEGER PRIMARY KEY, " +
+                    "$KEY_TITLE TEXT NOT NULL, " +
+                    "$KEY_DESCRIPTION TEXT NOT NULL)"
+
+    }
 
     private lateinit var database: SQLiteDatabase
 
