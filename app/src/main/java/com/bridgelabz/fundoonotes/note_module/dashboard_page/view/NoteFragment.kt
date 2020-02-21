@@ -33,7 +33,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
-    private val noteAdapter = NoteViewAdapter(ArrayList<Note>(), this)
+    private val noteAdapter = NoteViewAdapter(ArrayList(), this)
 
     private lateinit var notes: ArrayList<Note>
     private var recycleViewIsLinearLayout = false
@@ -86,7 +86,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     }
 
-    val actionModeCallBack: ActionMode.Callback = object : ActionMode.Callback {
+    private val actionModeCallBack: ActionMode.Callback = object : ActionMode.Callback {
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             return false
         }
@@ -111,13 +111,13 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.app_bar_recycler_view -> {
                 switchIcon(item)
                 switchRecyclerViewLayout()
-                return true
+                true
             }
-            else -> return false
+            else -> false
         }
     }
 
