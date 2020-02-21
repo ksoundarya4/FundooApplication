@@ -10,10 +10,9 @@ import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatab
 class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewModel() {
 
     private val notesLiveData = MutableLiveData<ArrayList<Note>>()
-    private val noteLiveData = MutableLiveData<Note>()
     private var rowId: Long? = null
 
-    fun onSaveButtonClick(note: Note) {
+    fun insertNoteOnCLick(note: Note) {
         noteDbManager.insert(note)
     }
 
@@ -27,13 +26,8 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
     }
 
     fun handleNoteAt(note: Note) {
-        noteLiveData.value = note
         rowId = noteDbManager.fetchNoteId(note)
         Log.d("note", note.toString())
-    }
-
-    fun getLiveNote(): LiveData<Note> {
-        return noteLiveData
     }
 
     fun updateNoteOnClick(note: Note) {
