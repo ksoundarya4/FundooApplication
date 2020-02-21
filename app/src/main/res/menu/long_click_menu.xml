@@ -4,35 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/archive_note"
-        android:title="@string/archive_note" />
+        android:title="@string/archive_note"
+        app:showAsAction="never" />
     <item
         android:id="@+id/delete_note"
-        android:title="@string/delete_notes" />
+        android:title="@string/delete_notes"
+        app:showAsAction="never" />
     <item
         android:id="@+id/copy_note"
-        android:title="@string/copy_notes" />
+        android:title="@string/copy_notes"
+        app:showAsAction="never" />
     <item
         android:id="@+id/send_note"
-        android:title="@string/send_notes" />
+        android:title="@string/send_notes"
+        app:showAsAction="never" />
     <item
         android:id="@+id/pinned_note"
         android:title="@string/pin_button"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/add_reminder"
         android:icon="@drawable/ic_add_alert_black_24dp"
         android:title="@string/add_reminder"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/change_colour"
         android:icon="@drawable/ic_palette_black_24dp"
         android:title="@string/change_colour"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/add_label"
         android:icon="@drawable/ic_label_outline_black_24dp"
         android:title="@string/add_label"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>
