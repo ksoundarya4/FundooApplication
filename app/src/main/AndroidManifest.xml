@@ -14,7 +14,6 @@
             android:parentActivityName=".user_module.login.view.LoginActivity" />
         <activity
             android:name=".note_module.dashboard_page.view.HomeDashBoardActivity"
-            android:label="@string/title_activity_home_dash_board"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user_module.launch_module.LaunchScreenActivity"
