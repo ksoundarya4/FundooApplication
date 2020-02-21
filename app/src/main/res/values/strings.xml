@@ -73,4 +73,10 @@
     <string name="list_view">ListView</string>
     <string name="switch_view">SwitchView</string>
     <string name="note">Note</string>
+    <string name="copy_notes">Make a copy</string>
+    <string name="send_notes">Send</string>
+    <string name="add_label">Add label</string>
+    <string name="change_colour">Change colour</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="pin_button">Pin button</string>
 </resources>
