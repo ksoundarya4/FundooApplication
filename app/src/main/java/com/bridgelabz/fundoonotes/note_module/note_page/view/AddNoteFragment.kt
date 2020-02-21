@@ -1,9 +1,7 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -69,7 +67,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     }
 
     private fun setUpFragmentToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -112,7 +110,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     private fun insertNote() {
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
-        if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+        if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
             note = Note(noteTitle, noteDescription)
             viewModel.insertNoteOnCLick(note)
         } else {
@@ -124,7 +122,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         viewModel.handleNoteAt(note)
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
-        if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+        if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
             this.note = Note(noteTitle, noteDescription)
             viewModel.updateNoteOnClick(this.note)
         } else {
