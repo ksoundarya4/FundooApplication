@@ -25,12 +25,12 @@
 
     <item
         android:id="@+id/add_reminder"
-        android:icon="@drawable/ic_add_alert_black_24dp"
+        android:icon="@drawable/ic_add_alert_white"
         android:title="@string/add_reminder"
         app:showAsAction="always" />
     <item
         android:id="@+id/change_colour"
-        android:icon="@drawable/ic_palette_black_24dp"
+        android:icon="@drawable/ic_colour_palette"
         android:title="@string/change_colour"
         app:showAsAction="always" />
     <item
