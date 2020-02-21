@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_note_menu_pin_button"
+        android:title="@string/pin_button"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/add_note_menu_reminder"
+        android:icon="@drawable/ic_add_alert_grey"
+        android:title="@string/add_remainder"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/add_note_menu_archive_note"
+        android:icon="@drawable/ic_archive"
+        android:title="@string/archive_note"
+        app:showAsAction="always" />
+</menu>
