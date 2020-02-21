@@ -2,10 +2,9 @@ package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.LinearRecyclerViewManager
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewLayoutManager
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.StaggeredRecyclerViewtManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
@@ -34,12 +36,15 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private val noteAdapter = NoteViewAdapter(ArrayList<Note>(), this)
 
     private lateinit var notes: ArrayList<Note>
+    private var recycleViewIsLinearLayout = false
+    private var viewChanged = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
 
@@ -70,7 +75,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     }
 
     override fun onLongClick(adapterPosition: Int) {
-        Toast.makeText(requireActivity(), "onLongClick", Toast.LENGTH_SHORT).show()
+        (requireActivity() as AppCompatActivity).startSupportActionMode(actionModeCallBack)
     }
 
     private fun replaceWithAddNoteFragment(bundle: Bundle) {
@@ -78,5 +83,70 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         addNoteFragment.arguments = bundle
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, addNoteFragment).addToBackStack(null).commit()
+
+    }
+
+    val actionModeCallBack: ActionMode.Callback = object : ActionMode.Callback {
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            return false
+        }
+
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            mode!!.menuInflater.inflate(R.menu.long_click_menu, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
+            getString(R.string.menu_notes)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.app_bar_recycler_view -> {
+                switchIcon(item)
+                switchRecyclerViewLayout()
+                return true
+            }
+            else -> return false
+        }
+    }
+
+    private fun switchRecyclerViewLayout() {
+        val recyclerViewLayout = RecyclerViewLayoutManager()
+        recyclerViewLayout.addRecyclerView(recyclerView)
+        val numberOfRows = 2
+        val orientation = 1
+        if (viewChanged) {
+            recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
+                StaggeredRecyclerViewtManager(
+                    numberOfRows,
+                    orientation
+                )
+            )
+        } else {
+            recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
+                LinearRecyclerViewManager(requireContext())
+            )
+        }
+        viewChanged = !viewChanged
+    }
+
+    private fun switchIcon(item: MenuItem) {
+        if (recycleViewIsLinearLayout) {
+            item.setIcon(R.drawable.ic_view_module_black_24dp)
+        } else {
+            item.setIcon(R.drawable.ic_view_stream_black_24dp)
+        }
+        recycleViewIsLinearLayout = !recycleViewIsLinearLayout
     }
 }
