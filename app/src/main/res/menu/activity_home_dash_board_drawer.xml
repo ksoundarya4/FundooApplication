@@ -3,14 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group_home_reminder"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_lightbulb_outline_black_24dp"
+            android:icon="@drawable/ic_lightbulb_outline_grey"
             android:title="@string/menu_notes" />
         <item
-            android:id="@+id/nav_sing_out"
-            android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="@string/sign_out" />
+            android:id="@+id/nav_reminder"
+            android:icon="@drawable/ic_add_alert_grey"
+            android:title="@string/reminders" />
+
     </group>
+    <group
+        android:id="@+id/group_labels"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_label"
+            android:icon="@drawable/ic_add_grey"
+            android:title="@string/create_new_label" />
+    </group>
+    <group
+        android:id="@+id/group_archive_delete"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_archive"
+            android:icon="@drawable/ic_archive"
+            android:title="@string/archive_note" />
+        <item
+            android:id="@+id/nav_delete"
+            android:icon="@drawable/ic_delete"
+            android:title="@string/delete_notes" />
+    </group>
+    <item
+        android:id="@+id/nav_sing_out"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/sign_out" />
 </menu>
