@@ -12,14 +12,20 @@
     <!--            android:title="@string/sign_out"-->
     <!--            app:showAsAction="never" />-->
     <item
+        android:icon="@drawable/ic_search_grey"
+        android:id="@+id/app_bar_search_note"
+        android:title="@string/search_note"
+        app:showAsAction="always"/>
+<!--        app:actionViewClass="androidx.appcompat.widget.SearchView$SearchAutoComplete" />-->
+    <item
         android:id="@+id/app_bar_recycler_view"
-        android:icon="@drawable/ic_view_module_black_24dp"
+        android:icon="@drawable/ic_grid_view_white"
         android:title="@string/switch_view"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/app_bar_user_info"
-        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:icon="@drawable/ic_account_white"
         android:title="@string/user_info"
         app:showAsAction="always" />
 
