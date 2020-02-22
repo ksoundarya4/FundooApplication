@@ -79,4 +79,8 @@
     <string name="change_colour">Change colour</string>
     <string name="add_reminder">Add reminder</string>
     <string name="pin_button">Pin button</string>
+    <string name="create_new_label">Create new label</string>
+    <string name="search_note">Search notes</string>
+    <string name="reminders">Reminders</string>
+    <string name="search_hint">Search your note</string>
 </resources>
