@@ -24,7 +24,7 @@ class NoteViewModel : ViewModel() {
             fetchNotes()
     }
     private fun fetchNotes(){
-        noteLiveData.value = noteDbManager.fetch() as ArrayList<Note>
+        noteLiveData.value = noteDbManager.fetchNotes()
     }
 
     fun getNoteLiveData() : LiveData<ArrayList<Note>>{
