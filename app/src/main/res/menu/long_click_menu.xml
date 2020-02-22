@@ -35,7 +35,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/add_label"
-        android:icon="@drawable/ic_label_outline_black_24dp"
+        android:icon="@drawable/ic_label_outline_white"
         android:title="@string/add_label"
         app:showAsAction="always" />
 
