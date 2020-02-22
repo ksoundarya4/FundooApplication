@@ -62,7 +62,7 @@
     <string name="toast_login_unsuccessful">Login Unsuccessful</string>
     <string name="invalidPassword">Invalid Password</string>
     <string name="toast_login_successful">Login Successful</string>
-    <string name="delete_notes">delete</string>
+    <string name="delete_notes">Delete</string>
     <string name="archive_note">Archive</string>
     <string name="add_lable">Add Label</string>
     <string name="add_colour">Add Colour</string>
@@ -83,4 +83,8 @@
     <string name="search_note">Search notes</string>
     <string name="reminders">Reminders</string>
     <string name="search_hint">Search your note</string>
+    <string name="new_photo_note">New photo note</string>
+    <string name="new_voice_note">New voice note</string>
+    <string name="new_drawing_note">New drawing note</string>
+    <string name="new_list">New list</string>
 </resources>
