@@ -50,15 +50,15 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initRecyclerView()
         sharedViewModel.getNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
         sharedViewModel.getRecyclerViewType()
             .observe(requireActivity(), Observer { recyclerViewType = it })
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
-        switchRecyclerViewType(recyclerViewType)
+        recyclerView.layoutManager = setRecyclerViewType(recyclerViewType)
         recyclerView.adapter = noteAdapter
     }
 
@@ -115,7 +115,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.app_bar_recycler_view -> {
-                switchRecyclerViewType(recyclerViewType)
+                switchRecyclerViewType()
                 switchIcon(item)
                 true
             }
@@ -132,27 +132,35 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         }
     }
 
-    fun switchRecyclerViewType(recyclerViewType: RecyclerViewType) {
-        val recyclerViewLayout = RecyclerViewLayoutManager()
-        recyclerViewLayout.addRecyclerView(recyclerView)
+    private fun switchRecyclerViewType() {
 
         when (recyclerViewType) {
             RecyclerViewType.GridView -> {
-                recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
-                    LinearRecyclerViewManager(requireContext())
-                )
                 sharedViewModel.setRecyclerViewType(RecyclerViewType.ListView)
+                recyclerView.layoutManager = setRecyclerViewType(recyclerViewType)
             }
-            else -> {
-                val numberOfRows = 2
-                val orientation = 1
-                recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
+            RecyclerViewType.ListView -> {
+                sharedViewModel.setRecyclerViewType(RecyclerViewType.GridView)
+                recyclerView.layoutManager = setRecyclerViewType(recyclerViewType)
+            }
+        }
+    }
+
+    private fun setRecyclerViewType(viewType: RecyclerViewType): RecyclerView.LayoutManager {
+        val layoutManager = RecyclerViewLayoutManager()
+        layoutManager.addRecyclerView(recyclerView)
+
+        return when (viewType) {
+            RecyclerViewType.ListView -> {
+                layoutManager.setRecyclerView(LinearRecyclerViewManager(requireContext()))
+            }
+            RecyclerViewType.GridView -> {
+                layoutManager.setRecyclerView(
                     StaggeredRecyclerViewtManager(
-                        numberOfRows,
-                        orientation
+                        numberOfRows = 2,
+                        orientation = 1
                     )
                 )
-                sharedViewModel.setRecyclerViewType(RecyclerViewType.GridView)
             }
         }
     }
