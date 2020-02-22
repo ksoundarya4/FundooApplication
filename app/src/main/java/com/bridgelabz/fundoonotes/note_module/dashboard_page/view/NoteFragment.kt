@@ -8,10 +8,10 @@ import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.LinearRecyclerViewManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewLayoutManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.StaggeredRecyclerViewtManager
@@ -36,8 +36,8 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private val noteAdapter = NoteViewAdapter(ArrayList(), this)
 
     private lateinit var notes: ArrayList<Note>
-    private var recycleViewIsLinearLayout = false
-    private var viewChanged = true
+
+    private var recyclerViewType = RecyclerViewType.ListView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,11 +52,13 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         super.onActivityCreated(savedInstanceState)
         initRecyclerView()
         sharedViewModel.getNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
+        sharedViewModel.getRecyclerViewType()
+            .observe(requireActivity(), Observer { recyclerViewType = it })
     }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        switchRecyclerViewType(recyclerViewType)
         recyclerView.adapter = noteAdapter
     }
 
@@ -113,40 +115,45 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.app_bar_recycler_view -> {
+                switchRecyclerViewType(recyclerViewType)
                 switchIcon(item)
-                switchRecyclerViewLayout()
                 true
             }
             else -> false
         }
     }
 
-    private fun switchRecyclerViewLayout() {
-        val recyclerViewLayout = RecyclerViewLayoutManager()
-        recyclerViewLayout.addRecyclerView(recyclerView)
-        val numberOfRows = 2
-        val orientation = 1
-        if (viewChanged) {
-            recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
-                StaggeredRecyclerViewtManager(
-                    numberOfRows,
-                    orientation
-                )
-            )
-        } else {
-            recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
-                LinearRecyclerViewManager(requireContext())
-            )
+    private fun switchIcon(item: MenuItem) {
+
+        if (recyclerViewType == RecyclerViewType.ListView)
+            item.setIcon(R.drawable.ic_grid_view_white)
+        else {
+            item.setIcon(R.drawable.ic_list_view_white)
         }
-        viewChanged = !viewChanged
     }
 
-    private fun switchIcon(item: MenuItem) {
-        if (recycleViewIsLinearLayout) {
-            item.setIcon(R.drawable.ic_view_module_black_24dp)
-        } else {
-            item.setIcon(R.drawable.ic_view_stream_black_24dp)
+    fun switchRecyclerViewType(recyclerViewType: RecyclerViewType) {
+        val recyclerViewLayout = RecyclerViewLayoutManager()
+        recyclerViewLayout.addRecyclerView(recyclerView)
+
+        when (recyclerViewType) {
+            RecyclerViewType.GridView -> {
+                recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
+                    LinearRecyclerViewManager(requireContext())
+                )
+                sharedViewModel.setRecyclerViewType(RecyclerViewType.ListView)
+            }
+            else -> {
+                val numberOfRows = 2
+                val orientation = 1
+                recyclerView.layoutManager = recyclerViewLayout.setRecyclerView(
+                    StaggeredRecyclerViewtManager(
+                        numberOfRows,
+                        orientation
+                    )
+                )
+                sharedViewModel.setRecyclerViewType(RecyclerViewType.GridView)
+            }
         }
-        recycleViewIsLinearLayout = !recycleViewIsLinearLayout
     }
 }
