@@ -29,7 +29,7 @@
         android:background="@color/AccentColor"
         app:backgroundTint="@color/AccentColor"
         app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        app:srcCompat="@drawable/ic_add_grey" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
@@ -41,9 +41,9 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/bottom_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/bottom_app_bar_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
