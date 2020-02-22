@@ -14,7 +14,12 @@
             android:parentActivityName=".user_module.login.view.LoginActivity" />
         <activity
             android:name=".note_module.dashboard_page.view.HomeDashBoardActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
         <activity
             android:name=".user_module.launch_module.LaunchScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
