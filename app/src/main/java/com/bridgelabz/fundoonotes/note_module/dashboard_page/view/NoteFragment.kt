@@ -52,7 +52,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         super.onActivityCreated(savedInstanceState)
         sharedViewModel.getNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
         sharedViewModel.getRecyclerViewType()
-            .observe(requireActivity(), Observer { recyclerViewType = it })
+            .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
         initRecyclerView()
     }
 
