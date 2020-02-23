@@ -21,15 +21,30 @@ class NoteDatabaseManagerImpl(
     private val noteDbHelper: DatabaseHelper
 ) : NoteDatabaseManager {
 
-    companion object NoteEntry : BaseColumns {
+    companion object NoteEntry  {
         private const val TABLE_NOTE = "Notes"
+        private const val NOTE_ID = "ID"
         private const val KEY_TITLE = "Title"
         private const val KEY_DESCRIPTION = "Description"
+        private const val KEY_ARCHIVE = "Archive"
+        private const val KEY_DELETE = "Delete"
+        private const val KEY_PINNED = "Pinned"
+        private const val KEY_LABEL = "Label"
+        private const val KEY_REMINDER = "Reminder"
+        private const val KEY_POSITION = "Position"
+        private const val KEY_COLOUR = "Colour"
         val CREATE_NOTE_TABLE =
             " Create Table $TABLE_NOTE ( " +
-                    "${BaseColumns._ID} INTEGER PRIMARY KEY, " +
+                    "$NOTE_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "$KEY_TITLE TEXT NOT NULL, " +
-                    "$KEY_DESCRIPTION TEXT NOT NULL)"
+                    "$KEY_DESCRIPTION TEXT NOT NULL" +
+                    " $KEY_ARCHIVE INTEGER" +
+                    " $KEY_DELETE INTEGER" +
+                    " $KEY_PINNED INTEGER " +
+                    "$KEY_LABEL VARCHAR(20)" +
+                    " $KEY_REMINDER VARCHAR(20) " +
+                    "$KEY_POSITION INTEGER" +
+                    " $KEY_COLOUR INTEGER)"
 
     }
 
