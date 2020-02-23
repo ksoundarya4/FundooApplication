@@ -10,10 +10,8 @@
  */
 package com.bridgelabz.fundoonotes.repository.local_service.note_module
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import android.provider.BaseColumns
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 
@@ -139,27 +137,35 @@ class NoteDatabaseManagerImpl(
     /**
      * Function to delete Note with particular id.
      *
-     * @param  id of row from where note has to be deleted from.
+     * @param  _id of row from where note has to be deleted from.
      */
-    override fun delete(id: Long) {
+    override fun delete(_id: Long) {
         database = noteDbHelper.open()
-        val whereClause = "ID = $id"
+        val whereClause = "ID = $_id"
         database.delete(TABLE_NOTE, whereClause, null)
         database.close()
     }
 
-    override fun updateNote(rowId: Long, note: Note) {
+    override fun updateNote(note: Note) {
         database = noteDbHelper.open()
 
         val values = ContentValues().apply {
             put(KEY_TITLE, note.title)
             put(KEY_DESCRIPTION, note.description)
+            put(KEY_ARCHIVE, note.isArchived)
+            put(KEY_DELETE, note.isDeleted)
+            put(KEY_PINNED, note.isPinned)
+            put(KEY_LABEL, note.label)
+            put(KEY_REMINDER, note.reminder)
+            put(KEY_POSITION, note.position)
+            put(KEY_COLOUR, note.colour)
         }
+        val argsClause = arrayOf(note.id!!.toString())
         database.update(
             TABLE_NOTE,
             values,
-            BaseColumns._ID + "=" + rowId,
-            null
+            "$NOTE_ID = ${note.id}",
+            argsClause
         )
         database.close()
     }
