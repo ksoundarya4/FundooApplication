@@ -8,7 +8,6 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,6 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
 
     private val notesLiveData = MutableLiveData<ArrayList<Note>>()
     private val recyclerViewTypeLiveData = MutableLiveData<RecyclerViewType>()
-    private var rowId: Long? = null
 
     fun insertNoteOnCLick(note: Note) {
         noteDbManager.insert(note)
@@ -35,13 +33,8 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
         return notesLiveData
     }
 
-    fun handleNoteAt(note: Note) {
-        rowId = noteDbManager.fetchNoteId(note)
-        Log.d("note", note.toString())
-    }
-
     fun updateNoteOnClick(note: Note) {
-        noteDbManager.updateNote(rowId!!, note)
+        noteDbManager.updateNote(note)
     }
 
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
