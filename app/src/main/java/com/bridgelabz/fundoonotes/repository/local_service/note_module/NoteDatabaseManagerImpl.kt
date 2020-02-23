@@ -25,7 +25,7 @@ class NoteDatabaseManagerImpl(
         private const val KEY_TITLE = "Title"
         private const val KEY_DESCRIPTION = "Description"
         private const val KEY_ARCHIVE = "Archive"
-        private const val KEY_DELETE = "Delete"
+        private const val KEY_DELETE = "[Delete]"
         private const val KEY_PINNED = "Pinned"
         private const val KEY_LABEL = "Label"
         private const val KEY_REMINDER = "Reminder"
@@ -33,16 +33,16 @@ class NoteDatabaseManagerImpl(
         private const val KEY_COLOUR = "Colour"
         const val CREATE_NOTE_TABLE =
             " Create Table $TABLE_NOTE ( " +
-                    "$NOTE_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "$NOTE_ID INTEGER PRIMARY KEY, " +
                     "$KEY_TITLE TEXT NOT NULL, " +
-                    "$KEY_DESCRIPTION TEXT NOT NULL" +
-                    " $KEY_ARCHIVE INTEGER" +
-                    " $KEY_DELETE INTEGER" +
-                    " $KEY_PINNED INTEGER " +
-                    "$KEY_LABEL VARCHAR(20)" +
-                    " $KEY_REMINDER VARCHAR(20) " +
-                    "$KEY_POSITION INTEGER" +
-                    " $KEY_COLOUR INTEGER)"
+                    "$KEY_DESCRIPTION TEXT NOT NULL, " +
+                    "$KEY_ARCHIVE INTEGER, " +
+                    "$KEY_DELETE INTEGER, " +
+                    "$KEY_PINNED INTEGER, " +
+                    "$KEY_LABEL VARCHAR(20), " +
+                    "$KEY_REMINDER VARCHAR(20), " +
+                    "$KEY_POSITION INTEGER, " +
+                    "$KEY_COLOUR INTEGER )"
 
     }
 
@@ -111,7 +111,7 @@ class NoteDatabaseManagerImpl(
             val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
             val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
             val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_DELETE))
-            val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+            val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
             val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
             val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
             val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
@@ -160,12 +160,11 @@ class NoteDatabaseManagerImpl(
             put(KEY_POSITION, note.position)
             put(KEY_COLOUR, note.colour)
         }
-        val argsClause = arrayOf(note.id!!.toString())
         database.update(
             TABLE_NOTE,
             values,
             "$NOTE_ID = ${note.id}",
-            argsClause
+            null
         )
         database.close()
     }
