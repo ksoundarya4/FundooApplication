@@ -119,7 +119,6 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     }
 
     private fun updateNote(note: Note) {
-        viewModel.handleNoteAt(note)
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
