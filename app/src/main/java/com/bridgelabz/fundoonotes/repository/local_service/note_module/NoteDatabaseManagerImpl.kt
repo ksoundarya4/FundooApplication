@@ -148,43 +148,6 @@ class NoteDatabaseManagerImpl(
         database.close()
     }
 
-    /**Function to fetch row id of note
-     *
-     * @param note
-     * @return row id
-     */
-    @SuppressLint("Recycle")
-    override fun fetchNoteId(note: Note): Long {
-        var rowId = 0L
-        database = noteDbHelper.readableDatabase
-
-        val columns = arrayOf(
-            BaseColumns._ID,
-            KEY_TITLE,
-            KEY_DESCRIPTION
-        )
-
-        val selection = "$KEY_TITLE=?"
-        val selectionArgs = arrayOf(note.title)
-        val cursor = database.query(
-            TABLE_NOTE,
-            columns,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        )
-        if (cursor != null && cursor.moveToNext() && cursor.count > 0) {
-            if (note.title == cursor.getString(cursor.getColumnIndex(KEY_TITLE))
-                && note.description == cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
-            )
-                rowId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)).toLong()
-        }
-        database.close()
-        return rowId
-    }
-
     override fun updateNote(rowId: Long, note: Note) {
         database = noteDbHelper.open()
 
