@@ -1,9 +1,8 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +47,13 @@ class TrashFragment : Fragment(), OnNoteClickListener {
             .observe(requireActivity(), Observer { observeDeletedNote(it) })
         initRecyclerView()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
+            getString(R.string.app_bar_title_deleted_notes)
+    }
+
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
