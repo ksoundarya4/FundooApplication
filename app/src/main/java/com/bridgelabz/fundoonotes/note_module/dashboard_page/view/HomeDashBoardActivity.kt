@@ -109,10 +109,11 @@ class HomeDashBoardActivity : AppCompatActivity() {
         toast(getString(R.string.toast_archive_notes_ckick))
     }
 
+    /**Function to replace home dash board with AddNoteFragment*/
     private fun replaceArchiveFragment() {
         val archiveFragment = ArchiveFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container,archiveFragment)
+        transaction.replace(R.id.fragment_container, archiveFragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
