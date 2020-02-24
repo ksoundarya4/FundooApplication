@@ -171,6 +171,10 @@ class NoteDatabaseManagerImpl(
         database.close()
     }
 
+    /**Function to fetch Archive Note
+     *
+     * @return ArrayList of Archive notes
+     */
     override fun fetchArchiveNote(): ArrayList<Note> {
 
         val archiveNotes = ArrayList<Note>()
@@ -189,18 +193,16 @@ class NoteDatabaseManagerImpl(
             KEY_COLOUR
         )
 
-//        val selection = "$KEY_ARCHIVE = ?"
-//        val selectionArgs = arrayOf(KEY_ARCHIVE)
-        val groupBy = KEY_ARCHIVE
-        val having = "$KEY_ARCHIVE = 1"
+        val selection = "$KEY_ARCHIVE =?"
+        val selectionArgs = arrayOf("1")
 
         val cursor = database.query(
             TABLE_NOTE,
             columns,
+            selection,
+            selectionArgs,
             null,
             null,
-            groupBy,
-            having,
             null
         )
         if (cursor != null && cursor.count > 0) {
@@ -233,5 +235,200 @@ class NoteDatabaseManagerImpl(
         cursor.close()
         database.close()
         return archiveNotes
+    }
+
+    /**Function to fetch Deleted Note
+     *
+     * @return ArrayList of Deleted notes
+     */
+    override fun fetchDeletedNote(): ArrayList<Note> {
+        val deletedNotes = ArrayList<Note>()
+        database = noteDbHelper.open()
+
+        val columns = arrayOf(
+            NOTE_ID,
+            KEY_TITLE,
+            KEY_DESCRIPTION,
+            KEY_ARCHIVE,
+            KEY_TRASH,
+            KEY_PINNED,
+            KEY_LABEL,
+            KEY_REMINDER,
+            KEY_POSITION,
+            KEY_COLOUR
+        )
+
+        val selection = "$KEY_TRASH =?"
+        val selectionArgs = arrayOf("1")
+
+        val cursor = database.query(
+            TABLE_NOTE,
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+                val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
+                val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_TRASH))
+                val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
+                val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
+                val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+
+                val note = Note(title, description)
+                note.id = id
+                note.isArchived = isArchived
+                note.isDeleted = isDeleted
+                note.isPinned = isPinned
+                note.label = label
+                note.reminder = reminder
+                note.position = position
+                note.colour = colour
+
+                deletedNotes.add(note)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        database.close()
+        return deletedNotes
+    }
+
+    /**Function to fetch Pined Note
+     *
+     * @return ArrayList of Pined notes
+     */
+    override fun fetchPinnedNote(): ArrayList<Note> {
+        val pinnedNotes = ArrayList<Note>()
+        database = noteDbHelper.open()
+
+        val columns = arrayOf(
+            NOTE_ID,
+            KEY_TITLE,
+            KEY_DESCRIPTION,
+            KEY_ARCHIVE,
+            KEY_TRASH,
+            KEY_PINNED,
+            KEY_LABEL,
+            KEY_REMINDER,
+            KEY_POSITION,
+            KEY_COLOUR
+        )
+
+        val selection = "$KEY_PINNED =?"
+        val selectionArgs = arrayOf("1")
+
+        val cursor = database.query(
+            TABLE_NOTE,
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+                val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
+                val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_TRASH))
+                val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
+                val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
+                val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+
+                val note = Note(title, description)
+                note.id = id
+                note.isArchived = isArchived
+                note.isDeleted = isDeleted
+                note.isPinned = isPinned
+                note.label = label
+                note.reminder = reminder
+                note.position = position
+                note.colour = colour
+
+                pinnedNotes.add(note)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        database.close()
+        return pinnedNotes
+    }
+
+    /**Function to fetch simple Note
+     *
+     * @return ArrayList of simple notes
+     */
+    override fun fetchSimpleNote(): ArrayList<Note> {
+        val simpleNotes = ArrayList<Note>()
+        database = noteDbHelper.open()
+
+        val columns = arrayOf(
+            NOTE_ID,
+            KEY_TITLE,
+            KEY_DESCRIPTION,
+            KEY_ARCHIVE,
+            KEY_TRASH,
+            KEY_PINNED,
+            KEY_LABEL,
+            KEY_REMINDER,
+            KEY_POSITION,
+            KEY_COLOUR
+        )
+
+        val selection = "$KEY_ARCHIVE and $KEY_TRASH and $KEY_PINNED =?"
+        val selectionArgs = arrayOf("0")
+
+        val cursor = database.query(
+            TABLE_NOTE,
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+                val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
+                val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_TRASH))
+                val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
+                val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
+                val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+
+                val note = Note(title, description)
+                note.id = id
+                note.isArchived = isArchived
+                note.isDeleted = isDeleted
+                note.isPinned = isPinned
+                note.label = label
+                note.reminder = reminder
+                note.position = position
+                note.colour = colour
+
+                simpleNotes.add(note)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        database.close()
+        return simpleNotes
     }
 }
