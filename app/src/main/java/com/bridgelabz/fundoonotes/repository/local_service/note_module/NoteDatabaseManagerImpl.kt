@@ -25,7 +25,7 @@ class NoteDatabaseManagerImpl(
         private const val KEY_TITLE = "Title"
         private const val KEY_DESCRIPTION = "Description"
         private const val KEY_ARCHIVE = "Archive"
-        private const val KEY_DELETE = "[Delete]"
+        private const val KEY_TRASH = "Trash"
         private const val KEY_PINNED = "Pinned"
         private const val KEY_LABEL = "Label"
         private const val KEY_REMINDER = "Reminder"
@@ -37,7 +37,7 @@ class NoteDatabaseManagerImpl(
                     "$KEY_TITLE TEXT NOT NULL, " +
                     "$KEY_DESCRIPTION TEXT NOT NULL, " +
                     "$KEY_ARCHIVE INTEGER, " +
-                    "$KEY_DELETE INTEGER, " +
+                    "$KEY_TRASH INTEGER, " +
                     "$KEY_PINNED INTEGER, " +
                     "$KEY_LABEL VARCHAR(20), " +
                     "$KEY_REMINDER VARCHAR(20), " +
@@ -61,7 +61,7 @@ class NoteDatabaseManagerImpl(
             put(KEY_TITLE, note.title)
             put(KEY_DESCRIPTION, note.description)
             put(KEY_ARCHIVE, note.isArchived)
-            put(KEY_DELETE, note.isDeleted)
+            put(KEY_TRASH, note.isDeleted)
             put(KEY_PINNED, note.isPinned)
             put(KEY_LABEL, note.label)
             put(KEY_REMINDER, note.reminder)
@@ -88,7 +88,7 @@ class NoteDatabaseManagerImpl(
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
-            KEY_DELETE,
+            KEY_TRASH,
             KEY_PINNED,
             KEY_LABEL,
             KEY_REMINDER,
@@ -104,31 +104,33 @@ class NoteDatabaseManagerImpl(
             null,
             null
         )
-        cursor.moveToFirst()
-        do {
-            val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
-            val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
-            val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
-            val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
-            val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_DELETE))
-            val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
-            val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
-            val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
-            val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-            val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+                val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
+                val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_TRASH))
+                val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
+                val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
+                val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
 
-            val note = Note(title, description)
-            note.id = id
-            note.isArchived = isArchived
-            note.isDeleted = isDeleted
-            note.isPinned = isPinned
-            note.label = label
-            note.reminder = reminder
-            note.position = position
-            note.colour = colour
+                val note = Note(title, description)
+                note.id = id
+                note.isArchived = isArchived
+                note.isDeleted = isDeleted
+                note.isPinned = isPinned
+                note.label = label
+                note.reminder = reminder
+                note.position = position
+                note.colour = colour
 
-            notes.add(note)
-        } while (cursor.moveToNext())
+                notes.add(note)
+            } while (cursor.moveToNext())
+        }
         cursor.close()
         database.close()
         return notes
@@ -153,7 +155,7 @@ class NoteDatabaseManagerImpl(
             put(KEY_TITLE, note.title)
             put(KEY_DESCRIPTION, note.description)
             put(KEY_ARCHIVE, note.isArchived)
-            put(KEY_DELETE, note.isDeleted)
+            put(KEY_TRASH, note.isDeleted)
             put(KEY_PINNED, note.isPinned)
             put(KEY_LABEL, note.label)
             put(KEY_REMINDER, note.reminder)
