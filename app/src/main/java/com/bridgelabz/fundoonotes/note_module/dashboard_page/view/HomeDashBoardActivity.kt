@@ -94,9 +94,27 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     onSignOutMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.nav_archive -> {
+                    onArchiveMenuClick()
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+    }
+
+    private fun onArchiveMenuClick() {
+        drawerLayout.closeDrawer(navigationView)
+        replaceArchiveFragment()
+        toast(getString(R.string.toast_archive_notes_ckick))
+    }
+
+    private fun replaceArchiveFragment() {
+        val archiveFragment = ArchiveFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container,archiveFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     /**Function to set Action Bar Toggle of Drawer Layout*/
