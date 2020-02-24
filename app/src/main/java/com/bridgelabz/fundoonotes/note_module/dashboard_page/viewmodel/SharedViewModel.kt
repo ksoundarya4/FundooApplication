@@ -24,12 +24,12 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
         noteDbManager.insert(note)
     }
 
-    private fun fetchNotes() {
-        notesLiveData.value = noteDbManager.fetchNotes()
+    private fun fetchSimpleNotes() {
+        notesLiveData.value = noteDbManager.fetchSimpleNote()
     }
 
-    fun getNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchNotes()
+    fun getSimpleNoteLiveData(): LiveData<ArrayList<Note>> {
+        fetchSimpleNotes()
         return notesLiveData
     }
 
