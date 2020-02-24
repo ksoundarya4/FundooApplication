@@ -388,8 +388,8 @@ class NoteDatabaseManagerImpl(
             KEY_COLOUR
         )
 
-        val selection = "$KEY_ARCHIVE and $KEY_TRASH and $KEY_PINNED =?"
-        val selectionArgs = arrayOf("0")
+        val selection = "$KEY_ARCHIVE =? AND $KEY_TRASH =? AND $KEY_PINNED =?"
+        val selectionArgs = arrayOf("0","0","0")
 
         val cursor = database.query(
             TABLE_NOTE,
