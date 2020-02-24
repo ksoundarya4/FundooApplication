@@ -10,6 +10,7 @@
 package com.bridgelabz.fundoonotes
 
 import android.content.Context
+import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
@@ -70,5 +71,15 @@ class NoteDataBaseTest {
         val numberOfNotes = notes.size
         print(notes)
         assertEquals(2, numberOfNotes)
+    }
+
+    @Test
+    fun addArchiveNote_testFetchArchiveNoteFunction() {
+        val note = Note("Archive", "archive")
+        note.isArchived = 1
+        noteDbManager.insert(note)
+        val archiveNote = noteDbManager.fetchArchiveNote()
+        Log.d("archive", archiveNote.toString())
+        assertEquals(1, archiveNote.size)
     }
 }
