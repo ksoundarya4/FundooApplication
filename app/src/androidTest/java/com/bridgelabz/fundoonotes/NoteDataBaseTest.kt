@@ -82,4 +82,11 @@ class NoteDataBaseTest {
         Log.d("archive", archiveNote.toString())
         assertEquals(1, archiveNote.size)
     }
+
+    @Test
+    fun test_fetchSimpleNoteFunction() {
+        val simpleNote = noteDbManager.fetchSimpleNote()
+        Log.d("simpleNote", simpleNote.toString())
+        assertEquals(3, simpleNote.size)
+    }
 }
