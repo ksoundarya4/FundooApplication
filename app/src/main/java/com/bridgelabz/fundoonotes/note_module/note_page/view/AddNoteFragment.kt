@@ -118,6 +118,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         if (::note.isInitialized) {
             updateNote()
         } else {
+
             insertNote()
         }
     }
@@ -127,7 +128,6 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
             val createdNote = Note(noteTitle, noteDescription)
-            createdNote.isArchived = note.isArchived
             viewModel.insertNoteOnCLick(createdNote)
         } else {
             Toast.makeText(
