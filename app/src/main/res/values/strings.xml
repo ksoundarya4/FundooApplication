@@ -87,4 +87,14 @@
     <string name="new_voice_note">New voice note</string>
     <string name="new_drawing_note">New drawing note</string>
     <string name="new_list">New list</string>
+    <string name="bundle_note_id">noteId</string>
+    <string name="bundle_note_is_archived">noteIsArchived</string>
+    <string name="bundle_note_is_deleted">noteIsDeleted</string>
+    <string name="bundle_note_is_pined">noteIsPinned</string>
+    <string name="bundle_note_label">noteLabel</string>
+    <string name="bundle_note_reminder">noteReminder</string>
+    <string name="bundle_note_position">notePosition</string>
+    <string name="bundle_note_colour">noteColour</string>
+    <string name="toast_discard_empty_note">Empty note discarded</string>
+    <string name="toast_archive_notes_ckick">Archive Notes</string>
 </resources>
