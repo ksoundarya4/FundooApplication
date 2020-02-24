@@ -50,7 +50,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedViewModel.getNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
+        sharedViewModel.getSimpleNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
         sharedViewModel.getRecyclerViewType()
             .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
         initRecyclerView()
