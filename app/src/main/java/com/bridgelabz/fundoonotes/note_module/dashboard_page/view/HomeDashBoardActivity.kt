@@ -98,9 +98,27 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     onArchiveMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.nav_delete -> {
+                    onDeleteMenuClick()
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+    }
+
+    private fun onDeleteMenuClick() {
+        drawerLayout.closeDrawer(navigationView)
+        replaceTrashFragment()
+        toast(getString(R.string.toast_when_Delete_menu_clicked))
+    }
+
+    private fun replaceTrashFragment() {
+        val trashFragment = TrashFragment()
+    val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container,trashFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun onArchiveMenuClick() {
