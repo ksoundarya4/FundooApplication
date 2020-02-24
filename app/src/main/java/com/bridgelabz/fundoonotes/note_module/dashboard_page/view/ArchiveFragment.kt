@@ -1,9 +1,8 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +47,12 @@ class ArchiveFragment : Fragment(), OnNoteClickListener {
         viewModel.getArchiveNoteLiveData()
             .observe(requireActivity(), Observer { observeArchiveNotes(it) })
         initRecyclerView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
+            getString(R.string.app_bar_title_archive_notes)
     }
 
     private fun initRecyclerView() {
