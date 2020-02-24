@@ -16,4 +16,5 @@ interface NoteDatabaseManager {
     fun fetchNotes(): ArrayList<Note>
     fun delete(_id: Long)
     fun updateNote(note: Note)
+    fun fetchArchiveNote(): ArrayList<Note>
 }
