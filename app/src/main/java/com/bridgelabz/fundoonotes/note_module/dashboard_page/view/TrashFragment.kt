@@ -51,9 +51,8 @@ class TrashFragment : Fragment(), OnNoteClickListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-            getString(R.string.app_bar_title_deleted_notes)
+           "Delete"
     }
-
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
