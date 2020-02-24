@@ -20,19 +20,23 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
     private val notesLiveData = MutableLiveData<ArrayList<Note>>()
     private val recyclerViewTypeLiveData = MutableLiveData<RecyclerViewType>()
 
+    /**Function to insert Note into Notes table*/
     fun insertNoteOnCLick(note: Note) {
         noteDbManager.insert(note)
     }
 
+    /**Function to fetchSimpleNotes from Notes table*/
     private fun fetchSimpleNotes() {
         notesLiveData.value = noteDbManager.fetchSimpleNote()
     }
 
+    /**Function to return liveData of SimpleNote*/
     fun getSimpleNoteLiveData(): LiveData<ArrayList<Note>> {
         fetchSimpleNotes()
         return notesLiveData
     }
 
+    /**Function to update note in Note table*/
     fun updateNoteOnClick(note: Note) {
         noteDbManager.updateNote(note)
     }
@@ -43,5 +47,16 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
 
     fun setRecyclerViewType(recyclerViewType: RecyclerViewType) {
         recyclerViewTypeLiveData.value = recyclerViewType
+    }
+
+    /**Function to fetchSArchiveNotes from Notes table*/
+    private fun fetchArchiveNote() {
+        notesLiveData.value = noteDbManager.fetchArchiveNote()
+    }
+
+    /**Function to return liveData of ArchiveNote*/
+    fun getArchiveNoteLiveData(): LiveData<ArrayList<Note>> {
+        fetchArchiveNote()
+        return notesLiveData
     }
 }
