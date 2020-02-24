@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
@@ -101,7 +102,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
 
     override fun onBackPressed() {
         if (::note.isInitialized) {
-            updateNote(note)
+            updateNote()
         } else {
             insertNote()
         }
@@ -111,21 +112,31 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            note = Note(noteTitle, noteDescription)
-            viewModel.insertNoteOnCLick(note)
+            val createdNote = Note(noteTitle, noteDescription)
+            viewModel.insertNoteOnCLick(createdNote)
         } else {
-            Toast.makeText(requireContext(), "Empty note discarded", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.toast_discard_empty_note),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
-    private fun updateNote(note: Note) {
+    private fun updateNote() {
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            this.note = Note(noteTitle, noteDescription)
-            viewModel.updateNoteOnClick(this.note)
+            val noteToUpdate = Note(noteTitle, noteDescription)
+            noteToUpdate.id = note.id
+            Log.d("note", noteToUpdate.toString())
+            viewModel.updateNoteOnClick(noteToUpdate)
         } else {
-            Toast.makeText(requireContext(), "Empty note discarded", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.toast_discard_empty_note),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
