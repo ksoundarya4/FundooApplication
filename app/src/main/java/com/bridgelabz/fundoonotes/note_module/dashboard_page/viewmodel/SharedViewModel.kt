@@ -59,4 +59,13 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
         fetchArchiveNote()
         return notesLiveData
     }
+
+    private fun fetchDeletedNotes() {
+        notesLiveData.value = noteDbManager.fetchDeletedNote()
+    }
+
+    fun getDeletedNoteLiveData(): LiveData<ArrayList<Note>> {
+        fetchDeletedNotes()
+        return notesLiveData
+    }
 }
