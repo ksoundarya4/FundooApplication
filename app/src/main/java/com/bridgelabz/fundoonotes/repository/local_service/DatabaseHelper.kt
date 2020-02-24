@@ -24,6 +24,7 @@ class DatabaseHelper(context: Context) :
     /**Function to create new User database*/
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_USER_TABLE)
+        db.execSQL(CREATE_NOTE_TABLE)
     }
 
     /**Function to upgrade the existing user database*/
