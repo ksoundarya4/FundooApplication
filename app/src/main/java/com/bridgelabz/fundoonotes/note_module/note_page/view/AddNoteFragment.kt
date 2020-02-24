@@ -57,6 +57,20 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         hideActivityToolbar()
         setUpFragmentToolbar()
         hideBottomAppbar()
+        setToolBarOnCLickListener()
+    }
+
+    private fun setToolBarOnCLickListener() {
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.add_note_menu_archive_note -> {
+                    note.isArchived = 1
+                    Toast.makeText(requireActivity(), "clicked Archive", Toast.LENGTH_SHORT).show()
+                    return@setOnMenuItemClickListener true
+                }
+                else -> return@setOnMenuItemClickListener false
+            }
+        }
     }
 
     private fun getNoteArgument() {
@@ -113,6 +127,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
             val createdNote = Note(noteTitle, noteDescription)
+            createdNote.isArchived = note.isArchived
             viewModel.insertNoteOnCLick(createdNote)
         } else {
             Toast.makeText(
@@ -129,6 +144,8 @@ class AddNoteFragment : Fragment(), OnBackPressed {
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
             val noteToUpdate = Note(noteTitle, noteDescription)
             noteToUpdate.id = note.id
+            noteToUpdate.position = note.position
+            noteToUpdate.isArchived = note.isArchived
             Log.d("note", noteToUpdate.toString())
             viewModel.updateNoteOnClick(noteToUpdate)
         } else {
