@@ -49,7 +49,7 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
         recyclerViewTypeLiveData.value = recyclerViewType
     }
 
-    /**Function to fetchSArchiveNotes from Notes table*/
+    /**Function to fetch ArchiveNotes from Notes table*/
     private fun fetchArchiveNote() {
         notesLiveData.value = noteDbManager.fetchArchiveNote()
     }
@@ -57,6 +57,17 @@ class SharedViewModel(private val noteDbManager: NoteDatabaseManager) : ViewMode
     /**Function to return liveData of ArchiveNote*/
     fun getArchiveNoteLiveData(): LiveData<ArrayList<Note>> {
         fetchArchiveNote()
+        return notesLiveData
+    }
+
+    /**Function to fetch Deleted notes from Notes table*/
+    private fun fetchDeletedNotes() {
+        notesLiveData.value = noteDbManager.fetchDeletedNote()
+    }
+
+    /**Function to freturn live data of Deleted Note*/
+    fun getDeletedNoteLiveData(): LiveData<ArrayList<Note>> {
+        fetchDeletedNotes()
         return notesLiveData
     }
 }
