@@ -26,6 +26,7 @@ class DatabaseHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_USER_TABLE)
         db.execSQL(CREATE_NOTE_TABLE)
+        db.execSQL(CREATE_TABLE_LABEL)
     }
 
     /**Function to upgrade the existing user database*/
@@ -52,7 +53,7 @@ class DatabaseHelper(context: Context) :
         const val VERSION_ONE = 1
         const val VERSION_TWO = 2
         const val VERSION_THREE = 3
-        const val DATABASE_VERSION = VERSION_ONE
+        const val DATABASE_VERSION = VERSION_TWO
         const val DATABASE_NAME = "App.db"
     }
 
