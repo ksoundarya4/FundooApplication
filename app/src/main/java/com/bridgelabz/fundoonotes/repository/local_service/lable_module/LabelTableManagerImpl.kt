@@ -22,7 +22,7 @@ class LabelTableManagerImpl(private val dbHelper: DatabaseHelper) : LabelTableMa
         private const val KEY_LABEL = "Label"
         const val CREATE_TABLE_LABEL =
             " Create Table $TABLE_LABEL ( " +
-                    "$LABEL_ID PRIMARY INTEGER KEY, " +
+                    "$LABEL_ID INTEGER PRIMARY KEY, " +
                     "$KEY_LABEL TEXT NOT NULL)"
     }
 
