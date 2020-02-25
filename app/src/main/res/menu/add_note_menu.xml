@@ -4,7 +4,8 @@
     <item
         android:id="@+id/add_note_menu_pin_button"
         android:title="@string/pin_button"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/ic_pin_grey"/>
     <item
         android:id="@+id/add_note_menu_reminder"
         android:icon="@drawable/ic_add_alert_grey"
