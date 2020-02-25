@@ -15,8 +15,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManager
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +26,7 @@ import org.junit.runner.RunWith
 class NoteDataBaseTest {
 
     private lateinit var noteDbHelper: DatabaseHelper
-    private lateinit var noteDbManager: NoteDatabaseManager
+    private lateinit var noteDbManager: NoteTableManager
     private var rowId: Long = 0L
 
     @Before
@@ -34,7 +34,7 @@ class NoteDataBaseTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         noteDbHelper = DatabaseHelper(context)
         noteDbManager =
-            NoteDatabaseManagerImpl(
+            NoteTableManagerImpl(
                 noteDbHelper
             )
     }
