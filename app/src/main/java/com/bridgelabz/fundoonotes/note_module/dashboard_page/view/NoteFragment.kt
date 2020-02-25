@@ -27,7 +27,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
     private val sharedViewModel: SharedViewModel by lazy {
-        ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
+        requireActivity().run { ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java) }
     }
     private val recyclerView: RecyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
@@ -52,7 +52,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         super.onActivityCreated(savedInstanceState)
         sharedViewModel.getSimpleNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
         sharedViewModel.getRecyclerViewType()
-            .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
+            .observe(requireActivity(), Observer { recyclerViewType = it })
         initRecyclerView()
     }
 
