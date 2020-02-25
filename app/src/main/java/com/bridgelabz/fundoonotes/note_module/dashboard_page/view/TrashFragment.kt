@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 
 class TrashFragment : Fragment(), OnNoteClickListener {
 
-    private val noteFactory: NoteDbManagerFactory by lazy {
-        NoteDbManagerFactory(NoteDatabaseManagerImpl(DatabaseHelper(requireContext())))
+    private val noteFactory: NoteTableManagerFactory by lazy {
+        NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
 
     private val viewModel by lazy {

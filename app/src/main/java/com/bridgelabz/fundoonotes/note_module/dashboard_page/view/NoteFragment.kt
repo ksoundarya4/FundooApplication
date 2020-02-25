@@ -15,16 +15,16 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.LinearRecyclerViewManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewLayoutManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.StaggeredRecyclerViewtManager
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 
 class NoteFragment : Fragment(), OnNoteClickListener {
 
     private val noteFactory by lazy {
-        NoteDbManagerFactory(NoteDatabaseManagerImpl(DatabaseHelper(requireContext())))
+        NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
     private val sharedViewModel: SharedViewModel by lazy {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)

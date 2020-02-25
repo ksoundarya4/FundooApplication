@@ -12,10 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.OnBackPressed
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteDbManagerFactory
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,7 +27,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     private lateinit var description: EditText
     private lateinit var note: Note
     private val noteFactory by lazy {
-        NoteDbManagerFactory(NoteDatabaseManagerImpl(DatabaseHelper(requireContext())))
+        NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
     private val viewModel by lazy {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
