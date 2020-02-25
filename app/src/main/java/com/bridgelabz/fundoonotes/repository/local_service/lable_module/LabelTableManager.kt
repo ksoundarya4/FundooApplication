@@ -14,6 +14,6 @@ import com.bridgelabz.fundoonotes.label_module.model.Label
 interface LabelTableManager {
     fun insertLabel(label: Label): Long
     fun updateLabel(label: Label)
-    fun fetchLabel(): Label
+    fun fetchLabels(): ArrayList<Label>
     fun deleteLabel(id: Long)
 }
