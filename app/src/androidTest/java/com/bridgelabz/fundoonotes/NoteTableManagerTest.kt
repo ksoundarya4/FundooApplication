@@ -1,8 +1,8 @@
 /**
  * Fundoo Notes
- * @description NoteDataBaseTest class to test functions of
- * NoteDatabaseManagerImpl class.
- * @file NoteDatabaseTest.kt
+ * @description NoteTableManagerTest class to test functions of
+ * NoteTableManagerImpl class.
+ * @file NoteTableManagerTest.kt
  * @author ksoundarya4
  * @version 1.0
  * @since 07/02/2020
@@ -23,7 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class NoteDataBaseTest {
+class NoteTableManagerTest {
 
     private lateinit var noteDbHelper: DatabaseHelper
     private lateinit var noteDbManager: NoteTableManager
