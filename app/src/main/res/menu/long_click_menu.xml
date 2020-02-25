@@ -22,7 +22,7 @@
         android:id="@+id/pinned_note"
         android:title="@string/pin_button"
         app:showAsAction="always"
-        android:icon="@drawable/ic_pin_blue"/>
+        android:icon="@drawable/ic_pin_white"/>
 
     <item
         android:id="@+id/add_reminder"
