@@ -79,7 +79,7 @@ class LabelFragment : Fragment() {
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.layoutManager = LinearLayoutManager(requireView().context)
         recyclerView.adapter = labelAdapter
     }
 
@@ -94,8 +94,9 @@ class LabelFragment : Fragment() {
             labelEditText.text.clear()
         }
         saveButton.setOnClickListener {
-            val label = labelEditText.editableText.toString()
-            labelViewModel.saveLabel(Label(label = label))
+            val labelText = labelEditText.editableText.toString()
+            val label = Label(labelText)
+            onSaveButtonCLick(label)
         }
     }
 
@@ -121,5 +122,11 @@ class LabelFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar!!.show()
         bottomAppBar.performShow()
         floatingActionButton.show()
+    }
+
+    private fun onSaveButtonCLick(label: Label) {
+        labelViewModel.saveLabel(label)
+        labelEditText.text.clear()
+        labelAdapter.notifyDataSetChanged()
     }
 }
