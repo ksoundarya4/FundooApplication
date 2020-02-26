@@ -21,4 +21,10 @@ class LabelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindLabel(label: Label) {
         labelEditText.setText(label.label)
     }
+
+    fun onLabelClickListener(adapterPosition: Int, labelClickListener: LabelClickListener) {
+        itemView.setOnClickListener {
+            labelClickListener.onClick(adapterPosition)
+        }
+    }
 }
