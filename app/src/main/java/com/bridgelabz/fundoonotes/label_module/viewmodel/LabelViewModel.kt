@@ -22,7 +22,7 @@ class LabelViewModel(private val labelTableManager: LabelTableManager) : ViewMod
         val rowId = labelTableManager.insertLabel(label)
     }
 
-    fun fetchLabels() {
+    private fun fetchLabels() {
         labelLiveData.value = labelTableManager.fetchLabels()
     }
 
