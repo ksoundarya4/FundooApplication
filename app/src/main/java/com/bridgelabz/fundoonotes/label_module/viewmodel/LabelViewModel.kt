@@ -20,7 +20,7 @@ class LabelViewModel(private val labelTableManager: LabelTableManager) : ViewMod
 
     fun saveLabel(label: Label) {
         val labelId = labelTableManager.insertLabel(label)
-        if(labelId > 0){
+        if (labelId > 0) {
             fetchLabels()
         }
     }
@@ -32,5 +32,15 @@ class LabelViewModel(private val labelTableManager: LabelTableManager) : ViewMod
     fun getLabelLiveData(): LiveData<ArrayList<Label>> {
         fetchLabels()
         return labelLiveData
+    }
+
+    fun updateLabel(label: Label) {
+        labelTableManager.updateLabel(label)
+        fetchLabels()
+    }
+
+    fun deleteLabel(label: Label) {
+        labelTableManager.deleteLabel(label.id!!.toLong())
+        fetchLabels()
     }
 }
