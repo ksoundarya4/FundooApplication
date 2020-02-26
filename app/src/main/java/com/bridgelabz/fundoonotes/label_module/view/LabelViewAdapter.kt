@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.model.Label
 
-class LabelViewAdapter(private val labels: ArrayList<Label>) :
+class LabelViewAdapter(private var labels: ArrayList<Label>) :
     RecyclerView.Adapter<LabelViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelViewHolder {
@@ -31,5 +31,9 @@ class LabelViewAdapter(private val labels: ArrayList<Label>) :
     override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
         val label = labels[position]
         holder.bindLabel(label)
+    }
+
+    fun setLabelList(labels: ArrayList<Label>) {
+        this.labels = labels
     }
 }
