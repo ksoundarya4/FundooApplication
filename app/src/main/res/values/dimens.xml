@@ -19,4 +19,5 @@
     <dimen name="dimen_50dp">50dp</dimen>
     <dimen name="margin_56dp">56dp</dimen>
     <dimen name="margin_0dp">0dp</dimen>
+    <dimen name="margin_40dp">40dp</dimen>
 </resources>
