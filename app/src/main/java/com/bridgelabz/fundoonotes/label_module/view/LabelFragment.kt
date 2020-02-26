@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -23,7 +24,7 @@ import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTab
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class LabelFragment : Fragment() {
+class LabelFragment : Fragment(), LabelClickListener {
     private val labelFactory by lazy {
         LabelViewModelFactory(LabelTableManagerImpl(DatabaseHelper(requireContext())))
     }
@@ -56,7 +57,7 @@ class LabelFragment : Fragment() {
     private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.label_recyclerView)
     }
-    private val labelAdapter = LabelViewAdapter(ArrayList())
+    private val labelAdapter = LabelViewAdapter(ArrayList(),this)
 
     private var labels = ArrayList<Label>()
 
@@ -128,5 +129,17 @@ class LabelFragment : Fragment() {
         labelViewModel.saveLabel(label)
         labelEditText.text.clear()
         labelAdapter.notifyDataSetChanged()
+    }
+
+    override fun onClick(adapterPosition: Int) {
+        Toast.makeText(requireContext(), "clicked Label", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onUpdateClick(adapterPosition: Int) {
+        Toast.makeText(requireContext(), "clicked check", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeleteClick(adapterPosition: Int) {
+        Toast.makeText(requireContext(), "clicked delete", Toast.LENGTH_SHORT).show()
     }
 }
