@@ -98,6 +98,7 @@ class RegisterActivity : AppCompatActivity() {
                 Intent(this, LoginActivity::class.java).apply {
                     startActivity(this)
                 }
+                finish()
             }
             RegistrationStatus.Failed -> {
                 toast("User already exist")
