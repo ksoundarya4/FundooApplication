@@ -19,7 +19,10 @@ class LabelViewModel(private val labelTableManager: LabelTableManager) : ViewMod
     private val labelLiveData = MutableLiveData<ArrayList<Label>>()
 
     fun saveLabel(label: Label) {
-        val rowId = labelTableManager.insertLabel(label)
+        val labelId = labelTableManager.insertLabel(label)
+        if(labelId > 0){
+            fetchLabels()
+        }
     }
 
     private fun fetchLabels() {
