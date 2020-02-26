@@ -21,6 +21,7 @@ import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
@@ -121,9 +122,26 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     onDeleteMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.nav_label -> {
+                    nLabelMenuClick()
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+    }
+
+    private fun nLabelMenuClick() {
+        drawerLayout.closeDrawer(navigationView)
+        reolaceLabelFragment()
+    }
+
+    private fun reolaceLabelFragment() {
+        val labelFragment = LabelFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, labelFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun onDeleteMenuClick() {
