@@ -10,5 +10,7 @@
 package com.bridgelabz.fundoonotes.label_module.view
 
 interface LabelClickListener {
-    fun onClick(adapterPosition : Int)
+    fun onClick(adapterPosition: Int)
+    fun onUpdateClick(adapterPosition: Int)
+    fun onDeleteClick(adapterPosition: Int)
 }
