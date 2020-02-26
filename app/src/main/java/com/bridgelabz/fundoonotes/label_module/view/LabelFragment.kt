@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
@@ -23,6 +25,12 @@ class LabelFragment : Fragment() {
     private val toolbar by lazy {
         requireView().findViewById<Toolbar>(R.id.toolbar_label)
     }
+    private val clearButton by lazy {
+        requireView().findViewById<ImageButton>(R.id.clear_label)
+    }
+    private val labelEditText by lazy {
+        requireView().findViewById<EditText>(R.id.edit_label)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +44,13 @@ class LabelFragment : Fragment() {
         hideActivityToolbar()
         hideBottomAppToolbar()
         setUpToolbar()
+        setOnButtonClickListeners()
+    }
+
+    private fun setOnButtonClickListeners() {
+        clearButton.setOnClickListener {
+            labelEditText.text.clear()
+        }
     }
 
     private fun setUpToolbar() {
