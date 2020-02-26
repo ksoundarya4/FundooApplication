@@ -99,4 +99,5 @@
     <string name="toast_archive_notes_ckick">Archive Notes</string>
     <string name="toast_when_Delete_menu_clicked">Deleted Notes</string>
     <string name="app_bar_title_archive_notes">Archive</string>
+    <string name="edit_labels">Edit labels</string>
 </resources>
