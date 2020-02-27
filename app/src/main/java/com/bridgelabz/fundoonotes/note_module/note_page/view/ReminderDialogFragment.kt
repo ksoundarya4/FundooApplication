@@ -36,6 +36,12 @@ class ReminderDialogFragment : DialogFragment() {
     private val time = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
         calender.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calender.set(Calendar.MINUTE, minute)
+        var time = "$hourOfDay : "
+        time += if(minute % 10 > 0)
+            "$minute"
+        else
+            "0$minute"
+        timeEditText.setText(time)
     }
 
     private fun updateDateEditText() {
