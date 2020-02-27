@@ -2,6 +2,7 @@ package com.bridgelabz.fundoonotes.note_module.note_page.view
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,8 +33,13 @@ class ReminderDialogFragment : DialogFragment() {
             updateDateEditText()
         }
 
+    private val time = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+        calender.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        calender.set(Calendar.MINUTE, minute)
+    }
+
     private fun updateDateEditText() {
-        val dateFormat = "dd/MM/yyyy"
+        val dateFormat = getString(R.string.reminder_date_format)
         val setDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         dateEditText.setText(setDateFormat.format(calender.time))
     }
@@ -59,8 +65,16 @@ class ReminderDialogFragment : DialogFragment() {
 
     private fun setTimeEditTextListener() {
         timeEditText.setOnClickListener {
-            //            setTimePicker()
+            setTimePicker()
         }
+    }
+
+    private fun setTimePicker() {
+        TimePickerDialog(
+            requireContext(), time,
+            calender.get(Calendar.DAY_OF_YEAR),
+            calender.get(Calendar.MINUTE), true
+        ).show()
     }
 
     private fun setDateEditTextListener() {
