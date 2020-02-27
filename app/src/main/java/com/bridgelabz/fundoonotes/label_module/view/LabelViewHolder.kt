@@ -8,6 +8,8 @@
  */
 package com.bridgelabz.fundoonotes.label_module.view
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -41,5 +43,20 @@ class LabelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         checkLabel.setOnClickListener {
             labelClickListener.onUpdateClick(adapterPosition)
         }
+    }
+
+    fun onTextChanged(label: Label) {
+        labelEditText.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+               label.label = labelEditText.editableText.toString()
+            }
+
+        })
     }
 }
