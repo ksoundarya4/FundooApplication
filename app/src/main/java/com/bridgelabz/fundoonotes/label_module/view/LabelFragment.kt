@@ -21,6 +21,8 @@ import com.bridgelabz.fundoonotes.label_module.viewmodel.LabelViewModel
 import com.bridgelabz.fundoonotes.label_module.viewmodel.LabelViewModelFactory
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManagerImpl
+import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
+import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -57,7 +59,7 @@ class LabelFragment : Fragment(), LabelClickListener {
     private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.label_recyclerView)
     }
-    private val labelAdapter = LabelViewAdapter(ArrayList(),this)
+    private val labelAdapter = LabelViewAdapter(ArrayList(), this)
 
     private var labels = ArrayList<Label>()
 
@@ -76,6 +78,7 @@ class LabelFragment : Fragment(), LabelClickListener {
         setOnButtonClickListeners()
         labelViewModel.getLabelLiveData().observe(requireActivity(), Observer { observeLabels(it) })
         initRecyclerView()
+        setHideKeyboardOnTouch(requireContext(), requireView())
     }
 
     private fun initRecyclerView() {
@@ -123,6 +126,7 @@ class LabelFragment : Fragment(), LabelClickListener {
         (requireActivity() as AppCompatActivity).supportActionBar!!.show()
         bottomAppBar.performShow()
         floatingActionButton.show()
+        view!!.hideKeyboard()
     }
 
     private fun onSaveButtonCLick(label: Label) {
