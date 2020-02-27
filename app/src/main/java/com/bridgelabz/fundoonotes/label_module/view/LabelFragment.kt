@@ -140,10 +140,14 @@ class LabelFragment : Fragment(), LabelClickListener {
     }
 
     override fun onUpdateClick(adapterPosition: Int) {
-        Toast.makeText(requireContext(), "clicked check", Toast.LENGTH_SHORT).show()
+        val label = labels[adapterPosition]
+        labelViewModel.updateLabel(label)
+        Toast.makeText(requireContext(), "Label saved", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDeleteClick(adapterPosition: Int) {
-        Toast.makeText(requireContext(), "clicked delete", Toast.LENGTH_SHORT).show()
+        val label = labels[adapterPosition]
+        labelViewModel.deleteLabel(label)
+        Toast.makeText(requireContext(), "Label deleted", Toast.LENGTH_SHORT).show()
     }
 }
