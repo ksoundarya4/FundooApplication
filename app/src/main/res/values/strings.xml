@@ -105,4 +105,9 @@
     <string name="alert_positive_button_for_delete_label">Delete</string>
     <string name="toast_label_deleted">Label deleted</string>
     <string name="alert_negative_button_for_delete_label">Cancel</string>
+    <string name="dialog_reminder_title">Add reminder</string>
+    <string name="cancel_reminder">Cancel</string>
+    <string name="save_reminder">Save</string>
+    <string name="hint_enter_time">Enter time</string>
+    <string name="hint_enter_date">Enter date</string>
 </resources>
