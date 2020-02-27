@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ReminderDialogFragment : DialogFragment() {
@@ -28,7 +29,14 @@ class ReminderDialogFragment : DialogFragment() {
             calender.set(Calendar.YEAR, year)
             calender.set(Calendar.MONTH, month)
             calender.set(Calendar.DAY_OF_YEAR, dayOfMonth)
+            updateDateEditText()
         }
+
+    private fun updateDateEditText() {
+        val dateFormat = "dd/MM/yyyy"
+        val setDateFormat = SimpleDateFormat(dateFormat, Locale.US)
+        dateEditText.setText(setDateFormat.format(calender.time))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
