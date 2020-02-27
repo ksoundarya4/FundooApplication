@@ -68,9 +68,19 @@ class AddNoteFragment : Fragment(), OnBackPressed {
                     Toast.makeText(requireActivity(), "clicked Archive", Toast.LENGTH_SHORT).show()
                     return@setOnMenuItemClickListener true
                 }
+                R.id.add_note_menu_reminder -> {
+                    startReminderFragment()
+                    return@setOnMenuItemClickListener true
+                }
                 else -> return@setOnMenuItemClickListener false
             }
         }
+    }
+
+    private fun startReminderFragment() {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val reminderDialog = ReminderDialogFragment()
+        reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
     }
 
     private fun getNoteArgument() {
