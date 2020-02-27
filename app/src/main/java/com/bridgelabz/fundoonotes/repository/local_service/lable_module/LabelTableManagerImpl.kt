@@ -70,15 +70,17 @@ class LabelTableManagerImpl(private val dbHelper: DatabaseHelper) : LabelTableMa
         )
 
         cursor.moveToFirst()
-        do {
-            val id = cursor.getLong(cursor.getColumnIndex(LABEL_ID))
-            val labelValue = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+        if (cursor != null && cursor.count > 0) {
+            do {
+                val id = cursor.getLong(cursor.getColumnIndex(LABEL_ID))
+                val labelValue = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
 
-            val label = Label(labelValue)
-            label.id = id.toInt()
+                val label = Label(labelValue)
+                label.id = id.toInt()
 
-            labels.add(label)
-        } while (cursor.moveToNext())
+                labels.add(label)
+            } while (cursor.moveToNext())
+        }
         cursor.close()
         database.close()
         return labels
