@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -23,6 +24,7 @@ import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
+import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -147,7 +149,32 @@ class LabelFragment : Fragment(), LabelClickListener {
 
     override fun onDeleteClick(adapterPosition: Int) {
         val label = labels[adapterPosition]
-        labelViewModel.deleteLabel(label)
-        Toast.makeText(requireContext(), "Label deleted", Toast.LENGTH_SHORT).show()
+        deleteLabelAlertDialog(label)
+    }
+
+    private fun deleteLabelAlertDialog(label: Label) {
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+
+        alertDialogBuilder.setTitle(getString(R.string.alert_title_for_delete_label))
+        alertDialogBuilder.setMessage(getString(R.string.alert_message_for_delete_label))
+        alertDialogBuilder.setCancelable(false)
+
+        alertDialogBuilder.setPositiveButton(
+            getString(R.string.alert_positive_button_for_delete_label)
+        ) { _, _ ->
+            labelViewModel.deleteLabel(label)
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.toast_label_deleted),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        alertDialogBuilder.setNegativeButton(getString(R.string.alert_negative_button_for_delete_label)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 }
