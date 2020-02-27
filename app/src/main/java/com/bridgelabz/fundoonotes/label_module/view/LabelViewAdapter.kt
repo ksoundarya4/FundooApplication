@@ -34,6 +34,7 @@ class LabelViewAdapter(
     override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
         val label = labels[position]
         holder.bindLabel(label)
+        holder.onTextChanged(label)
         holder.onLabelClickListener(
             adapterPosition = position,
             labelClickListener = labelClickListener
