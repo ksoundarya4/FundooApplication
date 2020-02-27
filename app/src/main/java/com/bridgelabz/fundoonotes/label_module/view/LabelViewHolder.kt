@@ -11,12 +11,14 @@ package com.bridgelabz.fundoonotes.label_module.view
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.model.Label
 
 class LabelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    private val cardView: CardView = itemView.findViewById(R.id.label_card_view)
     private val labelEditText: EditText = itemView.findViewById(R.id.text_label)
     private val label: ImageButton = itemView.findViewById(R.id.label)
     private val checkLabel: ImageButton = itemView.findViewById(R.id.check_label)
@@ -26,7 +28,7 @@ class LabelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun onLabelClickListener(adapterPosition: Int, labelClickListener: LabelClickListener) {
-        itemView.setOnClickListener {
+        cardView.setOnClickListener {
             label.setImageResource(R.drawable.ic_delete)
             checkLabel.setImageResource(R.drawable.ic_check_grey)
             labelClickListener.onClick(adapterPosition)
