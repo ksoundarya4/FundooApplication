@@ -67,33 +67,69 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
             when (it.itemId) {
                 R.id.add_note_menu_archive_note -> {
                     makeNoteArchive()
-                    return@setOnMenuItemClickListener true
                 }
                 R.id.add_note_menu_reminder -> {
                     startReminderFragment()
-                    return@setOnMenuItemClickListener true
+                }
+                R.id.add_note_menu_pin_button -> {
+                    it.isChecked = true
+                    makeNotePinned()
+                }
+                R.id.add_note_menu_delete_note -> {
+                    deleteNote()
+                }
+                R.id.add_note_menu__copy_note -> {
+                    makeCopyOfNote()
                 }
                 else -> return@setOnMenuItemClickListener false
             }
         }
     }
 
-    private fun makeNoteArchive() {
-        note.isArchived = 1
-        val snackBar = Snackbar.make(
-            requireView(),
-            R.string.archive_note_snackbar_message,
-            Snackbar.LENGTH_LONG
-        )
-        snackBar.show()
+    private fun makeCopyOfNote(): Boolean {
+        if (note.isArchived == 1)
+            note.isArchived = 0
+        if (note.isPinned == 1)
+            note.isPinned = 0
+        insertNote()
         requireActivity().onBackPressed()
+        return true
     }
 
-    private fun startReminderFragment() {
+    private fun deleteNote(): Boolean {
+        note.isDeleted = 1
+        snackBar(requireView(), getString(R.string.delete_note_snackbar_message))
+        requireActivity().onBackPressed()
+        return true
+    }
+
+    private fun makeNotePinned(): Boolean {
+        note.isPinned = 1
+        if (note.isArchived == 1)
+            note.isArchived = 0
+        snackBar(requireView(), getString(R.string.pin_note_snackbar_message))
+        return true
+    }
+
+
+    private fun makeNoteArchive(): Boolean {
+        note.isArchived = 1
+        if (note.isPinned == 1)
+            note.isPinned = 0
+        snackBar(
+            requireView(),
+            getString(R.string.archive_note_snackbar_message)
+        )
+        requireActivity().onBackPressed()
+        return true
+    }
+
+    private fun startReminderFragment(): Boolean {
         val fragmentManager = requireActivity().supportFragmentManager
         val reminderDialog = ReminderDialogFragment()
         reminderDialog.setTargetFragment(this, REMINDER_REQUEST_CODE)
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
+        return true
     }
 
     private fun getNoteArgument() {
@@ -203,5 +239,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     override fun onReminderSubmit(date: String, time: String) {
         note.reminder = "$date,$time"
+    }
+
+    private fun snackBar(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 }
