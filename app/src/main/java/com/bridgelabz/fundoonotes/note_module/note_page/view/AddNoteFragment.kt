@@ -20,8 +20,9 @@ import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+const val REMINDER_REQUEST_CODE = 0
 
-class AddNoteFragment : Fragment(), OnBackPressed {
+class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     private lateinit var title: EditText
     private lateinit var description: EditText
@@ -80,6 +81,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
     private fun startReminderFragment() {
         val fragmentManager = requireActivity().supportFragmentManager
         val reminderDialog = ReminderDialogFragment()
+        reminderDialog.setTargetFragment(this, REMINDER_REQUEST_CODE)
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
     }
 
@@ -156,6 +158,7 @@ class AddNoteFragment : Fragment(), OnBackPressed {
             noteToUpdate.id = note.id
             noteToUpdate.position = note.position
             noteToUpdate.isArchived = note.isArchived
+            noteToUpdate.reminder = note.reminder
             Log.d("note", noteToUpdate.toString())
             viewModel.updateNoteOnClick(noteToUpdate)
         } else {
@@ -165,5 +168,9 @@ class AddNoteFragment : Fragment(), OnBackPressed {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    override fun onReminderSubmit(date: String, time: String) {
+        note.reminder = "$date,$time"
     }
 }
