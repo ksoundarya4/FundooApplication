@@ -113,4 +113,6 @@
     <string name="reminder_date_format">dd/MM/yyyy</string>
     <string name="archive_note_snackbar_message">Archiving note</string>
     <string name="archive_note_sanckbar_action">UNDO</string>
+    <string name="delete_note_snackbar_message">Note Moved to Bin</string>
+    <string name="pin_note_snackbar_message">Pinning note</string>
 </resources>
