@@ -1,12 +1,16 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
@@ -42,6 +46,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     }
     private val toolbar by lazy {
         requireView().findViewById<Toolbar>(R.id.fragment_add_note_toolbar)
+    }
+    private val constraintLayout by lazy {
+        requireView().findViewById<ConstraintLayout>(R.id.add_note_constraint_layout)
     }
 
     override fun onCreateView(
@@ -239,6 +246,29 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     override fun onReminderSubmit(date: String, time: String) {
         note.reminder = "$date,$time"
+        createCardView(note.reminder!!)
+    }
+
+    private fun createCardView(reminder: String) {
+        val cardView = CardView(requireContext())
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        cardView.layoutParams = layoutParams
+        cardView.radius = 15F
+        cardView.setPadding(25, 25, 25, 25)
+        cardView.setCardBackgroundColor(Color.GRAY)
+        cardView.maxCardElevation = 30F
+        cardView.maxCardElevation = 6F
+
+        val textView = TextView(requireContext())
+        textView.setText(reminder)
+        textView.setTextColor(Color.BLACK)
+        textView.setPadding(25, 25, 25, 25)
+        cardView.addView(textView)
+
+        constraintLayout.addView(cardView)
     }
 
     private fun snackBar(view: View, message: String) {
