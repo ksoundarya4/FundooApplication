@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
@@ -24,7 +25,12 @@ class ReminderDialogFragment : DialogFragment() {
     private val timeEditText: EditText by lazy {
         requireView().findViewById<EditText>(R.id.time_edit_text)
     }
-
+    private val saveReminder: Button by lazy {
+        requireView().findViewById<Button>(R.id.button_save_reminder)
+    }
+    private val cancelReminder: Button by lazy {
+        requireView().findViewById<Button>(R.id.button_cancel_reminder)
+    }
     private val date =
         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calender.set(Calendar.YEAR, year)
@@ -33,11 +39,15 @@ class ReminderDialogFragment : DialogFragment() {
             updateDateEditText()
         }
 
+    private val onReminderListener by lazy {
+        targetFragment as OnReminderListener
+    }
+
     private val time = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
         calender.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calender.set(Calendar.MINUTE, minute)
         var time = "$hourOfDay : "
-        time += if(minute % 10 > 0)
+        time += if (minute % 10 > 0)
             "$minute"
         else
             "0$minute"
@@ -67,6 +77,24 @@ class ReminderDialogFragment : DialogFragment() {
         super.onActivityCreated(savedInstanceState)
         setDateEditTextListener()
         setTimeEditTextListener()
+        setOnSaveReminderButtonListener()
+        setOnCancelReminderButtonListener()
+    }
+
+    private fun setOnCancelReminderButtonListener() {
+        cancelReminder.setOnClickListener { this.dialog!!.cancel() }
+
+    }
+
+    private fun setOnSaveReminderButtonListener() {
+        saveReminder.setOnClickListener {
+            val date = dateEditText.editableText.toString()
+            val time = timeEditText.editableText.toString()
+            if (date.isNotEmpty() && time.isNotEmpty()) {
+                onReminderListener.onReminderSubmit(date, time)
+            }
+            this.dialog!!.cancel()
+        }
     }
 
     private fun setTimeEditTextListener() {
