@@ -19,6 +19,7 @@ import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTable
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 const val REMINDER_REQUEST_CODE = 0
 
@@ -65,8 +66,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_note_menu_archive_note -> {
-                    note.isArchived = 1
-                    Toast.makeText(requireActivity(), "clicked Archive", Toast.LENGTH_SHORT).show()
+                    makeNoteArchive()
                     return@setOnMenuItemClickListener true
                 }
                 R.id.add_note_menu_reminder -> {
@@ -76,6 +76,17 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
                 else -> return@setOnMenuItemClickListener false
             }
         }
+    }
+
+    private fun makeNoteArchive() {
+        note.isArchived = 1
+        val snackBar = Snackbar.make(
+            requireView(),
+            R.string.archive_note_snackbar_message,
+            Snackbar.LENGTH_LONG
+        )
+        snackBar.show()
+        requireActivity().onBackPressed()
     }
 
     private fun startReminderFragment() {
