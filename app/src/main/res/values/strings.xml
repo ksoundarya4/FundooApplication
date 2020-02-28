@@ -111,4 +111,6 @@
     <string name="hint_enter_time">Enter time</string>
     <string name="hint_enter_date">Enter date</string>
     <string name="reminder_date_format">dd/MM/yyyy</string>
+    <string name="archive_note_snackbar_message">Archiving note</string>
+    <string name="archive_note_sanckbar_action">UNDO</string>
 </resources>
