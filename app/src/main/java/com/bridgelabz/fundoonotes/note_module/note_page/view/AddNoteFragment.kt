@@ -26,7 +26,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     private lateinit var title: EditText
     private lateinit var description: EditText
-    private lateinit var note: Note
+    private var note = Note()
     private val noteFactory by lazy {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
@@ -127,11 +127,10 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     }
 
     override fun onBackPressed() {
-        if (::note.isInitialized) {
-            updateNote()
-        } else {
-
+        if (note.title.isEmpty() && note.description.isEmpty()) {
             insertNote()
+        } else {
+            updateNote()
         }
     }
 
@@ -139,7 +138,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            val createdNote = Note(noteTitle, noteDescription)
+            val createdNote = createNewNote(noteTitle, noteDescription)
             viewModel.insertNoteOnCLick(createdNote)
         } else {
             Toast.makeText(
@@ -150,15 +149,23 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         }
     }
 
+    private fun createNewNote(noteTitle: String, noteDescription: String): Note {
+        val newNote = Note(noteTitle, noteDescription)
+        newNote.isArchived = note.isArchived
+        newNote.isDeleted = note.isDeleted
+        newNote.isPinned = note.isPinned
+        newNote.label = note.label
+        newNote.reminder = note.reminder
+        newNote.position = note.position
+        newNote.colour = note.colour
+        return newNote
+    }
+
     private fun updateNote() {
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            val noteToUpdate = Note(noteTitle, noteDescription)
-            noteToUpdate.id = note.id
-            noteToUpdate.position = note.position
-            noteToUpdate.isArchived = note.isArchived
-            noteToUpdate.reminder = note.reminder
+            val noteToUpdate = noteToBeUpdated(noteTitle, noteDescription)
             Log.d("note", noteToUpdate.toString())
             viewModel.updateNoteOnClick(noteToUpdate)
         } else {
@@ -168,6 +175,19 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun noteToBeUpdated(noteTitle: String, noteDescription: String): Note {
+        val noteToUpdate = Note(noteTitle, noteDescription)
+        noteToUpdate.id = note.id
+        noteToUpdate.isArchived = note.isArchived
+        noteToUpdate.isDeleted = note.isDeleted
+        noteToUpdate.isPinned = note.isPinned
+        noteToUpdate.label = note.label
+        noteToUpdate.reminder = note.reminder
+        noteToUpdate.position = note.position
+        noteToUpdate.colour = note.colour
+        return noteToUpdate
     }
 
     override fun onReminderSubmit(date: String, time: String) {
