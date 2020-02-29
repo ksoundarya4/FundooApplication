@@ -17,19 +17,19 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.bridgelabz.fundoonotes.R
 
-class NotificationHelper(base: Context) : ContextWrapper(base) {
+class NotificationHelper(val base: Context) : ContextWrapper(base) {
+
+    private val notificationChannelId = getString(R.string.notification_channel_id)
+    private val notificationChannelName = getString(R.string.notification_channel_name)
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createChannel()
     }
 
-    private val notificationChannelId = "channel Note Id"
-    private val notificationChannelName = "channel Note Name"
-    private val notificationManager: NotificationManager =
-        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {
@@ -46,7 +46,9 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
         getManager().createNotificationChannel(notificationChannel)
     }
 
-    fun getManager(): NotificationManager {
+    fun getManager(): NotificationManagerCompat {
+        val notificationManager: NotificationManagerCompat =
+             NotificationManagerCompat.from(base)
         return notificationManager
     }
 
