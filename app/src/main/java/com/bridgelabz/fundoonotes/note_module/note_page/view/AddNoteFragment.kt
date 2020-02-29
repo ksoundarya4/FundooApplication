@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
+import android.app.Notification
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
@@ -18,6 +20,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.OnBackPressed
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
+import com.bridgelabz.fundoonotes.notification_util.NotificationHelper
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
@@ -51,6 +54,10 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         requireView().findViewById<ConstraintLayout>(R.id.add_note_constraint_layout)
     }
 
+    private val notificationHelper by lazy {
+        NotificationHelper(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,6 +83,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
                     makeNoteArchive()
                 }
                 R.id.add_note_menu_reminder -> {
+                    sendNotification("Note Reminder", "Displace note notification")
                     startReminderFragment()
                 }
                 R.id.add_note_menu_pin_button -> {
@@ -273,5 +281,10 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     private fun snackBar(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun sendNotification(title: String, message: String) {
+        val notification = notificationHelper.getChannelNotification(title, message)
+        notificationHelper.getManager().notify(1, notification.build())
     }
 }
