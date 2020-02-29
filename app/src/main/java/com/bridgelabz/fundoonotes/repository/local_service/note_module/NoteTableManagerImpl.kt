@@ -1,9 +1,9 @@
 /**
  * Fundoo Notes
- * @description NoteDatabaseManagerImpl class implements
- * NoteDatabaseManager interface which can perform insert,
+ * @description NoteTableManagerImpl class implements
+ * NoteTableManager interface which can perform insert,
  * fetch and delete on notes.
- * @file NoteDatabaseManagerImpl.kt
+ * @file NoteTableManagerImpl.kt
  * @author ksoundarya4
  * @version 1.0
  * @since 07/02/2020
@@ -15,9 +15,9 @@ import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 
-class NoteDatabaseManagerImpl(
+class NoteTableManagerImpl(
     private val noteDbHelper: DatabaseHelper
-) : NoteDatabaseManager {
+) : NoteTableManager {
 
     companion object NoteEntry {
         private const val TABLE_NOTE = "Notes"

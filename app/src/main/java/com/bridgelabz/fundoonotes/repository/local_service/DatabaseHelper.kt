@@ -5,7 +5,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper.UserNoteRegistrationContract.UserNote.TABLE_USER_NOTE
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteDatabaseManagerImpl.NoteEntry.CREATE_NOTE_TABLE
+import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManagerImpl.Companion.CREATE_TABLE_LABEL
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl.NoteEntry.CREATE_NOTE_TABLE
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl.UserEntry.CREATE_USER_TABLE
 
 private const val CREATE_USER_NOTE_TABLE =
@@ -25,6 +26,7 @@ class DatabaseHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_USER_TABLE)
         db.execSQL(CREATE_NOTE_TABLE)
+        db.execSQL(CREATE_TABLE_LABEL)
     }
 
     /**Function to upgrade the existing user database*/
@@ -33,7 +35,7 @@ class DatabaseHelper(context: Context) :
             db.execSQL(CREATE_NOTE_TABLE)
         }
         if (DATABASE_VERSION < VERSION_THREE) {
-            db.execSQL(CREATE_USER_NOTE_TABLE)
+            db.execSQL(CREATE_TABLE_LABEL)
         }
     }
 
@@ -51,7 +53,7 @@ class DatabaseHelper(context: Context) :
         const val VERSION_ONE = 1
         const val VERSION_TWO = 2
         const val VERSION_THREE = 3
-        const val DATABASE_VERSION = VERSION_ONE
+        const val DATABASE_VERSION = VERSION_TWO
         const val DATABASE_NAME = "App.db"
     }
 

@@ -60,6 +60,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 startActivity(this)
             }
             toast("Login Successful")
+            finish()
         } else {
             toast("Email does not exist. Register and then try to login")
         }

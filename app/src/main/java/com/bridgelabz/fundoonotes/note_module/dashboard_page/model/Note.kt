@@ -20,4 +20,6 @@ data class Note(var title: String, var description: String) : Serializable {
     var label: String? = null
     var position: Int = 0
     var colour: Int = 0
+
+    constructor() : this(title = "", description = "")
 }

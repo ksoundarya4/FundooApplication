@@ -15,15 +15,19 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.app_bar_home_dash_board.*
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
@@ -65,8 +69,24 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 toast(getString(R.string.tast_when_user_profile_clicked))
                 true
             }
+            R.id.app_bar_search_note -> {
+                val searchView: SearchView = SearchView(this)
+                searchView.setOnQueryTextListener(searchQueryListener)
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private val searchQueryListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return false
+        }
+
     }
 
     override fun onBackPressed() {
@@ -98,9 +118,44 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     onArchiveMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.nav_delete -> {
+                    onDeleteMenuClick()
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.nav_label -> {
+                    nLabelMenuClick()
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+    }
+
+    private fun nLabelMenuClick() {
+        drawerLayout.closeDrawer(navigationView)
+        reolaceLabelFragment()
+    }
+
+    private fun reolaceLabelFragment() {
+        val labelFragment = LabelFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, labelFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    private fun onDeleteMenuClick() {
+        drawerLayout.closeDrawer(navigationView)
+        replaceTrashFragment()
+        toast(getString(R.string.toast_when_Delete_menu_clicked))
+    }
+
+    private fun replaceTrashFragment() {
+        val trashFragment = TrashFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, trashFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun onArchiveMenuClick() {

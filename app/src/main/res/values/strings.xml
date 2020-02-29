@@ -97,4 +97,22 @@
     <string name="bundle_note_colour">noteColour</string>
     <string name="toast_discard_empty_note">Empty note discarded</string>
     <string name="toast_archive_notes_ckick">Archive Notes</string>
+    <string name="toast_when_Delete_menu_clicked">Deleted Notes</string>
+    <string name="app_bar_title_archive_notes">Archive</string>
+    <string name="edit_labels">Edit labels</string>
+    <string name="alert_title_for_delete_label">Delete label?</string>
+    <string name="alert_message_for_delete_label">label will be deleted from all notes</string>
+    <string name="alert_positive_button_for_delete_label">Delete</string>
+    <string name="toast_label_deleted">Label deleted</string>
+    <string name="alert_negative_button_for_delete_label">Cancel</string>
+    <string name="dialog_reminder_title">Add reminder</string>
+    <string name="cancel_reminder">Cancel</string>
+    <string name="save_reminder">Save</string>
+    <string name="hint_enter_time">Enter time</string>
+    <string name="hint_enter_date">Enter date</string>
+    <string name="reminder_date_format">dd/MM/yyyy</string>
+    <string name="archive_note_snackbar_message">Archiving note</string>
+    <string name="archive_note_sanckbar_action">UNDO</string>
+    <string name="delete_note_snackbar_message">Note Moved to Bin</string>
+    <string name="pin_note_snackbar_message">Pinning note</string>
 </resources>

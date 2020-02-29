@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
@@ -15,63 +15,62 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedVie
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 
-class ArchiveFragment : Fragment(), OnNoteClickListener {
+class TrashFragment : Fragment(), OnNoteClickListener {
 
     private val noteFactory: NoteTableManagerFactory by lazy {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
+
     private val viewModel by lazy {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
 
     private val recyclerView: RecyclerView by lazy {
-        requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
+        requireActivity().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
-
-    private val noteAdapter = NoteViewAdapter(ArrayList(), this)
-
-    private lateinit var archiveNotes: ArrayList<Note>
-
+    private val adapter = NoteViewAdapter(ArrayList(), this)
+    private var deletedNotes = ArrayList<Note>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getArchiveNoteLiveData()
-            .observe(requireActivity(), Observer { observeArchiveNotes(it) })
+        viewModel.getDeletedNoteLiveData()
+            .observe(requireActivity(), Observer { observeDeletedNote(it) })
         initRecyclerView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-            getString(R.string.app_bar_title_archive_notes)
+           "Delete"
     }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        recyclerView.adapter = noteAdapter
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
+        recyclerView.adapter = adapter
     }
 
-    private fun observeArchiveNotes(archiveNoteList: ArrayList<Note>) {
-        archiveNotes = archiveNoteList
-        noteAdapter.setListOfNotes(archiveNoteList)
-        noteAdapter.notifyDataSetChanged()
+    private fun observeDeletedNote(deletedNoteList: ArrayList<Note>) {
+        deletedNotes = deletedNoteList
+        adapter.setListOfNotes(deletedNoteList)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onClick(adapterPosition: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onLongClick(adapterPosition: Int) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 }
