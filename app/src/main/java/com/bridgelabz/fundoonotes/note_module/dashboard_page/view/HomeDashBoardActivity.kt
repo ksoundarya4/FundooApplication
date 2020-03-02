@@ -73,7 +73,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun setNoteFragment() {
         navigationView.setCheckedItem(R.id.nav_home)
-        replaceAddNoteFragment()
+        replaceNoteFragment()
     }
 
     private fun getUserSharedPreferences() {
@@ -120,7 +120,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         tellFragments()
-        replaceNoteFragment()
+        setNoteFragment()
         super.onBackPressed()
     }
 
