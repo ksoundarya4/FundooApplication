@@ -2,7 +2,6 @@ package com.bridgelabz.fundoonotes.user_module.launch_module
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
@@ -15,35 +14,38 @@ const val SPLASH_TIME = 3000L
 class LaunchScreenActivity : AppCompatActivity() {
 
     private val handler by lazy { Handler() }
-    private lateinit var sharedPreference: SharedPreferences
-    private var firstTime: Boolean = true
+
+
+    internal val runnable = Runnable {
+        if (!isFinishing) {
+
+            val sharedPreference = getSharedPreferences("LaunchScreen", Context.MODE_PRIVATE)
+            if (sharedPreference.contains("email")) {
+                intent = Intent(this, HomeDashBoardActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                finish()
+                startActivity(intent)
+            } else {
+                intent = Intent(this, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                finish()
+                startActivity(intent)
+
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch_screen)
+        handler.postDelayed(
+            runnable
+            , SPLASH_TIME
+        )
+    }
 
-        sharedPreference = getSharedPreferences("LaunchScreen", Context.MODE_PRIVATE)
-        firstTime = sharedPreference.getBoolean("firstTime", true)
-
-        if (firstTime) {
-            handler.postDelayed({
-
-                val sharedPreferenceEditor = sharedPreference.edit()
-                firstTime = false
-                sharedPreferenceEditor.putBoolean("firstTime", firstTime)
-                sharedPreferenceEditor.apply()
-
-                Intent(this, LoginActivity::class.java).apply {
-                    startActivity(this)
-                }
-                finish()
-            }, SPLASH_TIME)
-
-        } else {
-            Intent(this, HomeDashBoardActivity::class.java).apply {
-                startActivity(this)
-                finish()
-            }
-        }
+    override fun onDestroy() {
+        handler.removeCallbacks(runnable)
+        super.onDestroy()
     }
 }
