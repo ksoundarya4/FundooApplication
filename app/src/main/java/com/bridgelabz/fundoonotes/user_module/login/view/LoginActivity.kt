@@ -9,7 +9,9 @@
  */
 package com.bridgelabz.fundoonotes.user_module.login.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -55,6 +57,12 @@ class LoginActivity : AppCompatActivity() {
     }
     private val loginActivity by lazy {
         findViewById<ConstraintLayout>(R.id.login_constaint_layout)
+    }
+    private val preferences: SharedPreferences by lazy {
+        this.getSharedPreferences(
+            "LaunchScreen",
+            Context.MODE_PRIVATE
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,48 +113,56 @@ class LoginActivity : AppCompatActivity() {
                 passwordEditText.error = getString(R.string.invalidPassword)
             }
             AuthState.AUTH -> {
+                val inputEmail = emailEditText.editableText.toString()
+                getSharedPreference(inputEmail)
                 toast(getString(R.string.toast_login_successful))
-                Intent(this, HomeDashBoardActivity::class.java).apply {
-                    startActivity(this)
-                }
+                val intent = Intent(this, HomeDashBoardActivity::class.java)
+                finish()
+                startActivity(intent)
             }
         }
     }
 
-    /**Email text watcher*/
-    private val emailWatcher = object : TextWatcher {
+private fun getSharedPreference(email: String) {
+    val editor = preferences.edit()
+    editor.putString("email", email)
+    editor.apply()
+}
 
-        override fun afterTextChanged(editableEmail: Editable?) {
-            if (editableEmail.isNullOrEmpty())
-                emailErrorText.text = getString(R.string.emptyEmail)
-            if (editableEmail!!.length >= 30)
-                emailErrorText.text = getString(R.string.emailTooLong)
-        }
+/**Email text watcher*/
+private val emailWatcher = object : TextWatcher {
 
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
+    override fun afterTextChanged(editableEmail: Editable?) {
+        if (editableEmail.isNullOrEmpty())
+            emailErrorText.text = getString(R.string.emptyEmail)
+        if (editableEmail!!.length >= 30)
+            emailErrorText.text = getString(R.string.emailTooLong)
+    }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+}
+
+/**Password text watcher*/
+private val passwordWatcher = object : TextWatcher {
+    override fun afterTextChanged(editablePassword: Editable?) {
+        if (editablePassword.isNullOrEmpty())
+            passwordErrorText.text = getString(R.string.emptyPassword)
+        else {
+            if (editablePassword.length < 5)
+                passwordErrorText.text = getString(R.string.shortPasswordLength)
+            else
+                passwordErrorText.text = getString(R.string.validPasswordLength)
         }
     }
 
-    /**Password text watcher*/
-    private val passwordWatcher = object : TextWatcher {
-        override fun afterTextChanged(editablePassword: Editable?) {
-            if (editablePassword.isNullOrEmpty())
-                passwordErrorText.text = getString(R.string.emptyPassword)
-            else {
-                if (editablePassword.length < 5)
-                    passwordErrorText.text = getString(R.string.shortPasswordLength)
-                else
-                    passwordErrorText.text = getString(R.string.validPasswordLength)
-            }
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+}
 }
