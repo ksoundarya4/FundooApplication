@@ -98,24 +98,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 toast(getString(R.string.tast_when_user_profile_clicked))
                 true
             }
-            R.id.app_bar_search_note -> {
-                val searchView = SearchView(this)
-                searchView.setOnQueryTextListener(searchQueryListener)
-                return true
-            }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private val searchQueryListener = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return false
-        }
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            return false
-        }
-
     }
 
     override fun onBackPressed() {
