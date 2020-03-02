@@ -16,6 +16,8 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NoteViewAdapter(
     private var notes: ArrayList<Note>,
@@ -57,10 +59,10 @@ class NoteViewAdapter(
             if (constraint == null || constraint.isEmpty()) {
                 filteredNotes.addAll(copyOfNotes)
             } else {
-                val filterPattern = constraint.toString().toLowerCase().trim()
+                val filterPattern = constraint.toString().toLowerCase(Locale.ENGLISH).trim()
 
                 for (note in copyOfNotes) {
-                    if (note.title.toLowerCase().contains(filterPattern))
+                    if (note.title.toLowerCase(Locale.ENGLISH).contains(filterPattern))
                         filteredNotes.add(note)
                 }
             }
