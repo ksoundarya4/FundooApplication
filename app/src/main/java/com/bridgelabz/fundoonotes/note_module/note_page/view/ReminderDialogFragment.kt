@@ -1,10 +1,8 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
-import android.annotation.TargetApi
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.notification_util.AlertReceiver
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,7 +54,7 @@ class ReminderDialogFragment : DialogFragment() {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calender.timeInMillis, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, delay.time, pendingIntent)
     }
 
     private val onReminderListener by lazy {
@@ -66,11 +65,11 @@ class ReminderDialogFragment : DialogFragment() {
         calender.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calender.set(Calendar.MINUTE, minute)
         calender.set(Calendar.SECOND, 0)
-        var time = "$hourOfDay :"
-        time += if (minute / 10 > 0)
-            "$minute"
-        else
-            "0$minute"
+        updateTimeEditText()
+    }
+
+    private fun updateTimeEditText() {
+        val time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calender.time)
         timeEditText.setText(time)
     }
 
@@ -78,9 +77,6 @@ class ReminderDialogFragment : DialogFragment() {
         val dateFormat = getString(R.string.reminder_date_format)
         val setDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         dateEditText.setText(setDateFormat.format(calender.time))
-
-        val date = calender.time
-        setAlarm(date)
     }
 
     override fun onCreateView(
@@ -117,6 +113,8 @@ class ReminderDialogFragment : DialogFragment() {
                 onReminderListener.onReminderSubmit(date, time)
             }
             this.dialog!!.cancel()
+
+            setAlarm(calender.time)
         }
     }
 
@@ -129,7 +127,7 @@ class ReminderDialogFragment : DialogFragment() {
     private fun setTimePicker() {
         TimePickerDialog(
             requireContext(), time,
-            calender.get(Calendar.HOUR_OF_DAY),
+            calender.get(Calendar.DAY_OF_YEAR),
             calender.get(Calendar.MINUTE), true
         ).show()
     }
