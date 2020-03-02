@@ -9,28 +9,26 @@ import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 
-const val SPLASH_TIME = 3000L
+const val SPLASH_TIME = 2000L
 
 class LaunchScreenActivity : AppCompatActivity() {
 
     private val handler by lazy { Handler() }
 
-
-    internal val runnable = Runnable {
+    private val runnable = Runnable {
         if (!isFinishing) {
 
             val sharedPreference = getSharedPreferences("LaunchScreen", Context.MODE_PRIVATE)
             if (sharedPreference.contains("email")) {
-                intent = Intent(this, HomeDashBoardActivity::class.java)
+                val intent = Intent(this, HomeDashBoardActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 finish()
                 startActivity(intent)
             } else {
-                intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 finish()
                 startActivity(intent)
-
             }
         }
     }
@@ -38,6 +36,7 @@ class LaunchScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch_screen)
+
         handler.postDelayed(
             runnable
             , SPLASH_TIME
