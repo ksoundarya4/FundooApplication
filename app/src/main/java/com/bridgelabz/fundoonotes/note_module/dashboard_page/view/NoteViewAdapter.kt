@@ -11,6 +11,8 @@ package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
@@ -19,7 +21,9 @@ class NoteViewAdapter(
     private var notes: ArrayList<Note>,
     private val onItemClickListener: OnNoteClickListener
 ) :
-    RecyclerView.Adapter<NoteViewHolder>() {
+    RecyclerView.Adapter<NoteViewHolder>(), Filterable {
+
+    private val copyOfNotes = ArrayList<Note>(notes)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView =
@@ -34,11 +38,42 @@ class NoteViewAdapter(
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes[position]
         holder.bindNote(note)
-        holder.onNoteCLickListener(onItemClickListener,position)
+        holder.onNoteCLickListener(onItemClickListener, position)
     }
 
     /**Set array of notes*/
     fun setListOfNotes(notes: ArrayList<Note>) {
         this.notes = notes
+    }
+
+    override fun getFilter(): Filter {
+        return noteFilter
+    }
+
+    private val noteFilter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filteredNotes = ArrayList<Note>()
+
+            if (constraint == null || constraint.isEmpty()) {
+                filteredNotes.addAll(copyOfNotes)
+            } else {
+                val filterPattern = constraint.toString().toLowerCase().trim()
+
+                for (note in notes) {
+                    if (note.title.toLowerCase().contains(filterPattern))
+                        filteredNotes.add(note)
+                }
+            }
+
+            val result = FilterResults()
+            result.values = filteredNotes
+            return result
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            notes.clear()
+            notes.addAll(results!!.values as ArrayList<Note>)
+            notifyDataSetChanged()
+        }
     }
 }
