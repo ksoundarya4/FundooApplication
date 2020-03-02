@@ -33,6 +33,8 @@
             android:name=".user_module.registration.view.RegisterActivity"
             android:parentActivityName=".user_module.login.view.LoginActivity" />
         <activity android:name=".user_module.login.view.LoginActivity" />
+
+        <receiver android:name=".notification_util.AlertReceiver" />
     </application>
 
 </manifest>
