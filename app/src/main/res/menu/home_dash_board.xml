@@ -12,11 +12,11 @@
     <!--            android:title="@string/sign_out"-->
     <!--            app:showAsAction="never" />-->
     <item
-        android:icon="@drawable/ic_search_grey"
         android:id="@+id/app_bar_search_note"
+        android:icon="@drawable/ic_search_grey"
         android:title="@string/search_note"
-        app:showAsAction="always"/>
-<!--        app:actionViewClass="androidx.appcompat.widget.SearchView$SearchAutoComplete" />-->
+        app:actionViewClass = "androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/app_bar_recycler_view"
         android:icon="@drawable/ic_grid_view_white"
