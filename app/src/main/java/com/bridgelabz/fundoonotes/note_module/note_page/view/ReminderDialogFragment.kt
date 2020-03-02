@@ -1,8 +1,10 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
-import android.app.DatePickerDialog
-import android.app.Dialog
-import android.app.TimePickerDialog
+import android.annotation.TargetApi
+import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +12,10 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.notification_util.AlertReceiver
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,7 +41,18 @@ class ReminderDialogFragment : DialogFragment() {
             calender.set(Calendar.MONTH, month)
             calender.set(Calendar.DAY_OF_YEAR, dayOfMonth)
             updateDateEditText()
+            setAlarm()
         }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private fun setAlarm() {
+        val alarmManager: AlarmManager =
+            (requireActivity() as AppCompatActivity).getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireActivity(), AlertReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 1, intent, 0)
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calender.timeInMillis, pendingIntent)
+    }
 
     private val onReminderListener by lazy {
         targetFragment as OnReminderListener
@@ -106,7 +121,7 @@ class ReminderDialogFragment : DialogFragment() {
     private fun setTimePicker() {
         TimePickerDialog(
             requireContext(), time,
-            calender.get(Calendar.DAY_OF_YEAR),
+            calender.get(Calendar.HOUR_OF_DAY),
             calender.get(Calendar.MINUTE), true
         ).show()
     }
