@@ -8,7 +8,9 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,7 +19,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bridgelabz.fundoonotes.R
@@ -27,7 +28,6 @@ import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.app_bar_home_dash_board.*
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
@@ -47,15 +47,40 @@ class HomeDashBoardActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fab)
     }
 
+    private val preferences: SharedPreferences by lazy {
+        this.getSharedPreferences(
+            "LaunchScreen",
+            Context.MODE_PRIVATE
+        )
+    }
+    private lateinit var sharedEmail: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_dash_board)
 
         setSupportActionBar(toolbar)
-        setActionBarToggle()
-        replaceNoteFragment()
+        initHomeDashBoardActivity()
         setFloatingActionBarClicked()
         setNavigationItemClicked()
+    }
+
+    private fun initHomeDashBoardActivity() {
+        getUserSharedPreferences()
+        setNoteFragment()
+    }
+
+    private fun setNoteFragment() {
+        navigationView.setCheckedItem(R.id.nav_home)
+        replaceAddNoteFragment()
+        setActionBarToggle()
+    }
+
+    private fun getUserSharedPreferences() {
+        val editor = preferences.edit()
+        val email = preferences.getString("EMAIL", "emailid")
+        sharedEmail = email!!
+        editor.apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,7 +95,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 true
             }
             R.id.app_bar_search_note -> {
-                val searchView: SearchView = SearchView(this)
+                val searchView = SearchView(this)
                 searchView.setOnQueryTextListener(searchQueryListener)
                 return true
             }
@@ -189,7 +214,15 @@ class HomeDashBoardActivity : AppCompatActivity() {
     /**Function to set alert dialog when SignOut
      * Menu item is clicked */
     private fun onSignOutMenuClick() {
+        removePreference()
         signOutAlertDialog()
+    }
+
+    private fun removePreference() {
+        if (preferences.contains("email")) {
+            val editor = preferences.edit()
+            editor.clear().apply()
+        }
     }
 
     /**Function to replace homeDashBoard with
@@ -255,9 +288,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     /**Function to navigate to LoginActivity*/
     private fun navigateToLoginScreen() {
-        Intent(this, LoginActivity::class.java).apply {
-            startActivity(this)
-            finish()
-        }
+        val intent = Intent(this, LoginActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 }
