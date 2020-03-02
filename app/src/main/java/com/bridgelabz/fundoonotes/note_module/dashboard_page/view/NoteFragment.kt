@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -27,7 +28,12 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
     private val sharedViewModel: SharedViewModel by lazy {
-        requireActivity().run { ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java) }
+        requireActivity().run {
+            ViewModelProvider(
+                this,
+                noteFactory
+            ).get(SharedViewModel::class.java)
+        }
     }
     private val recyclerView: RecyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
@@ -50,7 +56,8 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedViewModel.getSimpleNoteLiveData().observe(requireActivity(), Observer { observeNotes(it) })
+        sharedViewModel.getSimpleNoteLiveData()
+            .observe(requireActivity(), Observer { observeNotes(it) })
         sharedViewModel.getRecyclerViewType()
             .observe(requireActivity(), Observer { recyclerViewType = it })
         initRecyclerView()
@@ -119,8 +126,25 @@ class NoteFragment : Fragment(), OnNoteClickListener {
                 switchIcon(item)
                 true
             }
+            R.id.app_bar_search_note -> {
+                val searchView = item.actionView as SearchView
+                searchView.setOnQueryTextListener(searchQueryListener)
+                true
+            }
             else -> false
         }
+    }
+
+    private val searchQueryListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            noteAdapter.filter.filter(newText)
+            return false
+        }
+
     }
 
     private fun switchIcon(item: MenuItem) {
