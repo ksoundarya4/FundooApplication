@@ -41,17 +41,21 @@ class ReminderDialogFragment : DialogFragment() {
             calender.set(Calendar.MONTH, month)
             calender.set(Calendar.DAY_OF_YEAR, dayOfMonth)
             updateDateEditText()
-            setAlarm()
         }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private fun setAlarm() {
+    private fun setAlarm(delay: Date) {
+
         val alarmManager: AlarmManager =
             (requireActivity() as AppCompatActivity).getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireActivity(), AlertReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 1, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            1,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calender.timeInMillis, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calender.timeInMillis, pendingIntent)
     }
 
     private val onReminderListener by lazy {
@@ -61,8 +65,9 @@ class ReminderDialogFragment : DialogFragment() {
     private val time = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
         calender.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calender.set(Calendar.MINUTE, minute)
-        var time = "$hourOfDay : "
-        time += if (minute % 10 > 0)
+        calender.set(Calendar.SECOND, 0)
+        var time = "$hourOfDay :"
+        time += if (minute / 10 > 0)
             "$minute"
         else
             "0$minute"
@@ -73,6 +78,9 @@ class ReminderDialogFragment : DialogFragment() {
         val dateFormat = getString(R.string.reminder_date_format)
         val setDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         dateEditText.setText(setDateFormat.format(calender.time))
+
+        val date = calender.time
+        setAlarm(date)
     }
 
     override fun onCreateView(
