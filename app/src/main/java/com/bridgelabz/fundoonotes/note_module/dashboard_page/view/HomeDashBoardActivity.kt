@@ -58,29 +58,33 @@ class HomeDashBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_dash_board)
-
         setSupportActionBar(toolbar)
+
         initHomeDashBoardActivity()
-        setFloatingActionBarClicked()
+        callAddNoteFragment()
         setNavigationItemClicked()
     }
 
     private fun initHomeDashBoardActivity() {
         getUserSharedPreferences()
         setNoteFragment()
+        setActionBarToggle()
     }
 
     private fun setNoteFragment() {
         navigationView.setCheckedItem(R.id.nav_home)
         replaceAddNoteFragment()
-        setActionBarToggle()
     }
 
     private fun getUserSharedPreferences() {
         val editor = preferences.edit()
-        val email = preferences.getString("EMAIL", "emailid")
+        val email = preferences.getString("EMAIL", "emailId")
         sharedEmail = email!!
         editor.apply()
+    }
+
+    private fun callAddNoteFragment() {
+        setFloatingActionBarClicked()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
