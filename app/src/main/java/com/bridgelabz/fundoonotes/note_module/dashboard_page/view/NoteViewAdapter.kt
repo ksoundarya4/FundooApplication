@@ -23,7 +23,7 @@ class NoteViewAdapter(
 ) :
     RecyclerView.Adapter<NoteViewHolder>(), Filterable {
 
-    private val copyOfNotes = ArrayList<Note>(notes)
+    private var copyOfNotes = ArrayList<Note>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView =
@@ -44,6 +44,7 @@ class NoteViewAdapter(
     /**Set array of notes*/
     fun setListOfNotes(notes: ArrayList<Note>) {
         this.notes = notes
+        copyOfNotes = notes
     }
 
     override fun getFilter(): Filter {
@@ -53,13 +54,12 @@ class NoteViewAdapter(
     private val noteFilter = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val filteredNotes = ArrayList<Note>()
-
             if (constraint == null || constraint.isEmpty()) {
                 filteredNotes.addAll(copyOfNotes)
             } else {
                 val filterPattern = constraint.toString().toLowerCase().trim()
 
-                for (note in notes) {
+                for (note in copyOfNotes) {
                     if (note.title.toLowerCase().contains(filterPattern))
                         filteredNotes.add(note)
                 }
@@ -71,8 +71,8 @@ class NoteViewAdapter(
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            notes.clear()
-            notes.addAll(results!!.values as ArrayList<Note>)
+            copyOfNotes.clear()
+            copyOfNotes.addAll(results!!.values as ArrayList<Note>)
             notifyDataSetChanged()
         }
     }
