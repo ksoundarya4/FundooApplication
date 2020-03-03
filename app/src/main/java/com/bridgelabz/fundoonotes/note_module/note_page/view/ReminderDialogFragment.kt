@@ -39,7 +39,7 @@ class ReminderDialogFragment : DialogFragment() {
         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calender.set(Calendar.YEAR, year)
             calender.set(Calendar.MONTH, month)
-            calender.set(Calendar.DAY_OF_YEAR, dayOfMonth)
+            calender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateEditText()
             setAlarm(calender.time)
         }
@@ -58,7 +58,6 @@ class ReminderDialogFragment : DialogFragment() {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-
         alarmManager.set(AlarmManager.RTC_WAKEUP, delay.time, pendingIntent)
     }
 
@@ -83,7 +82,6 @@ class ReminderDialogFragment : DialogFragment() {
         val setDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         dateEditText.setText(setDateFormat.format(calender.time))
         Log.d("ReminderDate", calender.time.toString())
-
     }
 
     override fun onCreateView(
@@ -133,7 +131,7 @@ class ReminderDialogFragment : DialogFragment() {
     private fun setTimePicker() {
         TimePickerDialog(
             requireContext(), time,
-            calender.get(Calendar.DAY_OF_YEAR),
+            calender.get(Calendar.HOUR_OF_DAY),
             calender.get(Calendar.MINUTE), true
         ).show()
     }
@@ -150,7 +148,7 @@ class ReminderDialogFragment : DialogFragment() {
             date,
             calender.get(Calendar.YEAR),
             calender.get(Calendar.MONTH),
-            calender.get(Calendar.DAY_OF_YEAR)
+            calender.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
 
