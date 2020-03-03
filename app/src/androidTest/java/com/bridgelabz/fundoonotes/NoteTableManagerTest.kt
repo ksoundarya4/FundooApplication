@@ -89,4 +89,11 @@ class NoteTableManagerTest {
         Log.d("simpleNote", simpleNote.toString())
         assertEquals(3, simpleNote.size)
     }
+
+    @Test
+    fun test_fetchReminderNotesFunction() {
+        val reminderNOtes = noteDbManager.fetchReminderNOtes()
+        Log.d("ReminderNote", reminderNOtes.toString())
+        assertEquals(2, reminderNOtes.size)
+    }
 }
