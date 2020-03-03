@@ -39,7 +39,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
-    private val noteAdapter = NoteViewAdapter(ArrayList(), this)
+    private lateinit var noteAdapter: NoteViewAdapter
 
     private lateinit var notes: ArrayList<Note>
 
@@ -60,7 +60,6 @@ class NoteFragment : Fragment(), OnNoteClickListener {
             .observe(requireActivity(), Observer { observeNotes(it) })
         sharedViewModel.getRecyclerViewType()
             .observe(requireActivity(), Observer { recyclerViewType = it })
-        initRecyclerView()
     }
 
     private fun initRecyclerView() {
@@ -72,8 +71,9 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private fun observeNotes(noteList: ArrayList<Note>) {
         Log.d("noteList", noteList.toString())
         notes = noteList
-        noteAdapter.setListOfNotes(noteList)
+        noteAdapter = NoteViewAdapter(notes, this)
         noteAdapter.notifyDataSetChanged()
+        initRecyclerView()
     }
 
     override fun onClick(adapterPosition: Int) {
@@ -176,7 +176,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
         return when (viewType) {
             RecyclerViewType.ListView -> {
-                layoutManager.setRecyclerView(LinearRecyclerViewManager(requireContext()))
+                layoutManager.setRecyclerView(LinearRecyclerViewManager(requireView().context))
             }
             RecyclerViewType.GridView -> {
                 layoutManager.setRecyclerView(
