@@ -449,8 +449,8 @@ class NoteTableManagerImpl(
             KEY_COLOUR
         )
 
-        val selection = "$KEY_REMINDER = ?"
-        val selectionArgs = arrayOf("IS NOT NULL")
+        val selection = "$KEY_REMINDER =?"
+        val selectionArgs = arrayOf("NOTNULL")
 
         val cursor = database.query(
             TABLE_NOTE,
