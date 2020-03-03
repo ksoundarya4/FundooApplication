@@ -20,12 +20,19 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val cardView: CardView = itemView.findViewById(R.id.note_card_view)
     private val title: TextView = itemView.findViewById(R.id.text_view_note_title)
     private val description: TextView = itemView.findViewById(R.id.text_view_note_description)
+    private val reminderCardView: CardView = itemView.findViewById(R.id.reminder_card_view)
+    private val reminderText: TextView = itemView.findViewById(R.id.reminder_text)
 
     fun bindNote(
         note: Note
     ) {
         title.text = note.title
         description.text = note.description
+
+        if(note.reminder != null){
+            reminderText.text = note.reminder
+            reminderCardView.maxCardElevation = 4F
+        }
     }
 
     fun onNoteCLickListener(onNoteClick: OnNoteClickListener, adapterPosition: Int) {
