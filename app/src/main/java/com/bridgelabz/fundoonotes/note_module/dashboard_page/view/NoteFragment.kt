@@ -176,7 +176,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
         return when (viewType) {
             RecyclerViewType.ListView -> {
-                layoutManager.setRecyclerView(LinearRecyclerViewManager(requireView().context))
+                layoutManager.setRecyclerView(LinearRecyclerViewManager(requireContext()))
             }
             RecyclerViewType.GridView -> {
                 layoutManager.setRecyclerView(
