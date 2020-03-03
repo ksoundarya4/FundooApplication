@@ -20,4 +20,5 @@ interface NoteTableManager {
     fun fetchDeletedNote(): ArrayList<Note>
     fun fetchPinnedNote(): ArrayList<Note>
     fun fetchSimpleNote(): ArrayList<Note>
+    fun fetchReminderNOtes(): ArrayList<Note>
 }

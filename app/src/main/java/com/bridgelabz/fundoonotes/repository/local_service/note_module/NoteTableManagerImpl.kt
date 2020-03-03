@@ -389,7 +389,7 @@ class NoteTableManagerImpl(
         )
 
         val selection = "$KEY_ARCHIVE =? AND $KEY_TRASH =? AND $KEY_PINNED =?"
-        val selectionArgs = arrayOf("0","0","0")
+        val selectionArgs = arrayOf("0", "0", "0")
 
         val cursor = database.query(
             TABLE_NOTE,
@@ -430,5 +430,66 @@ class NoteTableManagerImpl(
         cursor.close()
         database.close()
         return simpleNotes
+    }
+
+    override fun fetchReminderNOtes(): ArrayList<Note> {
+        val reminderNotes = ArrayList<Note>()
+        database = noteDbHelper.open()
+
+        val columns = arrayOf(
+            NOTE_ID,
+            KEY_TITLE,
+            KEY_DESCRIPTION,
+            KEY_ARCHIVE,
+            KEY_TRASH,
+            KEY_PINNED,
+            KEY_LABEL,
+            KEY_REMINDER,
+            KEY_POSITION,
+            KEY_COLOUR
+        )
+
+        val selection = "$KEY_REMINDER = ?"
+        val selectionArgs = arrayOf("IS NOT NULL")
+
+        val cursor = database.query(
+            TABLE_NOTE,
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+                val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
+                val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_TRASH))
+                val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
+                val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
+                val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+
+                val note = Note(title, description)
+                note.id = id
+                note.isArchived = isArchived
+                note.isDeleted = isDeleted
+                note.isPinned = isPinned
+                note.label = label
+                note.reminder = reminder
+                note.position = position
+                note.colour = colour
+
+                reminderNotes.add(note)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        database.close()
+        return reminderNotes
     }
 }
