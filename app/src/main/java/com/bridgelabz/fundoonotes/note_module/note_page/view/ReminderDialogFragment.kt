@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,16 +41,20 @@ class ReminderDialogFragment : DialogFragment() {
             calender.set(Calendar.MONTH, month)
             calender.set(Calendar.DAY_OF_YEAR, dayOfMonth)
             updateDateEditText()
+            setAlarm(calender.time)
         }
 
     private fun setAlarm(delay: Date) {
+
+        Log.d("delayReminder", delay.toString())
+        Log.d("delayTimeReminder", delay.time.toString())
 
         val alarmManager: AlarmManager =
             (requireActivity() as AppCompatActivity).getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireActivity(), AlertReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
-            requireContext(),
-            1,
+            requireActivity(),
+            777,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -77,6 +82,8 @@ class ReminderDialogFragment : DialogFragment() {
         val dateFormat = getString(R.string.reminder_date_format)
         val setDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         dateEditText.setText(setDateFormat.format(calender.time))
+        Log.d("ReminderDate", calender.time.toString())
+
     }
 
     override fun onCreateView(
@@ -114,7 +121,6 @@ class ReminderDialogFragment : DialogFragment() {
             }
             this.dialog!!.cancel()
 
-            setAlarm(calender.time)
         }
     }
 
