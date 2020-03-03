@@ -83,7 +83,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
                     makeNoteArchive()
                 }
                 R.id.add_note_menu_reminder -> {
-//                    sendNotification("Note Reminder", "Displace note notification")
                     startReminderFragment()
                 }
                 R.id.add_note_menu_pin_button -> {
