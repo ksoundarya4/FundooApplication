@@ -37,7 +37,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_forgot_password)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setSubmitButtonClickListener()
-        setHideKeyboardOnTouch(this,forgotPasswordActivity)
+        setHideKeyboardOnTouch(this, forgotPasswordActivity)
     }
 
     private fun setSubmitButtonClickListener() {
@@ -64,5 +64,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
         } else {
             toast("Email does not exist. Register and then try to login")
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
