@@ -60,7 +60,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         initHomeDashBoardActivity()
-        callAddNoteFragment()
+        setClickOnFloatingActionButton()
         setNavigationItemClicked()
     }
 
@@ -82,10 +82,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         editor.apply()
     }
 
-    private fun callAddNoteFragment() {
-        setFloatingActionBarClicked()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.home_dash_board, menu)
         return true
@@ -102,24 +98,26 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        tellFragments()
-        setNoteFragment()
+        callFragmentsOnBackPressed()
         super.onBackPressed()
     }
 
     /**Function to set Floating Action Bar when it is clicked*/
-    private fun setFloatingActionBarClicked() {
+    private fun setClickOnFloatingActionButton() {
         floatingActionButton.setOnClickListener {
             replaceAddNoteFragment()
         }
     }
 
     /**Function to set Navigation Items when they are clicked*/
-    private fun setNavigationItemClicked() {
+    private fun setNavigationItemClicked(): Boolean {
         navigationView.setNavigationItemSelectedListener { item ->
+            val fragment: Fragment
             when (item.itemId) {
                 R.id.nav_home -> {
-                    onNoteMenuClick()
+//                    fragment = NoteFragment()
+//                    replaceFragment(fragment)
+                    replaceNoteFragment()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -127,28 +125,44 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_archive -> {
-                    onArchiveMenuClick()
+//                    fragment = ArchiveFragment()
+//                    replaceFragment(fragment)
+                    replaceArchiveFragment()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
-                    onDeleteMenuClick()
+//                    fragment = TrashFragment()
+//                    replaceFragment(fragment)
+                    replaceTrashFragment()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
-                    nLabelMenuClick()
+//                    fragment = LabelFragment()
+//                    replaceFragment(fragment)
+                    replaceLabelFragment()
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
+        return true
+    }
+
+    private fun replaceFragment(fragment: Fragment?) {
+        drawerLayout.closeDrawer(navigationView)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment!!)
+        if (fragment is NoteFragment)
+            transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun nLabelMenuClick() {
         drawerLayout.closeDrawer(navigationView)
-        reolaceLabelFragment()
+        replaceLabelFragment()
     }
 
-    private fun reolaceLabelFragment() {
+    private fun replaceLabelFragment() {
         val labelFragment = LabelFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, labelFragment)
@@ -166,7 +180,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val trashFragment = TrashFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, trashFragment)
-        transaction.addToBackStack(null)
+//        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -181,7 +195,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val archiveFragment = ArchiveFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, archiveFragment)
-        transaction.addToBackStack(null)
+//        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -248,11 +262,13 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     /**Function to tell fragment that back navigation is Pressed*/
-    private fun tellFragments() {
+    private fun callFragmentsOnBackPressed() {
         val fragments: List<Fragment> = supportFragmentManager.fragments
         for (fragment in fragments) {
-            if (fragment is OnBackPressed)
+            if (fragment is OnBackPressed) {
                 fragment.onBackPressed()
+                setNoteFragment()
+            }
         }
     }
 
