@@ -15,6 +15,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -28,9 +29,16 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardA
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
 import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.GoogleApiClient
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
+    private val RC_SIGN_IN = 0
+    private var googleApiClient: GoogleApiClient? = null
     private val emailEditText by lazy {
         findViewById<EditText>(R.id.login_email)
     }
@@ -65,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
         )
     }
     private val googleSignInButton by lazy {
-        findViewById<Button>(R.id.google_sign_in_button)
+        findViewById<SignInButton>(R.id.google_sign_in_button)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +83,20 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText.addTextChangedListener(passwordWatcher)
         setButtonClickListeners()
         setHideKeyboardOnTouch(context = this, view = loginActivity)
+        setGoogleSignInOption()
+    }
+
+    /**
+     * To set GoogleSignIn Option
+     */
+    private fun setGoogleSignInOption() {
+        val googleSignInOption =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+
+        googleApiClient = GoogleApiClient.Builder(this).enableAutoManage(this, this)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOption).build()
     }
 
     private fun setButtonClickListeners() {
@@ -99,6 +121,15 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
+
+        googleSignInButton.setOnClickListener {
+            onGoogleSignInButtonClicked()
+        }
+    }
+
+    private fun onGoogleSignInButtonClicked() {
+        val signIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
+        startActivityForResult(signIntent, RC_SIGN_IN)
     }
 
     /**Function to notify user based on Login status
@@ -166,6 +197,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+    }
+
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+        Log.d("connection", "onConnectionFailed $connectionResult")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if(result.isSuccess){
+                val intent = Intent(this, HomeDashBoardActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
         }
     }
 }
