@@ -23,18 +23,19 @@ class UserDbManagerImpl(
     private val databaseHelper: DatabaseHelper
 ) : UserDatabaseManager {
 
-    companion object UserEntry : BaseColumns {
-        private const val TABLE_USER = "UserEntry"
-        private const val KEY_FIRSTNAME = "FirstName"
-        private const val KEY_LASTNAME = "LastName"
-        private const val KEY_DOB = "DateOfBirth"
-        private const val KEY_EMAIL = "Email"
-        private const val KEY_PASSWORD = "Password"
-        private const val KEY_PHONE_NUMBER = "PhoneNumber"
+    companion object UserEntry {
+        const val TABLE_USER = "UserEntry"
+        const val USER_ID = "ID"
+        const val KEY_FIRSTNAME = "FirstName"
+        const val KEY_LASTNAME = "LastName"
+        const val KEY_DOB = "DateOfBirth"
+        const val KEY_EMAIL = "Email"
+        const val KEY_PASSWORD = "Password"
+        const val KEY_PHONE_NUMBER = "PhoneNumber"
 
         const val CREATE_USER_TABLE =
             " Create Table $TABLE_USER (" +
-                    "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                    "$USER_ID INTEGER PRIMARY KEY," +
                     "$KEY_FIRSTNAME CHAR(15)," +
                     "$KEY_LASTNAME CHAR(15)," +
                     "$KEY_DOB CHAR(10)," +
@@ -79,7 +80,7 @@ class UserDbManagerImpl(
 
         val columns =
             arrayOf(
-                BaseColumns._ID,
+                USER_ID,
                 KEY_FIRSTNAME,
                 KEY_LASTNAME,
                 KEY_DOB,
@@ -124,7 +125,7 @@ class UserDbManagerImpl(
         val status = database.update(
             TABLE_USER,
             values,
-            BaseColumns._ID + "=" + _id,
+            "$USER_ID=$_id",
             null
         )
         databaseHelper.close()
@@ -137,7 +138,7 @@ class UserDbManagerImpl(
      */
     override fun delete(_id: Long) {
         database = databaseHelper.open()
-        database.delete(TABLE_USER, BaseColumns._ID + "=" + _id, null)
+        database.delete(TABLE_USER, "$USER_ID=$_id", null)
         database.close()
     }
 
@@ -161,7 +162,7 @@ class UserDbManagerImpl(
 
         val columns =
             arrayOf(
-                BaseColumns._ID,
+                USER_ID,
                 KEY_FIRSTNAME,
                 KEY_LASTNAME,
                 KEY_DOB,
@@ -205,7 +206,7 @@ class UserDbManagerImpl(
         database = databaseHelper.readableDatabase
 
         val columns = arrayOf(
-            BaseColumns._ID,
+            USER_ID,
             KEY_FIRSTNAME,
             KEY_LASTNAME,
             KEY_DOB,
@@ -273,7 +274,7 @@ class UserDbManagerImpl(
         )
         //if cursor has value then in user database there is user associated with this given email so return true
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            val rowId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
+            val rowId = cursor.getLong(cursor.getColumnIndex(USER_ID))
             val firstName = cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME))
             val lastName = cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
             val dateOfBirth = cursor.getString(cursor.getColumnIndex(KEY_DOB))
