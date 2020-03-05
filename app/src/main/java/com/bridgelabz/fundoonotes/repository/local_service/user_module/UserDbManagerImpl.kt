@@ -75,7 +75,7 @@ class UserDbManagerImpl(
      */
     override fun fetchUser(email: String): User? {
         database = databaseHelper.readableDatabase
-        var user: User?= null
+        var user: User? = null
         val columns =
             arrayOf(
                 USER_ID,
@@ -103,12 +103,12 @@ class UserDbManagerImpl(
             val firstName = cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME))
             val lastName = cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
             val dateOfBirth = cursor.getString(cursor.getColumnIndex(KEY_DOB))
-            val email = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
+            val userEmail = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
             val password = cursor.getString(cursor.getColumnIndex(KEY_PASSWORD))
             val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
             val id = cursor.getInt(cursor.getColumnIndex(USER_ID))
 
-            user = User(firstName, lastName, dateOfBirth, email, password, phoneNumber)
+            user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
             user.id = id
         }
         cursor.close()
@@ -169,6 +169,7 @@ class UserDbManagerImpl(
      */
     @SuppressLint("Recycle")
     override fun isUserRegistered(user: User): Boolean {
+        var registrationStatus: Boolean
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -197,10 +198,13 @@ class UserDbManagerImpl(
 
         //if cursor has value then in user database there is user associated with this given email
         if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            return true
+            registrationStatus = true
         }
+        cursor.close()
+        database.close()
         //if user is not inserted into database.
-        return false
+        registrationStatus = false
+        return registrationStatus
     }
 
 
