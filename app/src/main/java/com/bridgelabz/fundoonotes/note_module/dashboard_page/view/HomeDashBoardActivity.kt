@@ -111,13 +111,15 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     /**Function to set Navigation Items when they are clicked*/
     private fun setNavigationItemClicked(): Boolean {
+
         navigationView.setNavigationItemSelectedListener { item ->
-            val fragment: Fragment
+            var fragment: Fragment = NoteFragment()
             when (item.itemId) {
                 R.id.nav_home -> {
 //                    fragment = NoteFragment()
-//                    replaceFragment(fragment)
-                    replaceNoteFragment()
+                    replaceFragment(fragment)
+//                    replaceNoteFragment()
+//                    onNoteMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -125,21 +127,24 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_archive -> {
-//                    fragment = ArchiveFragment()
-//                    replaceFragment(fragment)
-                    replaceArchiveFragment()
+                    fragment = ArchiveFragment()
+                    replaceFragment(fragment)
+//                    replaceArchiveFragment()
+//                    onArchiveMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
-//                    fragment = TrashFragment()
-//                    replaceFragment(fragment)
-                    replaceTrashFragment()
+                    fragment = TrashFragment()
+                    replaceFragment(fragment)
+//                    replaceTrashFragment()
+//                    onDeleteMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
-//                    fragment = LabelFragment()
-//                    replaceFragment(fragment)
-                    replaceLabelFragment()
+                    fragment = LabelFragment()
+                    replaceFragment(fragment)
+//                    replaceLabelFragment()
+//                    nLabelMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
@@ -152,8 +157,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         drawerLayout.closeDrawer(navigationView)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment!!)
-        if (fragment is NoteFragment)
-            transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -179,7 +182,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun replaceTrashFragment() {
         val trashFragment = TrashFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, trashFragment)
+        transaction.add(R.id.fragment_container, trashFragment)
 //        transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -194,7 +197,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun replaceArchiveFragment() {
         val archiveFragment = ArchiveFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, archiveFragment)
+        transaction.add(R.id.fragment_container, archiveFragment)
 //        transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -285,7 +288,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun replaceNoteFragment() {
         val fragment = NoteFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
+        transaction.add(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
