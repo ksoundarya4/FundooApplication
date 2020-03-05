@@ -119,4 +119,7 @@
     <string name="notification_channel_name">channel_name_note</string>
     <string name="facebook_login">Sign In using facebook</string>
     <string name="user_name">Full name</string>
+    <!--    FaceBook app id and protocol scheme string values-->
+    <string name="facebook_app_id">1714124398727546</string>
+    <string name="fb_login_protocol_scheme">fb1714124398727546</string>
 </resources>
