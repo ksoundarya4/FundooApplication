@@ -31,11 +31,32 @@ class NoteLabelTableManagerTest {
     }
 
     @Test
-    fun test_inserFunction_ofNoteLabelTabelManager() {
+    fun test_insertFunction_ofNoteLabelTableManager() {
         val noteId = 1L
         val labelId = 3L
         val rowId = tableManager.insertNoteLabel(noteId = noteId, labelId = labelId)
 
         assertEquals(1, rowId)
+    }
+
+    @Test
+    fun test_updateFunction_ofNoteLabelTableManager() {
+        val noteId = 2L
+        val labelId = 3L
+        val rowId = 1L
+        tableManager.updateNoteLabel(rowId = rowId, noteId = noteId, labelId = labelId)
+
+        assertEquals(1, rowId)
+    }
+
+    @Test
+    fun test_deleteFunction_ofNoteLabelTableManager() {
+        val rowId = 1L
+        tableManager.deleteNoteLabel(rowId)
+
+        val noteId = 1L
+        val labelId = 3L
+        val newRowId = tableManager.insertNoteLabel(noteId, labelId)
+        assertEquals(1, newRowId)
     }
 }
