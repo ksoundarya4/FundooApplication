@@ -28,6 +28,7 @@ class DatabaseHelper(context: Context) :
         db.execSQL(CREATE_USER_TABLE)
         db.execSQL(CREATE_NOTE_TABLE)
         db.execSQL(CREATE_TABLE_LABEL)
+        db.execSQL(CREATE_TABLE_NOTE_LABEL)
     }
 
     /**Function to upgrade the existing user database*/
