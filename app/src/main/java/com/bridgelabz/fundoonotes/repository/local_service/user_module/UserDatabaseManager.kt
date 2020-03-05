@@ -15,7 +15,7 @@ import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
 interface UserDatabaseManager {
     fun insert(user: User): Long
-    fun fetch(): Cursor
+    fun fetchUser(email : String): User?
     fun update(_id: Long, user: User): Int
     fun delete(_id: Long)
     fun deleteAll()

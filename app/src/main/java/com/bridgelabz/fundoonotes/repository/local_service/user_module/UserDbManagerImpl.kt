@@ -11,7 +11,6 @@ package com.bridgelabz.fundoonotes.repository.local_service.user_module
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import android.util.Log
@@ -72,12 +71,11 @@ class UserDbManagerImpl(
     /**
      * To fetch User Entry
      *
-     * @return Cursor object
+     * @return User
      */
-    @SuppressLint("Recycle")
-    override fun fetch(): Cursor {
+    override fun fetchUser(email: String): User? {
         database = databaseHelper.readableDatabase
-
+        var user: User?= null
         val columns =
             arrayOf(
                 USER_ID,
@@ -88,21 +86,34 @@ class UserDbManagerImpl(
                 KEY_PASSWORD,
                 KEY_PHONE_NUMBER
             )
-        //val selection = "$KEY_EMAIL = ?"
-        // val selectionArgs = arrayOf(KEY_FIRSTNAME)
-        // val sortOrder = "$KEY_FIRSTNAME DESC"
+        val selection = "$KEY_EMAIL = ?"
+        val selectionArgs = arrayOf(email)
 
-        return database.query(
+        val cursor = database.query(
             TABLE_USER,
             columns,
-            null,
-            null,
+            selection,
+            selectionArgs,
             null,
             null,
             null
-        ).apply {
-            moveToFirst()
+        )
+        cursor.moveToFirst()
+        if (cursor != null && cursor.count > 0) {
+            val firstName = cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME))
+            val lastName = cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
+            val dateOfBirth = cursor.getString(cursor.getColumnIndex(KEY_DOB))
+            val email = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
+            val password = cursor.getString(cursor.getColumnIndex(KEY_PASSWORD))
+            val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
+            val id = cursor.getInt(cursor.getColumnIndex(USER_ID))
+
+            user = User(firstName, lastName, dateOfBirth, email, password, phoneNumber)
+            user.id = id
         }
+        cursor.close()
+        database.close()
+        return user
     }
 
     /**
