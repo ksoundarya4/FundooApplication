@@ -121,8 +121,6 @@ class UserTableManagerTest {
                 "8372542547"
             )
         dbManager.update(2L, user)
-        val cursor = dbManager.fetch()
-        assertEquals(7, cursor.columnCount)
     }
 
     /**
