@@ -14,6 +14,8 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl.UserEntry.TABLE_USER
+import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl.UserEntry.USER_ID
 
 class NoteTableManagerImpl(
     private val noteDbHelper: DatabaseHelper
@@ -31,6 +33,7 @@ class NoteTableManagerImpl(
         private const val KEY_REMINDER = "Reminder"
         private const val KEY_POSITION = "Position"
         private const val KEY_COLOUR = "Colour"
+        private const val KEY_USER_ID = "UserId"
         const val CREATE_NOTE_TABLE =
             " Create Table $TABLE_NOTE ( " +
                     "$NOTE_ID INTEGER PRIMARY KEY, " +
@@ -42,8 +45,9 @@ class NoteTableManagerImpl(
                     "$KEY_LABEL VARCHAR(20), " +
                     "$KEY_REMINDER VARCHAR(20), " +
                     "$KEY_POSITION INTEGER, " +
-                    "$KEY_COLOUR INTEGER )"
-
+                    "$KEY_COLOUR INTEGER, " +
+                    "$KEY_USER_ID INTEGER, " +
+                    "FOREIGN KEY($KEY_USER_ID) REFERENCES $TABLE_USER($USER_ID) )"
     }
 
     private lateinit var database: SQLiteDatabase
