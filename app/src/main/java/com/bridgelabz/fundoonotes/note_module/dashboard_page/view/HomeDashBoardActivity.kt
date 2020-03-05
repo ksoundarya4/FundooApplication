@@ -90,6 +90,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.app_bar_user_info -> {
+                startUserProfileFragment()
                 toast(getString(R.string.tast_when_user_profile_clicked))
                 true
             }
@@ -297,5 +298,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         finish()
         startActivity(intent)
+    }
+
+    private fun startUserProfileFragment(): Boolean {
+        val fragmentManager = supportFragmentManager
+        val reminderDialog = UserProfileDialogFragment()
+        reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
+        return true
     }
 }
