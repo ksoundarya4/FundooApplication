@@ -207,13 +207,14 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if(result.isSuccess){
+            if (result.isSuccess) {
                 val intent = Intent(this, HomeDashBoardActivity::class.java)
                 finish()
                 startActivity(intent)
-            }
+            } else
+                toast("Connect to network")
         }
     }
 }
