@@ -17,4 +17,6 @@ data class User(
     val email: String,
     val password: String,
     val phoneNumber: String
-)
+) {
+    var id: Int? = null
+}
