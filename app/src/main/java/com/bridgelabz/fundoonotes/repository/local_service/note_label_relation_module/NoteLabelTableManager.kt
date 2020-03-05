@@ -11,6 +11,6 @@ package com.bridgelabz.fundoonotes.repository.local_service.note_label_relation_
 
 interface NoteLabelTableManager {
     fun insertNoteLabel(noteId: Long, labelId: Long): Long
-    fun updateNoteLabel(noteId: Long, labelId: Long)
+    fun updateNoteLabel(rowId: Long, noteId: Long, labelId: Long)
     fun deleteNoteLabel(rowId: Long)
 }
