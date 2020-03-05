@@ -9,7 +9,6 @@
  */
 package com.bridgelabz.fundoonotes.repository.local_service.user_module
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
@@ -167,9 +166,8 @@ class UserDbManagerImpl(
      * @param user to be authenticated
      * @return live data of AuthState
      */
-    @SuppressLint("Recycle")
     override fun isUserRegistered(user: User): Boolean {
-        var registrationStatus: Boolean
+        val registrationStatus: Boolean
         database = databaseHelper.readableDatabase
 
         val columns =
@@ -197,13 +195,10 @@ class UserDbManagerImpl(
         )
 
         //if cursor has value then in user database there is user associated with this given email
-        if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            registrationStatus = true
-        }
+        registrationStatus = cursor != null && cursor.moveToFirst() && cursor.count > 0
         cursor.close()
         database.close()
         //if user is not inserted into database.
-        registrationStatus = false
         return registrationStatus
     }
 
@@ -216,8 +211,8 @@ class UserDbManagerImpl(
      * @param email to be searched.
      * @return live data of AuthState
      */
-    @SuppressLint("Recycle")
     override fun authenticate(email: String, password: String): AuthState {
+        val authState: AuthState
         database = databaseHelper.readableDatabase
 
         val columns = arrayOf(
@@ -243,16 +238,19 @@ class UserDbManagerImpl(
             null
         )
         //if cursor has value then in user database there is user associated with this given email so return true
-        if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
+        authState = if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
             val userEmail = cursor.getString(4)
             val userPassword = cursor.getString(5)
             if (userEmail == email && userPassword == password) {
-                return AuthState.AUTH
-            }
-            return AuthState.AUTH_FAILED
-        }
+                AuthState.AUTH
+            } else
+                AuthState.AUTH_FAILED
+        } else
+            AuthState.NOT_AUTH
+        cursor.close()
+        database.close()
         //if email does not exist return false
-        return AuthState.NOT_AUTH
+        return authState
     }
 
     /**Function to update password in user table
@@ -261,8 +259,8 @@ class UserDbManagerImpl(
      * @param password to be updated
      * @return true if password is updated
      */
-    @SuppressLint("Recycle")
     override fun updatePassword(email: String, password: String): Boolean {
+        val passwordUpdateSuccess: Boolean
         database = databaseHelper.readableDatabase
 
         val columns = arrayOf(
@@ -288,7 +286,7 @@ class UserDbManagerImpl(
             null
         )
         //if cursor has value then in user database there is user associated with this given email so return true
-        if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
+        passwordUpdateSuccess = if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
             val rowId = cursor.getLong(cursor.getColumnIndex(USER_ID))
             val firstName = cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME))
             val lastName = cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
@@ -298,8 +296,11 @@ class UserDbManagerImpl(
             val user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
             Log.d("userInfo", user.toString())
             update(rowId, user)
-            return true
-        }
-        return false
+            true
+        } else
+            false
+        cursor.close()
+        database.close()
+        return passwordUpdateSuccess
     }
 }
