@@ -29,16 +29,23 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardA
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
 import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
+import java.util.*
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     private val RC_SIGN_IN = 0
     private var googleApiClient: GoogleApiClient? = null
+    private val EMAIL = "email"
     private val emailEditText by lazy {
         findViewById<EditText>(R.id.login_email)
     }
@@ -75,6 +82,10 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     private val googleSignInButton by lazy {
         findViewById<SignInButton>(R.id.google_sign_in_button)
     }
+    private val facebookSignInButton by lazy {
+        findViewById<LoginButton>(R.id.facebook_sign_in_button)
+    }
+    private val callbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,6 +136,27 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         googleSignInButton.setOnClickListener {
             onGoogleSignInButtonClicked()
         }
+
+        facebookSignInButton.setPermissions(listOf(EMAIL))
+        facebookSignInButton.registerCallback(callbackManager, facebookCallback)
+    }
+
+    private val facebookCallback = object : FacebookCallback<LoginResult> {
+        override fun onSuccess(result: LoginResult?) {
+            val intent = Intent(applicationContext, HomeDashBoardActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+
+        override fun onCancel() {
+            Log.d("LoginActivity", "cancelled")
+        }
+
+        override fun onError(error: FacebookException?) {
+            Log.d("LoginActivity", "Faied")
+            toast("Connect to network")
+        }
+
     }
 
     private fun onGoogleSignInButtonClicked() {
@@ -201,12 +233,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        Log.d("connection", "onConnectionFailed $connectionResult")
+        Log.d("LoginActivity", "onConnectionFailed $connectionResult")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        callbackManager.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if (result.isSuccess) {
