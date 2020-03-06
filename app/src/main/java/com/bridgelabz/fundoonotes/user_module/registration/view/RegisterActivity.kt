@@ -16,7 +16,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
@@ -28,7 +28,7 @@ import com.google.android.material.textfield.TextInputEditText
 class RegisterActivity : AppCompatActivity() {
 
     private val registerViewModel by lazy {
-        ViewModelProviders.of(this).get(RegisterViewModel::class.java)
+        ViewModelProvider(this).get(RegisterViewModel::class.java)
     }
     private val firstName by lazy {
         findViewById<TextInputEditText>(R.id.first_name)
