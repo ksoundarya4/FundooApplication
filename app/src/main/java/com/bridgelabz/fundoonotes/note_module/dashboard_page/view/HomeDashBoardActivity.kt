@@ -65,22 +65,23 @@ class HomeDashBoardActivity : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
     }
-    private lateinit var sharedEmail: String
+    private lateinit var authenticatedEmail: String
     private var authenticatedUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_dash_board)
         setSupportActionBar(toolbar)
-        authenticateUser()
+
         initHomeDashBoardActivity()
+        authenticateUser()
         setClickOnFloatingActionButton()
         setNavigationItemClicked()
     }
 
     private fun authenticateUser() {
-        val authenticatedEmail = intent.getStringExtra(getString(R.string.authenticated_user))
-        dashBoardViewModel.authenticatedUser(authenticatedEmail!!)
+
+        dashBoardViewModel.authenticatedUser(authenticatedEmail)
         dashBoardViewModel.getUser().observe(this, Observer {
             observeUser(it)
         })
@@ -106,8 +107,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun getUserSharedPreferences() {
         val editor = preferences.edit()
-        val email = preferences.getString("EMAIL", "emailId")
-        sharedEmail = email!!
+        val email = preferences.getString("email", "")
+        authenticatedEmail = email!!
         editor.apply()
     }
 
