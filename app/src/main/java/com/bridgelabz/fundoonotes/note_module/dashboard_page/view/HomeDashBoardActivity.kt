@@ -20,10 +20,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModel
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
+import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
@@ -32,6 +37,12 @@ import com.google.android.material.navigation.NavigationView
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
+    private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
+        DashBoardViewModelFactory(DatabaseHelper(this))
+    }
+    private val dashBoardViewModel: DashBoardViewModel by lazy {
+        ViewModelProvider(this, dashBoadViewModelFactory).get(DashBoardViewModel::class.java)
+    }
     private val toolbar: Toolbar by lazy {
         findViewById<Toolbar>(R.id.toolbar)
     }
@@ -55,15 +66,29 @@ class HomeDashBoardActivity : AppCompatActivity() {
         )
     }
     private lateinit var sharedEmail: String
-    private var authenticatedUserId: Int? = null
+    private var authenticatedUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_dash_board)
         setSupportActionBar(toolbar)
+        authenticateUser()
         initHomeDashBoardActivity()
         setClickOnFloatingActionButton()
         setNavigationItemClicked()
+    }
+
+    private fun authenticateUser() {
+        val authenticatedEmail = intent.getStringExtra(getString(R.string.authenticated_user))
+        dashBoardViewModel.authenticatedUser(authenticatedEmail!!)
+        dashBoardViewModel.getUser().observe(this, Observer {
+            observeUser(it)
+        })
+    }
+
+    private fun observeUser(user: User?) {
+        if (user != null)
+            authenticatedUser = user
     }
 
     private fun initHomeDashBoardActivity() {
@@ -116,10 +141,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun setNoteArguments(): Bundle? {
-        authenticatedUserId = intent.getIntExtra(getString(R.string.authenticated_user_id), 0)
         val bundle = Bundle()
         val note = Note()
-        note.userId = authenticatedUserId
+        note.userId = authenticatedUser!!.id
         bundle.putSerializable(getString(R.string.note), note)
         return bundle
     }
@@ -253,6 +277,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun startUserProfileFragment(): Boolean {
         val fragmentManager = supportFragmentManager
         val reminderDialog = UserProfileDialogFragment()
+        reminderDialog.arguments = Bundle().apply {
+            putSerializable(getString(R.string.authenticated_user), authenticatedUser)
+        }
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
         return true
     }
