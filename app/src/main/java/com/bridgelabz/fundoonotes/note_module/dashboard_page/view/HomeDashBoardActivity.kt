@@ -72,7 +72,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun setNoteFragment() {
         navigationView.setCheckedItem(R.id.nav_home)
-        replaceNoteFragment()
+        val fragment = NoteFragment()
+        replaceFragment(fragment)
     }
 
     private fun getUserSharedPreferences() {
@@ -114,13 +115,11 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun setNavigationItemClicked(): Boolean {
 
         navigationView.setNavigationItemSelectedListener { item ->
-            var fragment: Fragment = NoteFragment()
+            val fragment: Fragment
             when (item.itemId) {
                 R.id.nav_home -> {
-//                    fragment = NoteFragment()
+                    fragment = NoteFragment()
                     replaceFragment(fragment)
-//                    replaceNoteFragment()
-//                    onNoteMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -130,22 +129,16 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 R.id.nav_archive -> {
                     fragment = ArchiveFragment()
                     replaceFragment(fragment)
-//                    replaceArchiveFragment()
-//                    onArchiveMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
                     fragment = TrashFragment()
                     replaceFragment(fragment)
-//                    replaceTrashFragment()
-//                    onDeleteMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
                     fragment = LabelFragment()
                     replaceFragment(fragment)
-//                    replaceLabelFragment()
-//                    nLabelMenuClick()
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
@@ -158,48 +151,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         drawerLayout.closeDrawer(navigationView)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment!!)
-        transaction.commit()
-    }
-
-    private fun nLabelMenuClick() {
-        drawerLayout.closeDrawer(navigationView)
-        replaceLabelFragment()
-    }
-
-    private fun replaceLabelFragment() {
-        val labelFragment = LabelFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, labelFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    private fun onDeleteMenuClick() {
-        drawerLayout.closeDrawer(navigationView)
-        replaceTrashFragment()
-        toast(getString(R.string.toast_when_Delete_menu_clicked))
-    }
-
-    private fun replaceTrashFragment() {
-        val trashFragment = TrashFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, trashFragment)
-//        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    private fun onArchiveMenuClick() {
-        drawerLayout.closeDrawer(navigationView)
-        replaceArchiveFragment()
-        toast(getString(R.string.toast_archive_notes_ckick))
-    }
-
-    /**Function to replace home dash board with AddNoteFragment*/
-    private fun replaceArchiveFragment() {
-        val archiveFragment = ArchiveFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, archiveFragment)
-//        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -228,14 +179,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
             val editor = preferences.edit()
             editor.clear().apply()
         }
-    }
-
-    /**Function to replace homeDashBoard with
-    Note Fragment when note menu item clicked*/
-    private fun onNoteMenuClick() {
-        drawerLayout.closeDrawer(navigationView)
-        replaceNoteFragment()
-        toast(getString(R.string.toast_when_note_menu_tapped))
     }
 
     /**Function that performs sign out alert operation*/
@@ -282,14 +225,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    /**Function to replace home dash board with noteFragment*/
-    private fun replaceNoteFragment() {
-        val fragment = NoteFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
