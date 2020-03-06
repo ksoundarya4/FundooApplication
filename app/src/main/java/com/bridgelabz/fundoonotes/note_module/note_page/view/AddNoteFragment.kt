@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
@@ -15,11 +14,9 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.OnBackPressed
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
-import com.bridgelabz.fundoonotes.notification_util.NotificationHelper
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +28,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     private lateinit var title: EditText
     private lateinit var description: EditText
     private var note = Note()
-    private lateinit var user: User
     private val noteFactory by lazy {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
@@ -47,13 +43,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     private val toolbar by lazy {
         requireView().findViewById<Toolbar>(R.id.fragment_add_note_toolbar)
     }
-    private val constraintLayout by lazy {
-        requireView().findViewById<ConstraintLayout>(R.id.add_note_constraint_layout)
-    }
-
-    private val notificationHelper by lazy {
-        NotificationHelper(requireContext())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +55,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getUserArgument()
         getNoteArgument()
         hideActivityToolbar()
         setUpFragmentToolbar()
@@ -147,15 +135,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     private fun getNoteArgument() {
         if (arguments != null) {
             note = arguments!!.get(getString(R.string.note)) as Note
+            Log.d("noteBundle", note.toString())
             title.setText(note.title)
             description.setText(note.description)
-        }
-    }
-
-    private fun getUserArgument() {
-        if (arguments != null) {
-            user = arguments!!.get(getString(R.string.authenticated_user)) as User
-            note.userId = user.id
         }
     }
 
