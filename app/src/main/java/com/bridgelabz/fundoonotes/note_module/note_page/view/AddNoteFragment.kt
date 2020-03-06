@@ -1,18 +1,13 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
-import android.app.Notification
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
@@ -280,10 +275,5 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     private fun snackBar(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun sendNotification(title: String, message: String) {
-        val notification = notificationHelper.getChannelNotification(title, message)
-        notificationHelper.getManager().notify(1, notification.build())
     }
 }
