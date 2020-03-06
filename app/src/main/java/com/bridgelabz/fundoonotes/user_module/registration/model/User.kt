@@ -10,6 +10,8 @@
  */
 package com.bridgelabz.fundoonotes.user_module.registration.model
 
+import java.io.Serializable
+
 data class User(
     val firstName: String,
     val lastName: String,
@@ -17,6 +19,6 @@ data class User(
     val email: String,
     val password: String,
     val phoneNumber: String
-) {
+) : Serializable {
     var id: Int? = null
 }
