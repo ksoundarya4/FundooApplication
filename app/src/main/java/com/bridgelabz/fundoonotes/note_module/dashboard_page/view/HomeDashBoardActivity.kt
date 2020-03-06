@@ -22,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
@@ -54,13 +55,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
         )
     }
     private lateinit var sharedEmail: String
-    private lateinit var user: User
+    private var authenticatedUserId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_dash_board)
         setSupportActionBar(toolbar)
-
         initHomeDashBoardActivity()
         setClickOnFloatingActionButton()
         setNavigationItemClicked()
@@ -110,11 +110,18 @@ class HomeDashBoardActivity : AppCompatActivity() {
     /**Function to set Floating Action Bar when it is clicked*/
     private fun setClickOnFloatingActionButton() {
         floatingActionButton.setOnClickListener {
-            user = intent.getSerializableExtra(getString(R.string.authenticated_user)) as User
-            val bundle = Bundle()
-            bundle.putSerializable(getString(R.string.authenticated_user), user)
+            val bundle = setNoteArguments()
             replaceAddNoteFragment(bundle)
         }
+    }
+
+    private fun setNoteArguments(): Bundle? {
+        authenticatedUserId = intent.getIntExtra(getString(R.string.authenticated_user_id), 0)
+        val bundle = Bundle()
+        val note = Note()
+        note.userId = authenticatedUserId
+        bundle.putSerializable(getString(R.string.note), note)
+        return bundle
     }
 
     /**Function to set Navigation Items when they are clicked*/
@@ -159,6 +166,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         transaction.replace(R.id.fragment_container, fragment!!)
         transaction.commit()
     }
+
 
     /**Function to set Action Bar Toggle of Drawer Layout*/
     private fun setActionBarToggle() {
