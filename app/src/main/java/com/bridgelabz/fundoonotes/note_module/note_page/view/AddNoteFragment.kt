@@ -224,6 +224,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         newNote.reminder = note.reminder
         newNote.position = note.position
         newNote.colour = note.colour
+        newNote.userId = note.userId
         return newNote
     }
 
@@ -253,6 +254,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         noteToUpdate.reminder = note.reminder
         noteToUpdate.position = note.position
         noteToUpdate.colour = note.colour
+        noteToUpdate.userId = note.userId
         return noteToUpdate
     }
 
