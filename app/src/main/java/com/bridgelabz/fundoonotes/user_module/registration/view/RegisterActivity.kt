@@ -79,6 +79,7 @@ class RegisterActivity : AppCompatActivity() {
             user = User(fName, lName, dob, userMail, userPass, userNumber)
 
             val cPassword = confirmPassword.editableText.toString()
+            validateUserInput()
             if (validateConfirmPassword(userPass, cPassword)) {
                 registerViewModel.onSignUpButtonClick((View(this)), user)
 
@@ -102,7 +103,6 @@ class RegisterActivity : AppCompatActivity() {
             }
             RegistrationStatus.Failed -> {
                 toast("User already exist")
-                validateUserInput()
             }
         }
     }
