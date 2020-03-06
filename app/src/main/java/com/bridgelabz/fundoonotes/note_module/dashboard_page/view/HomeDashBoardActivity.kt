@@ -25,6 +25,7 @@ import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
+import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
@@ -53,6 +54,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         )
     }
     private lateinit var sharedEmail: String
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun initHomeDashBoardActivity() {
+
         getUserSharedPreferences()
         setNoteFragment()
         setActionBarToggle()
@@ -107,7 +110,10 @@ class HomeDashBoardActivity : AppCompatActivity() {
     /**Function to set Floating Action Bar when it is clicked*/
     private fun setClickOnFloatingActionButton() {
         floatingActionButton.setOnClickListener {
-            replaceAddNoteFragment()
+            user = intent.getSerializableExtra(getString(R.string.authenticated_user)) as User
+            val bundle = Bundle()
+            bundle.putSerializable(getString(R.string.authenticated_user), user)
+            replaceAddNoteFragment(bundle)
         }
     }
 
@@ -220,12 +226,13 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     /**Function to replace home dash board with AddNoteFragment*/
-    private fun replaceAddNoteFragment() {
+    private fun replaceAddNoteFragment(bundle: Bundle?) {
         val fragment = AddNoteFragment()
+        fragment.arguments = bundle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+            .addToBackStack(null)
+            .commit()
     }
 
     /**Function to navigate to LoginActivity*/
