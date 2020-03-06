@@ -19,6 +19,7 @@ import com.bridgelabz.fundoonotes.notification_util.NotificationHelper
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
+import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +31,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     private lateinit var title: EditText
     private lateinit var description: EditText
     private var note = Note()
+    private lateinit var user: User
     private val noteFactory by lazy {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
@@ -64,6 +66,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getUserArgument()
         getNoteArgument()
         hideActivityToolbar()
         setUpFragmentToolbar()
@@ -146,6 +149,13 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
             note = arguments!!.get(getString(R.string.note)) as Note
             title.setText(note.title)
             description.setText(note.description)
+        }
+    }
+
+    private fun getUserArgument() {
+        if (arguments != null) {
+            user = arguments!!.get(getString(R.string.authenticated_user)) as User
+            note.userId = user.id
         }
     }
 
