@@ -143,4 +143,13 @@ class UserTableManagerTest {
         val loginResponse = dbManager.authenticate(email, password)
         assertEquals(AuthState.NOT_AUTH, loginResponse)
     }
+
+    @Test
+    fun test_fetchUserFunction_ofUserDbManager() {
+        val email = "ksoundarya4@gmail.com"
+        val user = dbManager.fetchUser(email)
+        val userId = user!!.id
+
+        assertEquals(1, userId)
+    }
 }
