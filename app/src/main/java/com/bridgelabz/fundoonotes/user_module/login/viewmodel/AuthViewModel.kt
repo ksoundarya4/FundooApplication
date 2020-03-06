@@ -16,6 +16,7 @@ import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
 class AuthViewModel : ViewModel() {
 
@@ -53,5 +54,9 @@ class AuthViewModel : ViewModel() {
 
     fun getUpdateStatus(): LiveData<Boolean> {
         return updatePasswordStatus
+    }
+
+    fun getAuthenticatedUser(email : String) : User? {
+        return dbManager.fetchUser(email)
     }
 }
