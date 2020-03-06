@@ -179,13 +179,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             }
             AuthState.AUTH -> {
                 val inputEmail = emailEditText.editableText.toString()
-                val user = viewModel.getAuthenticatedUser(inputEmail)
-                val userId = user!!.id
                 getSharedPreference(inputEmail)
                 toast(getString(R.string.toast_login_successful))
-                val intent = Intent(this, HomeDashBoardActivity::class.java).putExtra(
-                    getString(R.string.authenticated_user_id), userId
-                )
+                val intent = Intent(this, HomeDashBoardActivity::class.java)
                 startActivity(intent)
                 finish()
             }
