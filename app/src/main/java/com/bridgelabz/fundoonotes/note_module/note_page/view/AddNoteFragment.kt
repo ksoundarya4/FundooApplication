@@ -242,29 +242,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     override fun onReminderSubmit(date: String, time: String) {
         note.reminder = "$date,$time"
-        createCardView(note.reminder!!)
-    }
-
-    private fun createCardView(reminder: String) {
-//        val cardView = CardView(requireContext())
-//        val layoutParams = ViewGroup.LayoutParams(
-//            ViewGroup.LayoutParams.WRAP_CONTENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT
-//        )
-//        cardView.layoutParams = layoutParams
-//        cardView.radius = 15F
-//        cardView.setPadding(25, 25, 25, 25)
-//        cardView.setCardBackgroundColor(Color.GRAY)
-//        cardView.maxCardElevation = 30F
-//        cardView.maxCardElevation = 6F
-//
-//        val textView = TextView(requireContext())
-//        textView.text = reminder
-//        textView.setTextColor(Color.BLACK)
-//        textView.setPadding(25, 25, 25, 25)
-//        cardView.addView(textView)
-//
-//        constraintLayout.addView(cardView)
     }
 
     private fun snackBar(view: View, message: String) {
