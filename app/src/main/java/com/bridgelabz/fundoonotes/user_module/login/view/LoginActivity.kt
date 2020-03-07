@@ -132,12 +132,22 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             }
         }
 
+        setClickToGoogleButton()
+        setUpFacebookButton()
+    }
+
+    private fun setUpFacebookButton() {
+        facebookSignInButton.setPermissions(listOf(EMAIL))
+        facebookSignInButton.registerCallback(callbackManager, facebookCallback)
+    }
+
+    private fun setClickToGoogleButton() {
+        googleSignInButton.setSize(SignInButton.SIZE_WIDE)
+//        val textView = googleSignInButton.getChildAt(0) as TextView
+//        textView.text = "Continue With Google"
         googleSignInButton.setOnClickListener {
             onGoogleSignInButtonClicked()
         }
-
-        facebookSignInButton.setPermissions(listOf(EMAIL))
-        facebookSignInButton.registerCallback(callbackManager, facebookCallback)
     }
 
     private val facebookCallback = object : FacebookCallback<LoginResult> {
