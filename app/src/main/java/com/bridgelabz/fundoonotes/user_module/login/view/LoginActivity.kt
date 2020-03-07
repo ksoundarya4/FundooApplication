@@ -110,6 +110,14 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     }
 
     private fun setButtonClickListeners() {
+        setClickOnLoginButton()
+        setClickOnRegisterButton()
+        setClickOnForgotPasswordButton()
+        setClickToGoogleButton()
+        setUpFacebookButton()
+    }
+
+    private fun setClickOnLoginButton() {
         loginButton.setOnClickListener {
             val inputEmail = emailEditText.editableText.toString()
             val inputPassword = passwordEditText.editableText.toString()
@@ -120,10 +128,16 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             )
             viewModel.getLoginStatus().observe(this, Observer { handelLoginStatus(it) })
         }
+    }
+
+    private fun setClickOnRegisterButton() {
         registerButton.setOnClickListener {
             val registerIntent = Intent(this, RegisterActivity::class.java)
             startActivity(registerIntent)
         }
+    }
+
+    private fun setClickOnForgotPasswordButton() {
         forgotPasswordButton.setOnClickListener {
             val email = emailEditText.editableText.toString()
             Intent(this, ForgotPasswordActivity::class.java).apply {
@@ -131,9 +145,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 startActivity(this)
             }
         }
-
-        setClickToGoogleButton()
-        setUpFacebookButton()
     }
 
     private fun setUpFacebookButton() {
