@@ -122,4 +122,5 @@
     <!--    FaceBook app id and protocol scheme string values-->
     <string name="facebook_app_id">1714124398727546</string>
     <string name="fb_login_protocol_scheme">fb1714124398727546</string>
+    <string name="authenticated_user">Authenticated User</string>
 </resources>
