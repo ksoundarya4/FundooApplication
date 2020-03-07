@@ -5,16 +5,18 @@
     style="@style/LaunchScreenTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightPrimaryColor"
+    android:background="@color/PrimaryColor"
     tools:context=".user_module.launch_module.LaunchScreenActivity">
 
     <ImageView
         android:id="@+id/image_launcher_icon"
         android:layout_width="172dp"
-        android:layout_height="173dp"
+        android:layout_height="172dp"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_plus" />
+        app:srcCompat="@drawable/app_icon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
