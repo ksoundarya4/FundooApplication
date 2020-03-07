@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/mrindia" />
+        app:srcCompat="@drawable/default_profile_pic_icon" />
 
     <TextView
         android:id="@+id/user_full_name_text"
@@ -51,7 +51,7 @@
         android:layout_marginTop="@dimen/margin_8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="@dimen/margin_16dp"
-        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
         android:text="@string/user_email_address"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
