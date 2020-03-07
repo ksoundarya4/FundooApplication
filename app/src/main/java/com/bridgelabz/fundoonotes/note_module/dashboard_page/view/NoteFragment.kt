@@ -3,8 +3,8 @@ package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -84,7 +84,8 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     }
 
     override fun onLongClick(adapterPosition: Int) {
-        (requireActivity() as AppCompatActivity).startSupportActionMode(actionModeCallBack)
+        val note = notes[adapterPosition]
+        Toast.makeText(requireActivity(), "$note", Toast.LENGTH_SHORT).show()
     }
 
     private fun replaceWithAddNoteFragment(bundle: Bundle) {
@@ -93,25 +94,6 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, addNoteFragment).addToBackStack(null).commit()
 
-    }
-
-    private val actionModeCallBack: ActionMode.Callback = object : ActionMode.Callback {
-        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-            return false
-        }
-
-        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            mode!!.menuInflater.inflate(R.menu.long_click_menu, menu)
-            return true
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            return false
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode?) {
-
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
