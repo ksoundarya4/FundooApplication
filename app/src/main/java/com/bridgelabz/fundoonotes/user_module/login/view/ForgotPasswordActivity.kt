@@ -8,7 +8,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
@@ -26,7 +26,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         findViewById<Button>(R.id.buttom_new_password_submit)
     }
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(AuthViewModel::class.java)
+        ViewModelProvider(this).get(AuthViewModel::class.java)
     }
     private val forgotPasswordActivity by lazy {
         findViewById<ConstraintLayout>(R.id.forgot_password_constraint_layout)
