@@ -95,8 +95,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun initHomeDashBoardActivity() {
 
         getUserSharedPreferences()
-        setNoteFragment()
         setActionBarToggle()
+        setNoteFragment()
     }
 
     private fun setNoteFragment() {
@@ -144,7 +144,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun setNoteArguments(): Bundle? {
         val bundle = Bundle()
         val note = Note()
-        note.userId = authenticatedUser!!.id
+        if (authenticatedUser != null)
+            note.userId = authenticatedUser!!.id
         bundle.putSerializable(getString(R.string.note), note)
         return bundle
     }
@@ -153,11 +154,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun setNavigationItemClicked(): Boolean {
 
         navigationView.setNavigationItemSelectedListener { item ->
-            val fragment: Fragment
             when (item.itemId) {
                 R.id.nav_home -> {
-                    fragment = NoteFragment()
-                    replaceFragment(fragment)
+                    replaceFragment(NoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -165,23 +164,19 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_archive -> {
-                    fragment = ArchiveFragment()
-                    replaceFragment(fragment)
+                    replaceFragment(ArchiveFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
-                    fragment = TrashFragment()
-                    replaceFragment(fragment)
+                    replaceFragment(TrashFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
-                    fragment = LabelFragment()
-                    replaceFragment(fragment)
+                    replaceFragment(LabelFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_reminder -> {
-                    fragment = ReminderFragment()
-                    replaceFragment(fragment)
+                    replaceFragment(ReminderFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
