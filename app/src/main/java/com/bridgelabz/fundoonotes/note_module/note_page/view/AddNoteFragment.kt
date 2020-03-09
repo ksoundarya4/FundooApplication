@@ -55,10 +55,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         getNoteArgument()
-        hideActivityToolbar()
         setUpFragmentToolbar()
-        hideBottomAppbar()
         setToolBarOnCLickListener()
     }
 
@@ -246,5 +245,11 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
     private fun snackBar(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideActivityToolbar()
+        hideBottomAppbar()
     }
 }
