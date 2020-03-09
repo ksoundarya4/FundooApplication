@@ -23,6 +23,7 @@ class UserProfileDialogFragment : DialogFragment() {
         requireView().findViewById<TextView>(R.id.user_full_name_text)
     }
     private lateinit var user: User
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,10 +38,14 @@ class UserProfileDialogFragment : DialogFragment() {
 
     private fun getUserArgument() {
         if (arguments != null) {
-            user = arguments!!.get(getString(R.string.authenticated_user)) as User
-            val fullName = "${user.firstName} ${user.lastName}"
-            userFullName.text = fullName
-            userEmail.text = user.email
+            try {
+                user = arguments?.get(getString(R.string.authenticated_user)) as User
+                val fullName = "${user.firstName} ${user.lastName}"
+                userFullName.text = fullName
+                userEmail.text = user.email
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
         }
     }
 
