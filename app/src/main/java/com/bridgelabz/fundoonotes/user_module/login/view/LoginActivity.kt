@@ -35,16 +35,16 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
-import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton
-import com.google.android.gms.common.api.GoogleApiClient
 
-class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
+class LoginActivity : AppCompatActivity() {
 
     private val RC_SIGN_IN = 0
-    private var googleApiClient: GoogleApiClient? = null
+    private var signInCLient: GoogleSignInClient? = null
     private val EMAIL = "email"
     private val emailEditText by lazy {
         findViewById<EditText>(R.id.login_email)
@@ -105,9 +105,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
-
-        googleApiClient = GoogleApiClient.Builder(this).enableAutoManage(this, this)
-            .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOption).build()
+        signInCLient = GoogleSignIn.getClient(this, googleSignInOption)
     }
 
     private fun setButtonClickListeners() {
@@ -155,8 +153,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     private fun setClickToGoogleButton() {
         googleSignInButton.setSize(SignInButton.SIZE_WIDE)
-//        val textView = googleSignInButton.getChildAt(0) as TextView
-//        textView.text = "Continue With Google"
         googleSignInButton.setOnClickListener {
             onGoogleSignInButtonClicked()
         }
@@ -179,7 +175,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     }
 
     private fun onGoogleSignInButtonClicked() {
-        val signIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
+        val signIntent = signInCLient!!.signInIntent
         startActivityForResult(signIntent, RC_SIGN_IN)
     }
 
@@ -247,10 +243,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
-    }
-
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        Log.d("LoginActivity", "onConnectionFailed $connectionResult")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
