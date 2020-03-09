@@ -163,9 +163,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     private val facebookCallback = object : FacebookCallback<LoginResult> {
         override fun onSuccess(result: LoginResult?) {
-            val intent = Intent(applicationContext, HomeDashBoardActivity::class.java)
-            finish()
-            startActivity(intent)
+            navigateToHomeDashBoard()
         }
 
         override fun onCancel() {
@@ -202,9 +200,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 val inputEmail = emailEditText.editableText.toString()
                 getSharedPreference(inputEmail)
                 toast(getString(R.string.toast_login_successful))
-                val intent = Intent(this, HomeDashBoardActivity::class.java)
-                startActivity(intent)
-                finish()
+                navigateToHomeDashBoard()
             }
         }
     }
@@ -258,15 +254,21 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         callbackManager.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if (result.isSuccess) {
-                val intent = Intent(this, HomeDashBoardActivity::class.java)
-                finish()
-                startActivity(intent)
+                navigateToHomeDashBoard()
             } else
                 toast("Connect to network")
         }
+    }
+
+    private fun navigateToHomeDashBoard() {
+        val intent = Intent(this, HomeDashBoardActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 }
