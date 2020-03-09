@@ -179,6 +179,11 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     replaceFragment(fragment)
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.nav_reminder -> {
+                    fragment = ReminderFragment()
+                    replaceFragment(fragment)
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
