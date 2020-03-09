@@ -36,6 +36,7 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
@@ -259,11 +260,18 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         if (requestCode == RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
-                navigateToHomeDashBoard()
-            } else
-                toast("Connect to network")
+            handleGoogleSignInResult(result)
         }
+    }
+
+    private fun handleGoogleSignInResult(result: GoogleSignInResult?) {
+        if (result!!.isSuccess) {
+            val account = result.signInAccount
+            val userEmail = account!!.email
+            getSharedPreference(userEmail!!)
+            navigateToHomeDashBoard()
+        } else
+            toast("Sign in Failed")
     }
 
     private fun navigateToHomeDashBoard() {
