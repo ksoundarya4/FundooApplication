@@ -20,13 +20,13 @@ import com.google.android.gms.common.api.GoogleApiClient
 
 class UserProfileDialogFragment : DialogFragment(), GoogleApiClient.OnConnectionFailedListener {
 
-    private val userProfilePicture: ImageView by lazy {
+    private val userProfilePicture by lazy {
         requireView().findViewById<ImageView>(R.id.user_profile_pic)
     }
-    private val userEmail: TextView by lazy {
+    private val userEmail by lazy {
         requireView().findViewById<TextView>(R.id.user_email_text)
     }
-    private val userFullName: TextView by lazy {
+    private val userFullName by lazy {
         requireView().findViewById<TextView>(R.id.user_full_name_text)
     }
     private lateinit var user: User
@@ -54,7 +54,8 @@ class UserProfileDialogFragment : DialogFragment(), GoogleApiClient.OnConnection
 
     override fun onStart() {
         super.onStart()
-        val optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(googleApiClient)
+        val optionalPendingResult =
+            Auth.GoogleSignInApi.silentSignIn(googleApiClient)
         if (optionalPendingResult.isDone) {
             val result: GoogleSignInResult = optionalPendingResult.get()
             handleGoogleSignInResult(result)
@@ -98,6 +99,6 @@ class UserProfileDialogFragment : DialogFragment(), GoogleApiClient.OnConnection
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {
-        Log.d("ReminderFragment", "Connectio Failed")
+        Log.d("ReminderFragment", "Connection Failed")
     }
 }
