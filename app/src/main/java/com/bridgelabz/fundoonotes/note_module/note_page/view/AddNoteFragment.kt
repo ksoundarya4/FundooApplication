@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 const val REMINDER_REQUEST_CODE = 0
+const val COLOUR_REQUEST_CODE = 1
 
 class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
 
@@ -80,9 +81,20 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
                 R.id.add_note_menu__copy_note -> {
                     makeCopyOfNote()
                 }
+                R.id.add_note_menu_change_colour -> {
+                    startColourFragment()
+                }
                 else -> return@setOnMenuItemClickListener false
             }
         }
+    }
+
+    private fun startColourFragment(): Boolean {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val colourFragment = ColourDialogFragment()
+        colourFragment.setTargetFragment(this, COLOUR_REQUEST_CODE)
+        colourFragment.show(fragmentManager, getString(R.string.note_colour))
+        return true
     }
 
     private fun makeCopyOfNote(): Boolean {
