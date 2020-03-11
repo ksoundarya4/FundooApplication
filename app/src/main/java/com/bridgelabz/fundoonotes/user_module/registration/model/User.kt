@@ -21,4 +21,13 @@ data class User(
     val phoneNumber: String
 ) : Serializable {
     var id: Int? = null
+
+    constructor(firstName: String,lastName: String , email: String ) : this(
+        firstName = firstName,
+        lastName = lastName,
+        dateOfBirth = "",
+        email = email,
+        password = "",
+        phoneNumber = ""
+    )
 }
