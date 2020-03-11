@@ -20,7 +20,7 @@ data class User(
     val password: String,
     val phoneNumber: String
 ) : Serializable {
-    var id: Int? = null
+    var id: String? = null
 
     constructor(firstName: String,lastName: String , email: String ) : this(
         firstName = firstName,
