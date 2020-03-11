@@ -105,7 +105,7 @@ class UserDbManagerImpl(
             val userEmail = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
             val password = cursor.getString(cursor.getColumnIndex(KEY_PASSWORD))
             val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
-            val id = cursor.getInt(cursor.getColumnIndex(USER_ID))
+            val id = cursor.getString(cursor.getColumnIndex(USER_ID))
 
             user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
             user.id = id
