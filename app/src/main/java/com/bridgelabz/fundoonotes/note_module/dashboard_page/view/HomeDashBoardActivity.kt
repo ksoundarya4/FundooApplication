@@ -32,6 +32,10 @@ import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
@@ -67,6 +71,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
     private lateinit var authenticatedEmail: String
     private var authenticatedUser: User? = null
+    private var signInClient: GoogleSignInClient? = null
+    private var googleAccount: GoogleSignInAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,9 +80,31 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         initHomeDashBoardActivity()
-        authenticateUser()
+//        authenticateUser()
         setClickOnFloatingActionButton()
         setNavigationItemClicked()
+        setGoogleSignInClient()
+    }
+
+    private fun setGoogleSignInClient() {
+        val signInOption =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        signInClient = GoogleSignIn.getClient(this, signInOption)
+        googleAccount = GoogleSignIn.getLastSignedInAccount(this)
+        updateUI(googleAccount)
+    }
+
+    private fun updateUI(googleAccount: GoogleSignInAccount?) {
+        if (googleAccount != null) {
+            val firstname = googleAccount.givenName
+            val lastName = googleAccount.familyName
+            val email = googleAccount.email
+            val id = googleAccount.id
+            authenticatedUser = User(firstname!!, lastName!!, email!!)
+            authenticatedUser!!.id = id!!.toInt()
+        }else{
+            authenticateUser()
+        }
     }
 
     private fun authenticateUser() {
