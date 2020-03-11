@@ -35,7 +35,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
             ).get(SharedViewModel::class.java)
         }
     }
-    private val recyclerView: RecyclerView by lazy {
+    private val recyclerView  by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
