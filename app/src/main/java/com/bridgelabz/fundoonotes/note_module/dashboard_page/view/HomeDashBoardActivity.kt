@@ -101,8 +101,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
             val email = googleAccount.email
             val id = googleAccount.id
             authenticatedUser = User(firstname!!, lastName!!, email!!)
-            authenticatedUser!!.id = id!!.toInt()
-        }else{
+            authenticatedUser!!.id = id!!
+        } else {
             authenticateUser()
         }
     }
@@ -237,7 +237,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
     /**Function to set alert dialog when SignOut
      * Menu item is clicked */
     private fun onSignOutMenuClick() {
-        removePreference()
         signOutAlertDialog()
     }
 
@@ -260,7 +259,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
             .setPositiveButton(
                 getString(R.string.sign_out_alert_positive_button)
             ) { _, _ ->
-                navigateToLoginScreen()
+                checkForGoogleAccount(googleAccount)
                 toast(
                     getString(R.string.toast_when_sign_out_alert_positive_button_clicked)
                 )
@@ -273,6 +272,14 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
+    }
+
+    private fun checkForGoogleAccount(googleAccount: GoogleSignInAccount?) {
+        if (googleAccount != null) {
+            signInClient!!.signOut()
+        }
+        removePreference()
+        navigateToLoginScreen()
     }
 
     /**Function to tell fragment that back navigation is Pressed*/
