@@ -101,4 +101,10 @@ class UserProfileDialogFragment : DialogFragment(), GoogleApiClient.OnConnection
     override fun onConnectionFailed(p0: ConnectionResult) {
         Log.d("ReminderFragment", "Connection Failed")
     }
+
+    override fun onPause() {
+        super.onPause()
+        googleApiClient!!.stopAutoManage(requireActivity())
+        googleApiClient!!.disconnect()
+    }
 }
