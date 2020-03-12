@@ -207,6 +207,10 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     replaceFragment(ReminderFragment())
                     return@setNavigationItemSelectedListener true
                 }
+                R.id.nav_pinned -> {
+                    replaceFragment(PinnedNoteFragment())
+                    return@setNavigationItemSelectedListener true
+                }
                 else -> return@setNavigationItemSelectedListener false
             }
         }
