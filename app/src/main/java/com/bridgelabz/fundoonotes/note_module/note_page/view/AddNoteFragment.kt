@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
@@ -24,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 const val REMINDER_REQUEST_CODE = 0
 const val COLOUR_REQUEST_CODE = 1
 
-class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
+class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourListener {
 
     private lateinit var title: EditText
     private lateinit var description: EditText
@@ -44,6 +45,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
     private val toolbar by lazy {
         requireView().findViewById<Toolbar>(R.id.fragment_add_note_toolbar)
     }
+    private val addNoteLayout by lazy {
+        requireView().findViewById<ConstraintLayout>(R.id.add_note_constraint_layout)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,8 +62,13 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         super.onActivityCreated(savedInstanceState)
 
         getNoteArgument()
+        setLayoutBackground()
         setUpFragmentToolbar()
         setToolBarOnCLickListener()
+    }
+
+    private fun setLayoutBackground() {
+        addNoteLayout.setBackgroundColor(note.colour)
     }
 
     private fun setToolBarOnCLickListener() {
@@ -263,5 +272,10 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener {
         super.onResume()
         hideActivityToolbar()
         hideBottomAppbar()
+    }
+
+    override fun onColourSubmit(colour: Int) {
+        note.colour = colour
+        addNoteLayout.setBackgroundColor(colour)
     }
 }
