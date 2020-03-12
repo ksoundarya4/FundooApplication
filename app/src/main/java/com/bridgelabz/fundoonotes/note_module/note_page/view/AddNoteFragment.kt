@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -45,8 +47,8 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     private val toolbar by lazy {
         requireView().findViewById<Toolbar>(R.id.fragment_add_note_toolbar)
     }
-    private val addNoteLayout by lazy {
-        requireView().findViewById<ConstraintLayout>(R.id.add_note_constraint_layout)
+    private val fragmentContainerLayout by lazy {
+        requireActivity().findViewById<ConstraintLayout>(R.id.fragment_constraint_layout)
     }
 
     override fun onCreateView(
@@ -62,13 +64,12 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         super.onActivityCreated(savedInstanceState)
 
         getNoteArgument()
-        setLayoutBackground()
         setUpFragmentToolbar()
         setToolBarOnCLickListener()
     }
 
     private fun setLayoutBackground() {
-        addNoteLayout.setBackgroundColor(note.colour)
+        fragmentContainerLayout.setBackgroundColor(note.colour)
     }
 
     private fun setToolBarOnCLickListener() {
@@ -176,11 +177,18 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         bottomAppBar.performHide()
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     override fun onStop() {
         super.onStop()
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
         showBottomAppBar()
         view?.hideKeyboard()
+        fragmentContainerLayout.setBackgroundColor(
+            resources.getColor(
+                R.color.colorPrimaryWhite,
+                resources.newTheme()
+            )
+        )
     }
 
     private fun showBottomAppBar() {
@@ -271,10 +279,11 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         super.onResume()
         hideActivityToolbar()
         hideBottomAppbar()
+        setLayoutBackground()
     }
 
     override fun onColourSubmit(colour: Int) {
         note.colour = colour
-        addNoteLayout.setBackgroundColor(colour)
+        fragmentContainerLayout.setBackgroundColor(colour)
     }
 }
