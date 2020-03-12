@@ -2,7 +2,6 @@ package com.bridgelabz.fundoonotes.note_module.note_page.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 
