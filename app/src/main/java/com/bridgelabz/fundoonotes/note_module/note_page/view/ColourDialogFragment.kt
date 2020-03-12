@@ -17,17 +17,11 @@ class ColourDialogFragment : DialogFragment(), OnColourClickListener {
     private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.colour_recycler_view)
     }
-    val colours = ArrayList<Int>().apply {
-        add(Color.WHITE)
-        add(Color.CYAN)
-        add(Color.LTGRAY)
-        add(Color.MAGENTA)
-        add(Color.RED)
-        add(Color.YELLOW)
-        add(Color.BLUE)
-        add(Color.GRAY)
-        add(Color.GREEN)
+    private val colourArray by lazy {
+        resources.getStringArray(R.array.array_of_colour)
     }
+    private val colours = ArrayList<Int>()
+
     private val onColourlistener by lazy {
         targetFragment as OnColourListener
     }
@@ -47,13 +41,22 @@ class ColourDialogFragment : DialogFragment(), OnColourClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getColours()
         initRecyclerView()
+    }
+
+    private fun getColours() {
+        for (colour in colourArray) {
+            Log.d("colour", colour.toString())
+            val color = Color.parseColor(colour)
+            colours.add(color)
+        }
     }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = ColourAdapter(colours, this)
-        recyclerView.layoutManager = StaggeredGridLayoutManager(3, 1)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(4, 1)
     }
 
     override fun onClick(position: Int) {
