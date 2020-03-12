@@ -14,6 +14,10 @@
             android:id="@+id/nav_reminder"
             android:icon="@drawable/ic_add_alert_grey"
             android:title="@string/reminders" />
+        <item
+            android:id="@+id/nav_pinned"
+            android:icon="@drawable/ic_pin_grey"
+            android:title="@string/important" />
 
     </group>
     <group
@@ -31,6 +35,7 @@
             android:id="@+id/nav_archive"
             android:icon="@drawable/ic_archive"
             android:title="@string/archive_note" />
+
         <item
             android:id="@+id/nav_delete"
             android:icon="@drawable/ic_delete"
