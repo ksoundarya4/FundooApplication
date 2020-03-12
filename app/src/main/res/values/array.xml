@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_of_colour">
+        <item>#FFFFFF</item>
+        <item>#EF9A9A</item>
+        <item>#FFCC80</item>
+        <item>#FFF59D</item>
+        <item>#9FA8DA</item>
+        <item>#80DEEA</item>
+        <item>#9AEFE2</item>
+        <item>#A8F0AB</item>
+        <item>#FF91F1</item>
+        <item>#FFB7CA</item>
+        <item>#A87070</item>
+        <item>#C0C0C0</item>
+    </string-array>
+</resources>
