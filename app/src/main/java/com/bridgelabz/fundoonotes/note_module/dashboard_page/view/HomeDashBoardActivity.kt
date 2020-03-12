@@ -32,12 +32,16 @@ import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
@@ -47,19 +51,19 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private val dashBoardViewModel: DashBoardViewModel by lazy {
         ViewModelProvider(this, dashBoadViewModelFactory).get(DashBoardViewModel::class.java)
     }
-    private val toolbar: Toolbar by lazy {
+    private val toolbar by lazy {
         findViewById<Toolbar>(R.id.toolbar)
     }
 
-    private val drawerLayout: DrawerLayout by lazy {
+    private val drawerLayout by lazy {
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    private val navigationView: NavigationView by lazy {
+    private val navigationView by lazy {
         findViewById<NavigationView>(R.id.nav_view)
     }
 
-    private val floatingActionButton: FloatingActionButton by lazy {
+    private val floatingActionButton by lazy {
         findViewById<FloatingActionButton>(R.id.fab)
     }
 
@@ -73,6 +77,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var authenticatedUser: User? = null
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
+    private var accessToken: AccessToken? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,10 +85,16 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         initHomeDashBoardActivity()
-//        authenticateUser()
         setClickOnFloatingActionButton()
         setNavigationItemClicked()
         setGoogleSignInClient()
+        setFacebookAccessToken()
+    }
+
+    private fun setFacebookAccessToken() {
+        accessToken = AccessToken.getCurrentAccessToken()
+        if (accessToken != null)
+            useLoginInformation(accessToken!!)
     }
 
     private fun setGoogleSignInClient() {
@@ -119,6 +130,23 @@ class HomeDashBoardActivity : AppCompatActivity() {
         if (user != null)
             authenticatedUser = user
     }
+
+    private fun useLoginInformation(accessToken: AccessToken) {
+        GraphRequest.newMeRequest(accessToken, graphRequestCallback)
+    }
+
+    private val graphRequestCallback =
+        GraphRequest.GraphJSONObjectCallback { `object`, _ ->
+            try {
+                val firstName = `object`!!.getString("name")
+                val lastNAme = ""
+                val email = `object`.getString("email")
+                authenticatedUser = User(firstName, lastNAme, email)
+                authenticatedEmail = email
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
+        }
 
     private fun initHomeDashBoardActivity() {
 
@@ -264,6 +292,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 getString(R.string.sign_out_alert_positive_button)
             ) { _, _ ->
                 checkForGoogleAccount(googleAccount)
+                checkForFaceBookAccount(accessToken)
+                removePreference()
+                navigateToLoginScreen()
                 toast(
                     getString(R.string.toast_when_sign_out_alert_positive_button_clicked)
                 )
@@ -278,12 +309,15 @@ class HomeDashBoardActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    private fun checkForFaceBookAccount(accessToken: AccessToken?) {
+        if (accessToken != null)
+            LoginManager.getInstance().logOut()
+    }
+
     private fun checkForGoogleAccount(googleAccount: GoogleSignInAccount?) {
         if (googleAccount != null) {
             signInClient!!.signOut()
         }
-        removePreference()
-        navigateToLoginScreen()
     }
 
     /**Function to tell fragment that back navigation is Pressed*/
