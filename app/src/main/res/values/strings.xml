@@ -125,4 +125,5 @@
     <string name="authenticated_user">Authenticated User</string>
     <string name="app_bar_title_reminder_notes">Reminders</string>
     <string name="note_colour">Note Colour</string>
+    <string name="important">Important</string>
 </resources>
