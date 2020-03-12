@@ -69,4 +69,14 @@ class SharedViewModel(private val noteTableManager: NoteTableManager) : ViewMode
         fetchDeletedNotes()
         return notesLiveData
     }
+
+    /**Function to return Array of Pinned Note*/
+    private fun fetchPinnedNotes() {
+        notesLiveData.value = noteTableManager.fetchPinnedNote()
+    }
+
+    fun getPinnedNoteLiveData(): LiveData<ArrayList<Note>> {
+        fetchPinnedNotes()
+        return notesLiveData
+    }
 }
