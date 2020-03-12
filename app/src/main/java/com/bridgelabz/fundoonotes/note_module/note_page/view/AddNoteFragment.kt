@@ -47,6 +47,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     private val toolbar by lazy {
         requireView().findViewById<Toolbar>(R.id.fragment_add_note_toolbar)
     }
+    private val addNoteFragment by lazy {
+        requireView().findViewById<ConstraintLayout>(R.id.add_note_constraint_layout)
+    }
     private val fragmentContainerLayout by lazy {
         requireActivity().findViewById<ConstraintLayout>(R.id.fragment_constraint_layout)
     }
@@ -69,6 +72,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     }
 
     private fun setLayoutBackground() {
+        addNoteFragment.setBackgroundColor(note.colour)
         fragmentContainerLayout.setBackgroundColor(note.colour)
     }
 
@@ -284,6 +288,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
 
     override fun onColourSubmit(colour: Int) {
         note.colour = colour
+        addNoteFragment.setBackgroundColor(colour)
         fragmentContainerLayout.setBackgroundColor(colour)
     }
 }
