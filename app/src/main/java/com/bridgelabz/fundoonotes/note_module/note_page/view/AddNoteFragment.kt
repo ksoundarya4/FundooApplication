@@ -131,7 +131,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         return true
     }
 
-
     private fun makeNoteArchive(): Boolean {
         note.isArchived = 1
         if (note.isPinned == 1)
