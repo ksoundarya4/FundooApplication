@@ -14,4 +14,10 @@ class ColourViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         cardView.setCardBackgroundColor(colour)
         imageButton.setBackgroundColor(colour)
     }
+
+    fun onColourButtonClick(onColourClickListener: OnColourClickListener, position: Int) {
+        cardView.setOnClickListener {
+            onColourClickListener.onClick(position)
+        }
+    }
 }
