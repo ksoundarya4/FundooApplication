@@ -30,11 +30,16 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     ) {
         title.text = note.title
         description.text = note.description
+        setViewBackgroundColour(note.colour)
 
         if (note.reminder != null) {
             val reminder = note.reminder
             createCardView(reminder!!)
         }
+    }
+
+    private fun setViewBackgroundColour(colour: Int) {
+        cardView.setCardBackgroundColor(colour)
     }
 
     private fun createCardView(reminder: String) {
@@ -80,7 +85,7 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         reminderCardView.addView(reminderTextView)
         constraintLayout.addView(reminderCardView)
-        constraintSet.constrainWidth(constraintLayout.id,ConstraintSet.WRAP_CONTENT)
+        constraintSet.constrainWidth(constraintLayout.id, ConstraintSet.WRAP_CONTENT)
     }
 
     fun onNoteCLickListener(onNoteClick: OnNoteClickListener, adapterPosition: Int) {
