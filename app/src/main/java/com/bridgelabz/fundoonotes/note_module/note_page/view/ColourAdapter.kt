@@ -6,7 +6,10 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 
-class ColourAdapter(private val colours: ArrayList<Int>) :
+class ColourAdapter(
+    private val colours: ArrayList<Int>,
+    private val onColourClickListener: OnColourClickListener
+) :
     RecyclerView.Adapter<ColourViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColourViewHolder {
@@ -22,5 +25,6 @@ class ColourAdapter(private val colours: ArrayList<Int>) :
     override fun onBindViewHolder(holder: ColourViewHolder, position: Int) {
         val colour = colours[position]
         holder.bindColour(colour)
+        holder.onColourButtonClick(onColourClickListener, position)
     }
 }
