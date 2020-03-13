@@ -78,6 +78,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
     private var accessToken: AccessToken? = null
+//    private var currentFragment: Fragment = NoteFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +90,13 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
+    }
+
+    private fun observeCurrentFragment() {
+        dashBoardViewModel.getFragmentLiveData().observe(this
+            , Observer {
+                replaceFragment(fragment = it)
+            })
     }
 
     private fun setFacebookAccessToken() {
@@ -150,16 +158,17 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun initHomeDashBoardActivity() {
 
+        observeCurrentFragment()
         getUserSharedPreferences()
         setActionBarToggle()
-        setNoteFragment()
+//        setNoteFragment()
     }
 
-    private fun setNoteFragment() {
-        navigationView.setCheckedItem(R.id.nav_home)
-        val fragment = NoteFragment()
-        replaceFragment(fragment)
-    }
+//    private fun setNoteFragment() {
+//        navigationView.setCheckedItem(R.id.nav_home)
+//        val fragment = NoteFragment()
+//        replaceFragment(currentFragment)
+//    }
 
     private fun getUserSharedPreferences() {
         val editor = preferences.edit()
@@ -212,7 +221,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(NoteFragment())
+                    dashBoardViewModel.setFragmentLiveData(NoteFragment())
+//                    replaceFragment(NoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -220,23 +230,28 @@ class HomeDashBoardActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_archive -> {
-                    replaceFragment(ArchiveFragment())
+                    dashBoardViewModel.setFragmentLiveData(ArchiveFragment())
+//                    replaceFragment(ArchiveFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
-                    replaceFragment(TrashFragment())
+                    dashBoardViewModel.setFragmentLiveData(TrashFragment())
+//                    replaceFragment(TrashFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
-                    replaceFragment(LabelFragment())
+                    dashBoardViewModel.setFragmentLiveData(LabelFragment())
+//                    replaceFragment(LabelFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_reminder -> {
-                    replaceFragment(ReminderFragment())
+                    dashBoardViewModel.setFragmentLiveData(ReminderFragment())
+//                    replaceFragment(ReminderFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_pinned -> {
-                    replaceFragment(PinnedNoteFragment())
+                    dashBoardViewModel.setFragmentLiveData(PinnedNoteFragment())
+//                    replaceFragment(PinnedNoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
@@ -245,10 +260,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
         return true
     }
 
-    private fun replaceFragment(fragment: Fragment?) {
+    private fun replaceFragment(fragment: Fragment) {
         drawerLayout.closeDrawer(navigationView)
+        if (fragment.isAdded) return
+
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment!!)
+        transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
@@ -326,7 +343,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         for (fragment in fragments) {
             if (fragment is OnBackPressed) {
                 fragment.onBackPressed()
-                setNoteFragment()
+                dashBoardViewModel.setFragmentLiveData(NoteFragment())
             }
         }
     }
@@ -357,4 +374,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
         return true
     }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        replaceFragment(currentFragment)
+//    }
 }

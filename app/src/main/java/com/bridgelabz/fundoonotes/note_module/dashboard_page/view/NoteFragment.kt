@@ -27,19 +27,13 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private val noteFactory by lazy {
         NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
     }
-    private val sharedViewModel: SharedViewModel by lazy {
-        requireActivity().run {
-            ViewModelProvider(
-                this,
-                noteFactory
-            ).get(SharedViewModel::class.java)
-        }
-    }
-    private val recyclerView  by lazy {
+    private lateinit var sharedViewModel: SharedViewModel
+
+    private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
-    private lateinit var noteAdapter: NoteViewAdapter
+    private var noteAdapter: NoteViewAdapter = NoteViewAdapter(arrayListOf(), this)
 
     private lateinit var notes: ArrayList<Note>
 
@@ -57,25 +51,31 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        initRecyclerView()
+        initSharedViewModel()
+    }
+
+    private fun initSharedViewModel() {
+        sharedViewModel = ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
         sharedViewModel.getRecyclerViewType()
             .observe(requireActivity(), Observer { recyclerViewType = it })
         sharedViewModel.getSimpleNoteLiveData()
             .observe(requireActivity(), Observer { observeNotes(it) })
-
     }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = setRecyclerViewType(recyclerViewType)
         recyclerView.adapter = noteAdapter
+        noteAdapter.notifyDataSetChanged()
     }
 
     private fun observeNotes(noteList: ArrayList<Note>) {
         Log.d("noteList", noteList.toString())
         notes = noteList
-        noteAdapter = NoteViewAdapter(notes, this)
+//        noteAdapter = NoteViewAdapter(notes, this)
+        noteAdapter.setListOfNotes(noteList)
         noteAdapter.notifyDataSetChanged()
-        initRecyclerView()
     }
 
     override fun onClick(adapterPosition: Int) {
