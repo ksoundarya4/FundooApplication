@@ -31,7 +31,7 @@ class UserFireStoreManagerImpl : UserFireStoreManager {
 
     override fun updateUser(user: User) {
         val userDocumentReference = userReference.document(user.id!!)
-        userDocumentReference.update("id", user.id, user).addOnCompleteListener(completeListener)
+        userDocumentReference.set(user).addOnCompleteListener(completeListener)
     }
 
     override fun deleteUser(user: User) {
@@ -41,12 +41,12 @@ class UserFireStoreManagerImpl : UserFireStoreManager {
 
     override fun fetchUser(email: String): User? {
         var user: User? = null
-            userReference.document(email).get().addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    user = documentSnapshot.toObject(User::class.java)
-                } else
-                    Log.d(TAG, "User does not exit")
-            }
+        userReference.document(email).get().addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                user = documentSnapshot.toObject(User::class.java)
+            } else
+                Log.d(TAG, "User does not exit")
+        }
         return user!!
     }
 }
