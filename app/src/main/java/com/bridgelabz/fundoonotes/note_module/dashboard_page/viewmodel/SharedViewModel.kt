@@ -13,16 +13,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
+import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_note.NoteFireStoreManager
+import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_note.NoteFireStoreManagerImpl
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
+import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 
 class SharedViewModel(private val noteTableManager: NoteTableManager) : ViewModel() {
 
     private val notesLiveData = MutableLiveData<ArrayList<Note>>()
     private val recyclerViewTypeLiveData = MutableLiveData<RecyclerViewType>()
+    private val noteFireStore: NoteFireStoreManager = NoteFireStoreManagerImpl()
 
     /**Function to insert Note into Notes table*/
     fun insertNoteOnCLick(note: Note) {
         noteTableManager.insert(note)
+        noteFireStore.insertNote(note)
     }
 
     /**Function to fetchSimpleNotes from Notes table*/
@@ -39,6 +44,7 @@ class SharedViewModel(private val noteTableManager: NoteTableManager) : ViewMode
     /**Function to update note in Note table*/
     fun updateNoteOnClick(note: Note) {
         noteTableManager.updateNote(note)
+        noteFireStore.updateNote(note)
     }
 
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
