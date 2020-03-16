@@ -14,6 +14,6 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 interface NoteFireStoreManager {
     fun insertNote(note: Note)
     fun updateNote(note: Note)
-    fun deleteNote()
-    fun fetchNote(): Note
+    fun deleteNote(id: String)
+    fun fetchNote(userId: String): Note
 }
