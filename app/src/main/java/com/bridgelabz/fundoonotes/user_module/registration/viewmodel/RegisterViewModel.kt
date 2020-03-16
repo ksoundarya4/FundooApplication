@@ -12,6 +12,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user.UserFireStoreManager
+import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user.UserFireStoreManagerImpl
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
@@ -23,6 +25,7 @@ class RegisterViewModel : ViewModel() {
 
     private lateinit var dbManager: UserDatabaseManager
     private val registrationResponse = MutableLiveData<RegistrationStatus>()
+    private lateinit var userFireStoreManager: UserFireStoreManager
 
     fun onSignUpButtonClick(view: View, user: User) {
         if (validateUser(user)) {
@@ -30,6 +33,7 @@ class RegisterViewModel : ViewModel() {
                 UserDbManagerImpl(
                     DatabaseHelper(view.context)
                 )
+            userFireStoreManager = UserFireStoreManagerImpl()
             handelRegistration(user)
         }
     }
@@ -39,11 +43,12 @@ class RegisterViewModel : ViewModel() {
      * to registrationResponse if the user is
      * inserted into USerDatabase.db
      */
-    fun handelRegistration(user: User) {
+    private fun handelRegistration(user: User) {
         if (dbManager.isUserRegistered(user))
             registrationResponse.value = RegistrationStatus.Failed
         else {
             dbManager.insert(user)
+            userFireStoreManager.insertUser(user)
             registrationResponse.value = RegistrationStatus.Successful
         }
     }
