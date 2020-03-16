@@ -1,7 +1,6 @@
 package com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user
 
 import android.util.Log
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -42,7 +41,6 @@ class UserFireStoreManagerImpl : UserFireStoreManager {
 
     override fun fetchUser(email: String): User? {
         var user: User? = null
-        val userDocumentReference =
             userReference.document(email).get().addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
                     user = documentSnapshot.toObject(User::class.java)
