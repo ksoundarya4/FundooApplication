@@ -25,7 +25,7 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
 
-    private val recyclerView: RecyclerView by lazy {
+    private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
@@ -42,7 +42,7 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
         setHasOptionsMenu(true)
         ViewUtil.setUpActionBarTitle(
             requireActivity() as AppCompatActivity,
-            "Pinned"
+            getString(R.string.important)
         )
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
@@ -53,12 +53,6 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
             .observe(requireActivity(), Observer { observeArchiveNotes(it) })
         initRecyclerView()
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-//            getString(R.string.important)
-//    }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)

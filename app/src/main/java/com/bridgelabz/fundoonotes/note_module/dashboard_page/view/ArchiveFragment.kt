@@ -54,12 +54,6 @@ class ArchiveFragment : Fragment(), OnNoteClickListener {
         initRecyclerView()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-////        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-////            getString(R.string.app_bar_title_archive_notes)
-//    }
-
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

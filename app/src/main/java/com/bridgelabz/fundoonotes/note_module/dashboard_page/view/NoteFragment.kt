@@ -102,11 +102,6 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-//            getString(R.string.menu_notes)
-//    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.app_bar_recycler_view -> {

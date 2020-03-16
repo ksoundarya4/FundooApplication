@@ -26,7 +26,7 @@ class TrashFragment : Fragment(), OnNoteClickListener {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
 
-    private val recyclerView: RecyclerView by lazy {
+    private val recyclerView  by lazy {
         requireActivity().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
     private val adapter = NoteViewAdapter(ArrayList(), this)
@@ -52,12 +52,6 @@ class TrashFragment : Fragment(), OnNoteClickListener {
             .observe(requireActivity(), Observer { observeDeletedNote(it) })
         initRecyclerView()
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-//           "Delete"
-//    }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)

@@ -25,7 +25,7 @@ class ReminderFragment : Fragment(), OnNoteClickListener {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
 
-    private val recyclerView: RecyclerView by lazy {
+    private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
@@ -42,7 +42,7 @@ class ReminderFragment : Fragment(), OnNoteClickListener {
         setHasOptionsMenu(true)
         ViewUtil.setUpActionBarTitle(
             requireActivity() as AppCompatActivity,
-            "Reminder"
+            getString(R.string.app_bar_title_reminder_notes)
         )
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
@@ -54,12 +54,6 @@ class ReminderFragment : Fragment(), OnNoteClickListener {
         initRecyclerView()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-//            getString(R.string.app_bar_title_reminder_notes)
-//    }
-
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
@@ -67,8 +61,7 @@ class ReminderFragment : Fragment(), OnNoteClickListener {
     }
 
     private fun observeArchiveNotes(noteList: ArrayList<Note>) {
-        val notes = noteList
-        for (note in notes) {
+        for (note in noteList) {
             if (!note.reminder.isNullOrEmpty())
                 reminderNotes.add(note)
         }
