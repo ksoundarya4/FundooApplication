@@ -27,39 +27,40 @@ class NoteFireStoreManagerImpl : NoteFireStoreManager {
 
     override fun updateNote(note: Note) {
         val noteDocumentReference = notesReference.document(note.id!!)
-        noteDocumentReference.update("id", note.id, note).addOnCompleteListener(completeListener)
+        noteDocumentReference.set(note).addOnCompleteListener(completeListener)
+
+}
+
+override fun deleteNote(id: String) {
+    val noteDocumentReference = notesReference.document(id)
+    noteDocumentReference.delete()
+}
+
+override fun fetchNote(userId: String): Note? {
+    val noteDocumentReference = notesReference.document(userId)
+    var note: Note? = null
+
+    noteDocumentReference.get().addOnSuccessListener { documentSnapshot ->
+        if (documentSnapshot.exists())
+            note = documentSnapshot.toObject(Note::class.java)
+        else
+            Log.d(TAG, "Note does note exist")
     }
+    return note
+}
 
-    override fun deleteNote(id: String) {
-        val noteDocumentReference = notesReference.document(id)
-        noteDocumentReference.delete()
+override fun fetchNotes(): ArrayList<Note> {
+    val noteDocumentReference = notesReference.document()
+    val notes = ArrayList<Note>()
+
+    noteDocumentReference.get().addOnSuccessListener { documentSnapshot ->
+        if (documentSnapshot.exists()) {
+            val note = documentSnapshot.toObject(Note::class.java)
+            if (note != null)
+                notes.add(note)
+        } else
+            Log.d(TAG, "Note does note exist")
     }
-
-    override fun fetchNote(userId: String): Note? {
-        val noteDocumentReference = notesReference.document(userId)
-        var note: Note? = null
-
-        noteDocumentReference.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot.exists())
-                note = documentSnapshot.toObject(Note::class.java)
-            else
-                Log.d(TAG, "Note does note exist")
-        }
-        return note
-    }
-
-    override fun fetchNotes(): ArrayList<Note> {
-        val noteDocumentReference = notesReference.document()
-        var notes = ArrayList<Note>()
-
-        noteDocumentReference.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot.exists()) {
-                val note = documentSnapshot.toObject(Note::class.java)
-                if (note != null)
-                    notes.add(note)
-            } else
-                Log.d(TAG, "Note does note exist")
-        }
-        return notes
-    }
+    return notes
+}
 }
