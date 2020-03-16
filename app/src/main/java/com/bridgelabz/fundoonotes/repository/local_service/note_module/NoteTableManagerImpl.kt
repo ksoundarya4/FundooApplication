@@ -113,7 +113,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -218,7 +218,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -286,7 +286,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -354,7 +354,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -422,7 +422,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -486,7 +486,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
