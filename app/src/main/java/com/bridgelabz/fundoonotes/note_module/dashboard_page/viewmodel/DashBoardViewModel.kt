@@ -23,6 +23,8 @@ class DashBoardViewModel(dbHelper: DatabaseHelper) : ViewModel() {
     private val userTableManager = UserDbManagerImpl(dbHelper)
     private val userLiverData = MutableLiveData<User>()
     private val fragmentLiveData = MutableLiveData<Fragment>(NoteFragment())
+    var currentFragment: Fragment = NoteFragment()
+        private set
 
     fun authenticatedUser(email: String) {
         userLiverData.value = userTableManager.fetchUser(email)
@@ -34,6 +36,7 @@ class DashBoardViewModel(dbHelper: DatabaseHelper) : ViewModel() {
 
     fun setFragmentLiveData(fragment: Fragment) {
         fragmentLiveData.value = fragment
+        currentFragment = fragment
     }
 
     fun getFragmentLiveData(): LiveData<Fragment> {
