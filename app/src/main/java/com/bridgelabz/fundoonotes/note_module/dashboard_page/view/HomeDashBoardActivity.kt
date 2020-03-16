@@ -78,7 +78,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
     private var accessToken: AccessToken? = null
-//    private var currentFragment: Fragment = NoteFragment()
+//    private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -201,6 +201,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     /**Function to set Floating Action Bar when it is clicked*/
     private fun setClickOnFloatingActionButton() {
         floatingActionButton.setOnClickListener {
+//            if (currentFragment == null)
+//                currentFragment = NoteFragment()
             val bundle = setNoteArguments()
             replaceAddNoteFragment(bundle)
         }
@@ -222,6 +224,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     dashBoardViewModel.setFragmentLiveData(NoteFragment())
+//                    currentFragment = NoteFragment()
 //                    replaceFragment(NoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
@@ -231,26 +234,31 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 }
                 R.id.nav_archive -> {
                     dashBoardViewModel.setFragmentLiveData(ArchiveFragment())
+//                    currentFragment = ArchiveFragment()
 //                    replaceFragment(ArchiveFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
                     dashBoardViewModel.setFragmentLiveData(TrashFragment())
+//                    currentFragment = TrashFragment()
 //                    replaceFragment(TrashFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
                     dashBoardViewModel.setFragmentLiveData(LabelFragment())
+//                    currentFragment = LabelFragment()
 //                    replaceFragment(LabelFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_reminder -> {
                     dashBoardViewModel.setFragmentLiveData(ReminderFragment())
+//                    currentFragment = ReminderFragment()
 //                    replaceFragment(ReminderFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_pinned -> {
                     dashBoardViewModel.setFragmentLiveData(PinnedNoteFragment())
+//                    currentFragment = PinnedNoteFragment()
 //                    replaceFragment(PinnedNoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
@@ -343,7 +351,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
         for (fragment in fragments) {
             if (fragment is OnBackPressed) {
                 fragment.onBackPressed()
-                dashBoardViewModel.setFragmentLiveData(NoteFragment())
+                val currentFragment = dashBoardViewModel.currentFragment
+                dashBoardViewModel.setFragmentLiveData(currentFragment)
             }
         }
     }
