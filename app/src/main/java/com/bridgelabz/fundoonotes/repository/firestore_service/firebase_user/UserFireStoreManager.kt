@@ -14,6 +14,6 @@ import com.bridgelabz.fundoonotes.user_module.registration.model.User
 interface UserFireStoreManager {
     fun insertUser(user: User)
     fun updateUser(user: User)
-    fun deleteUser()
-    fun fetchUser(): User
+    fun deleteUser(user: User)
+    fun fetchUser(email: String): User?
 }
