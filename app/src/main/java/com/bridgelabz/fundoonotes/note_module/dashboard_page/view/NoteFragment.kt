@@ -51,16 +51,16 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        initRecyclerView()
         initSharedViewModel()
     }
 
     private fun initSharedViewModel() {
-        sharedViewModel = ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
+        sharedViewModel =
+            ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
         sharedViewModel.getRecyclerViewType()
-            .observe(requireActivity(), Observer { recyclerViewType = it })
+            .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
         sharedViewModel.getSimpleNoteLiveData()
-            .observe(requireActivity(), Observer { observeNotes(it) })
+            .observe(viewLifecycleOwner, Observer { observeNotes(it) })
     }
 
     private fun initRecyclerView() {
@@ -73,9 +73,8 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private fun observeNotes(noteList: ArrayList<Note>) {
         Log.d("noteList", noteList.toString())
         notes = noteList
-//        noteAdapter = NoteViewAdapter(notes, this)
-        noteAdapter.setListOfNotes(noteList)
-        noteAdapter.notifyDataSetChanged()
+        noteAdapter = NoteViewAdapter(notes, this)
+        initRecyclerView()
     }
 
     override fun onClick(adapterPosition: Int) {
