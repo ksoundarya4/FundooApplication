@@ -15,5 +15,6 @@ interface NoteFireStoreManager {
     fun insertNote(note: Note)
     fun updateNote(note: Note)
     fun deleteNote(id: String)
-    fun fetchNote(userId: String): Note
+    fun fetchNote(userId: String): Note?
+    fun fetchNotes(): ArrayList<Note>
 }
