@@ -16,6 +16,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.LinearRecyclerViewManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewLayoutManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.StaggeredRecyclerViewtManager
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.viewutil.ViewUtil
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
@@ -45,6 +46,10 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        ViewUtil.setUpActionBarTitle(
+            requireActivity() as AppCompatActivity,
+            getString(R.string.menu_notes)
+        )
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
 
@@ -97,10 +102,10 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-            getString(R.string.menu_notes)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
+//            getString(R.string.menu_notes)
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

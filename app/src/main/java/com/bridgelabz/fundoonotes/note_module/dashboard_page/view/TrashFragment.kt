@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.viewutil.ViewUtil
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
@@ -38,6 +39,10 @@ class TrashFragment : Fragment(), OnNoteClickListener {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
+        ViewUtil.setUpActionBarTitle(
+            requireActivity() as AppCompatActivity,
+            "Trash"
+        )
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
 
@@ -48,11 +53,11 @@ class TrashFragment : Fragment(), OnNoteClickListener {
         initRecyclerView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
-           "Delete"
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        (requireActivity() as AppCompatActivity).supportActionBar!!.title =
+//           "Delete"
+//    }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
