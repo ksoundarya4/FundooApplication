@@ -78,7 +78,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
     private var accessToken: AccessToken? = null
-    private var currentFragment: Fragment? = null
+    private var currentFragment: Fragment = NoteFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,14 +161,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
         observeCurrentFragment()
         getUserSharedPreferences()
         setActionBarToggle()
-//        setNoteFragment()
-    }
 
-//    private fun setNoteFragment() {
-//        navigationView.setCheckedItem(R.id.nav_home)
-//        val fragment = NoteFragment()
-//        replaceFragment(currentFragment)
-//    }
+    }
 
     private fun getUserSharedPreferences() {
         val editor = preferences.edit()
@@ -201,8 +195,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
     /**Function to set Floating Action Bar when it is clicked*/
     private fun setClickOnFloatingActionButton() {
         floatingActionButton.setOnClickListener {
-            if(currentFragment == null)
-                currentFragment = NoteFragment()
             val bundle = setNoteArguments()
             replaceAddNoteFragment(bundle)
         }
@@ -225,7 +217,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 R.id.nav_home -> {
                     dashBoardViewModel.setFragmentLiveData(NoteFragment())
                     currentFragment = NoteFragment()
-//                    replaceFragment(NoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -235,31 +226,26 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 R.id.nav_archive -> {
                     dashBoardViewModel.setFragmentLiveData(ArchiveFragment())
                     currentFragment = ArchiveFragment()
-//                    replaceFragment(ArchiveFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
                     dashBoardViewModel.setFragmentLiveData(TrashFragment())
                     currentFragment = TrashFragment()
-//                    replaceFragment(TrashFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
                     dashBoardViewModel.setFragmentLiveData(LabelFragment())
                     currentFragment = LabelFragment()
-//                    replaceFragment(LabelFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_reminder -> {
                     dashBoardViewModel.setFragmentLiveData(ReminderFragment())
                     currentFragment = ReminderFragment()
-//                    replaceFragment(ReminderFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_pinned -> {
                     dashBoardViewModel.setFragmentLiveData(PinnedNoteFragment())
                     currentFragment = PinnedNoteFragment()
-//                    replaceFragment(PinnedNoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
@@ -270,13 +256,13 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         drawerLayout.closeDrawer(navigationView)
+
         if (fragment.isAdded) return
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
-
 
     /**Function to set Action Bar Toggle of Drawer Layout*/
     private fun setActionBarToggle() {
@@ -351,7 +337,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         for (fragment in fragments) {
             if (fragment is OnBackPressed) {
                 fragment.onBackPressed()
-                dashBoardViewModel.setFragmentLiveData(currentFragment!!)
+                dashBoardViewModel.setFragmentLiveData(currentFragment)
             }
         }
     }
