@@ -222,7 +222,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     dashBoardViewModel.setFragmentLiveData(NoteFragment())
-//                    replaceFragment(NoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_sing_out -> {
@@ -231,27 +230,22 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 }
                 R.id.nav_archive -> {
                     dashBoardViewModel.setFragmentLiveData(ArchiveFragment())
-//                    replaceFragment(ArchiveFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_delete -> {
                     dashBoardViewModel.setFragmentLiveData(TrashFragment())
-//                    replaceFragment(TrashFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_label -> {
                     dashBoardViewModel.setFragmentLiveData(LabelFragment())
-//                    replaceFragment(LabelFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_reminder -> {
                     dashBoardViewModel.setFragmentLiveData(ReminderFragment())
-//                    replaceFragment(ReminderFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.nav_pinned -> {
                     dashBoardViewModel.setFragmentLiveData(PinnedNoteFragment())
-//                    replaceFragment(PinnedNoteFragment())
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
@@ -343,9 +337,14 @@ class HomeDashBoardActivity : AppCompatActivity() {
         for (fragment in fragments) {
             if (fragment is OnBackPressed) {
                 fragment.onBackPressed()
-                dashBoardViewModel.setFragmentLiveData(NoteFragment())
+                setNoteFragment()
             }
         }
+    }
+
+    private fun setNoteFragment() {
+        navigationView.setCheckedItem(R.id.nav_home)
+        dashBoardViewModel.setFragmentLiveData(NoteFragment())
     }
 
     /**Function to replace home dash board with AddNoteFragment*/
@@ -374,9 +373,4 @@ class HomeDashBoardActivity : AppCompatActivity() {
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
         return true
     }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        replaceFragment(currentFragment)
-//    }
 }
