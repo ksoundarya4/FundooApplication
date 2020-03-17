@@ -188,8 +188,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        callFragmentsOnBackPressed()
-        super.onBackPressed()
+            callFragmentsOnBackPressed()
+            super.onBackPressed()
     }
 
     /**Function to set Floating Action Bar when it is clicked*/
@@ -368,9 +368,4 @@ class HomeDashBoardActivity : AppCompatActivity() {
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
         return true
     }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        replaceFragment(currentFragment)
-//    }
 }
