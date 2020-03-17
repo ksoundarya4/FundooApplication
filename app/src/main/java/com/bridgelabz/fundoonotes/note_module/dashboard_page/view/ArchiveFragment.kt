@@ -31,9 +31,9 @@ class ArchiveFragment : Fragment(), OnNoteClickListener {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
 
-    private val bottomAppBar by lazy {
-        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
-    }
+//    private val bottomAppBar by lazy {
+//        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
+//    }
 
     private val floatingActionButton by lazy {
         requireActivity().findViewById<FloatingActionButton>(R.id.fab)
@@ -94,11 +94,11 @@ class ArchiveFragment : Fragment(), OnNoteClickListener {
 
     private fun hideBottomAppbar() {
         floatingActionButton.hide()
-        bottomAppBar.performHide()
+//        bottomAppBar.performHide()
     }
 
     private fun showBottomAppBar() {
         floatingActionButton.show()
-        bottomAppBar.performShow()
+//        bottomAppBar.performShow()
     }
 }
