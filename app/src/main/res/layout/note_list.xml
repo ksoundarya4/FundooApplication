@@ -2,7 +2,6 @@
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -59,27 +58,30 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view_note_title"
             app:layout_constraintVertical_chainStyle="packed" />
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/reminder_card_view"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginLeft="16dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:layout_marginRight="16dp"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.0"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/text_view_note_description">-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/reminder_card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/margin_8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_note_description">
 
-<!--            <TextView-->
-<!--                android:id="@+id/reminder_text"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content" />-->
+            <TextView
+                android:id="@+id/reminder_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_8dp"
+                android:layout_marginRight="@dimen/margin_8dp" />
 
-<!--        </androidx.cardview.widget.CardView>-->
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
