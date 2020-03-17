@@ -89,8 +89,18 @@ class TrashFragment : Fragment(), OnNoteClickListener {
         hideBottomAppbar()
     }
 
+    override fun onStop() {
+        super.onStop()
+        showBottomAppBar()
+    }
+
     private fun hideBottomAppbar() {
         floatingActionButton.hide()
         bottomAppBar.performHide()
+    }
+
+    private fun showBottomAppBar() {
+        floatingActionButton.show()
+        bottomAppBar.performShow()
     }
 }
