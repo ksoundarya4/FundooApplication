@@ -44,6 +44,7 @@ import com.google.android.material.navigation.NavigationView
 import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
+    val FRAGMENT_LIST = "ListToDetailPage"
 
     private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
         DashBoardViewModelFactory(DatabaseHelper(this))
@@ -157,11 +158,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
         }
 
     private fun initHomeDashBoardActivity() {
-
         observeCurrentFragment()
         getUserSharedPreferences()
         setActionBarToggle()
-
     }
 
     private fun getUserSharedPreferences() {
@@ -188,8 +187,17 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-            callFragmentsOnBackPressed()
-            super.onBackPressed()
+//        callFragmentsOnBackPressed()
+        val fragments: List<Fragment> = supportFragmentManager.fragments
+        for (fragment in fragments) {
+            if (fragment is OnBackPressed) {
+                fragment.onBackPressed()
+//                supportFragmentManager.popBackStack()
+                dashBoardViewModel.setFragmentLiveData(dashBoardViewModel.getCurrentFragment())
+                return
+            }
+        }
+        super.onBackPressed()
     }
 
     /**Function to set Floating Action Bar when it is clicked*/
@@ -257,7 +265,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         drawerLayout.closeDrawer(navigationView)
 
-        if (fragment.isAdded) return
+//        if (fragment.isAdded) return
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
@@ -348,7 +356,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         fragment.arguments = bundle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
+            .addToBackStack(FRAGMENT_LIST)
             .commit()
     }
 
