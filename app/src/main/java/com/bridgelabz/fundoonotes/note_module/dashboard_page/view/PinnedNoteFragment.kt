@@ -15,6 +15,8 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTable
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PinnedNoteFragment : Fragment(), OnNoteClickListener {
 
@@ -25,8 +27,16 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
 
-    private val recyclerView: RecyclerView by lazy {
+    private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
+    }
+
+    private val bottomAppBar by lazy {
+        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
+    }
+
+    private val floatingActionButton by lazy {
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab)
     }
 
     private val noteAdapter = NoteViewAdapter(ArrayList(), this)
@@ -71,5 +81,15 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
 
     override fun onLongClick(adapterPosition: Int) {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomAppbar()
+    }
+
+    private fun hideBottomAppbar() {
+        floatingActionButton.hide()
+        bottomAppBar.performHide()
     }
 }
