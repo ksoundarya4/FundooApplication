@@ -192,8 +192,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
         for (fragment in fragments) {
             if (fragment is OnBackPressed) {
                 fragment.onBackPressed()
-//                supportFragmentManager.popBackStack()
-                dashBoardViewModel.setFragmentLiveData(dashBoardViewModel.getCurrentFragment())
+                supportFragmentManager.popBackStack()
+                dashBoardViewModel.setFragmentLiveData(currentFragment)
                 return
             }
         }
