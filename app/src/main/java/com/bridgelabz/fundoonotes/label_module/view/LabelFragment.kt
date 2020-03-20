@@ -24,8 +24,6 @@ import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManagerImpl
 import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
-import com.bridgelabz.fundoonotes.user_module.login.view.toast
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class LabelFragment : Fragment(), LabelClickListener {
@@ -40,9 +38,9 @@ class LabelFragment : Fragment(), LabelClickListener {
             ).get(LabelViewModel::class.java)
         }
     }
-    private val bottomAppBar by lazy {
-        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
-    }
+//    private val bottomAppBar by lazy {
+//        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
+//    }
     private val floatingActionButton by lazy {
         requireActivity().findViewById<FloatingActionButton>(R.id.fab)
     }
@@ -115,7 +113,7 @@ class LabelFragment : Fragment(), LabelClickListener {
     }
 
     private fun hideBottomAppToolbar() {
-        bottomAppBar.performHide()
+//        bottomAppBar.performHide()
         floatingActionButton.hide()
     }
 
@@ -126,7 +124,7 @@ class LabelFragment : Fragment(), LabelClickListener {
     override fun onStop() {
         super.onStop()
         (requireActivity() as AppCompatActivity).supportActionBar!!.show()
-        bottomAppBar.performShow()
+//        bottomAppBar.performShow()
         floatingActionButton.show()
         view!!.hideKeyboard()
     }
