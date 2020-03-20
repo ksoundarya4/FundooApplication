@@ -163,14 +163,13 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onCancel() {
-            Log.d("LoginActivity", "cancelled")
+            Log.d(tag, "cancelled")
         }
 
         override fun onError(error: FacebookException?) {
-            Log.d("LoginActivity", "Faied")
+            Log.d(tag, "Failed")
             toast("Connect to network")
         }
-
     }
 
     private fun onGoogleSignInButtonClicked() {
