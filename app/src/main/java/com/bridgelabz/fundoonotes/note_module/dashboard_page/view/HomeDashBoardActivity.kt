@@ -352,7 +352,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val fragment = AddNoteFragment()
         fragment.arguments = bundle
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
+        transaction.addSharedElement(floatingActionButton, "shared_element_container")
+            .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }

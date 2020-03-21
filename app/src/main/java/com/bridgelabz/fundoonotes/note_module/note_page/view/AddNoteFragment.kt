@@ -23,6 +23,7 @@ import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
 
 const val REMINDER_REQUEST_CODE = 0
 const val COLOUR_REQUEST_CODE = 1
@@ -38,7 +39,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     private val viewModel by lazy {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
-//    private val bottomAppBar by lazy {
+    //    private val bottomAppBar by lazy {
 //        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
 //    }
     private val floatingActionButton by lazy {
@@ -69,6 +70,11 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         getNoteArgument()
         setUpFragmentToolbar()
         setToolBarOnCLickListener()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform(requireContext())
     }
 
     private fun setLayoutBackground() {

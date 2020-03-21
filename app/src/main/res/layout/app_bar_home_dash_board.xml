@@ -33,21 +33,24 @@
         android:layout_marginBottom="@dimen/margin_16dp"
         android:background="@color/AccentColor"
         android:foregroundGravity="left|bottom"
+        android:transitionName="shared_element_container"
         app:backgroundTint="@color/AccentColor"
-        app:srcCompat="@drawable/ic_add_grey" />
+        app:srcCompat="@drawable/ic_add_grey"
+        tools:targetApi="lollipop" />
 
-<!--    <com.google.android.material.bottomappbar.BottomAppBar-->
-<!--        android:id="@+id/bottom_app_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        android:theme="@style/AppTheme.AppBarOverlay"-->
-<!--        app:fabAlignmentMode="end">-->
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/bottom_toolbar"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="?attr/actionBarSize" />-->
-<!--    </com.google.android.material.bottomappbar.BottomAppBar>-->
+    <!--    <com.google.android.material.bottomappbar.BottomAppBar-->
+    <!--        android:id="@+id/bottom_app_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom"-->
+    <!--        android:theme="@style/AppTheme.AppBarOverlay"-->
+    <!--        app:fabAlignmentMode="end">-->
+
+    <!--        <androidx.appcompat.widget.Toolbar-->
+    <!--            android:id="@+id/bottom_toolbar"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="?attr/actionBarSize" />-->
+    <!--    </com.google.android.material.bottomappbar.BottomAppBar>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
