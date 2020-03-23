@@ -30,7 +30,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoard
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.server_service.RetrofitHelper
+import com.bridgelabz.fundoonotes.repository.api_service.RetrofitHelper
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
