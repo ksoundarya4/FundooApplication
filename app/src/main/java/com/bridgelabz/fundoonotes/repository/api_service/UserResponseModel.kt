@@ -7,7 +7,7 @@
  * @version 1.0
  * @since 23/03/2020
  */
-package com.bridgelabz.fundoonotes.repository.server_service
+package com.bridgelabz.fundoonotes.repository.api_service
 
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
 
