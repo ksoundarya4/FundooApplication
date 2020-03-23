@@ -5,7 +5,6 @@
     style="@style/LaunchScreenTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/PrimaryColor"
     tools:context=".user_module.launch_module.LaunchScreenActivity">
 
     <ImageView
