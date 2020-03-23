@@ -28,7 +28,7 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     ) {
         title.text = note.title
         description.text = note.description
-        setViewBackgroundColour(note.colour)
+        setViewBackgroundColour(note.colour!!)
         setReminderView(note.reminder)
     }
 

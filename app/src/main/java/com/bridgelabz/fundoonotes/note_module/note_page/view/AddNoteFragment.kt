@@ -78,8 +78,8 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     }
 
     private fun setLayoutBackground() {
-        addNoteFragment.setBackgroundColor(note.colour)
-        fragmentContainerLayout.setBackgroundColor(note.colour)
+        addNoteFragment.setBackgroundColor(note.colour!!)
+        fragmentContainerLayout.setBackgroundColor(note.colour!!)
     }
 
     private fun setToolBarOnCLickListener() {
