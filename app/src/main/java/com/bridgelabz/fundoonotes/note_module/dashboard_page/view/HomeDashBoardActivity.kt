@@ -12,6 +12,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -29,6 +30,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoard
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.server_service.RetrofitHelper
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
@@ -45,6 +47,7 @@ import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
+    private val tag = "HomeDashBoardActivity"
     private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
         DashBoardViewModelFactory(DatabaseHelper(this))
     }
@@ -78,7 +81,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
     private var accessToken: AccessToken? = null
-//    private var currentFragment: Fragment = NoteFragment()
+    //    private var currentFragment: Fragment = NoteFragment()
+    private val retrofitHelper = RetrofitHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +94,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
+        Log.d(tag, retrofitHelper.getNotesFromServer().toString())
     }
 
     private fun observeCurrentFragment() {
