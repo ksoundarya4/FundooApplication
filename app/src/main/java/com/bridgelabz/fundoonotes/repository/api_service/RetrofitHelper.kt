@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.server_service
+package com.bridgelabz.fundoonotes.repository.api_service
 
 import android.util.Log
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
@@ -18,40 +18,40 @@ class RetrofitHelper {
 
     fun getNotesFromServer(): ArrayList<Note> {
 
-        val jsonPlaceHolderApi: JsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi::class.java)
+        val noteApi: NoteApi = retrofit.create(NoteApi::class.java)
 
-        val call = jsonPlaceHolderApi.getNotesFromServer()
+        val call = noteApi.getNotesFromServer()
         call.enqueue(notesCallback)
         return notes
     }
 
-    private val notesCallback = object : Callback<NoteResponseModel> {
+    private val notesCallback = object : Callback<DataModel> {
 
-        override fun onFailure(call: Call<NoteResponseModel>, t: Throwable) {
+        override fun onFailure(call: Call<DataModel>, t: Throwable) {
             Log.i(tag, t.message!!)
         }
 
         override fun onResponse(
-            call: Call<NoteResponseModel>,
-            response: Response<NoteResponseModel>
+            call: Call<DataModel>,
+            response: Response<DataModel>
         ) {
             if (!response.isSuccessful) {
                 Log.i(tag, response.code().toString())
                 return
             }
 
-            val listOfNotesResponseModel: NoteResponseModel = response.body()!!
-            Log.i(tag, listOfNotesResponseModel.toString())
-//            for (noteResponseModel in listOfNotesResponseModel) {
-//                Log.i(tag, noteResponseModel.toString())
-//                val note = noteResponseModel.getNote()
-//                notes.add(note)
-//            }
+            val dataResponse: DataModel = response.body()!!
+            Log.i(tag, dataResponse.toString())
+            for (noteResponseModel in dataResponse.data.listOfNoteResponses!!) {
+                Log.i(tag, noteResponseModel.toString())
+                val note = noteResponseModel.getNote()
+                notes.add(note)
+            }
         }
     }
 }
 
-private fun NoteModel.getNote(): Note {
+private fun NoteResponseModel.getNote(): Note {
     val note = Note()
     note.title = this.title!!
     note.description = this.description!!
@@ -60,7 +60,7 @@ private fun NoteModel.getNote(): Note {
     note.isDeleted = convertBooleanToInt(this.isDeleted)
     note.label = this.label.toString()
     note.reminder = this.reminder.toString()
-    note.colour = this.colour!!.toInt()
+    note.colour = this.colour?.toInt()
     note.userId = this.userId
 
     return note
