@@ -7,6 +7,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.log
 
 class RetrofitHelper {
 
@@ -57,9 +58,39 @@ class RetrofitHelper {
     fun getNotes(): ArrayList<Note> {
         return notes
     }
+
+    fun addNoteToServer() {
+        val noteResponseModel = NoteResponseModel()
+        noteResponseModel.title = "Hello"
+        noteResponseModel.description = "How are you"
+
+        val noteApi = retrofit.create(NoteApi::class.java)
+        val call = noteApi.addNoteToServer(
+            noteResponseModel = noteResponseModel,
+            accessToken = "Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM"
+        )
+
+        call.enqueue(object : Callback<DataModel> {
+            override fun onFailure(call: Call<DataModel>, t: Throwable) {
+                Log.d(tag, t.message!!)
+            }
+
+            override fun onResponse(call: Call<DataModel>, response: Response<DataModel>) {
+
+                if (!response.isSuccessful) {
+                    Log.i(tag, response.code().toString())
+                    return
+                }
+
+                val dataResponse = response.body()
+                Log.i(tag, dataResponse.toString())
+            }
+
+        })
+    }
 }
 
- fun NoteResponseModel.getNote(): Note {
+fun NoteResponseModel.getNote(): Note {
     val note = Note()
     note.title = this.title!!
     note.description = this.description!!
