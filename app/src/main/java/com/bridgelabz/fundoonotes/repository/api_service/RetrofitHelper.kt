@@ -16,42 +16,50 @@ class RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create()).build()
     private val notes = ArrayList<Note>()
 
-    fun getNotesFromServer(): ArrayList<Note> {
+    fun getNotesFromServer(noteCallBack: NoteCallBack) {
 
         val noteApi: NoteApi = retrofit.create(NoteApi::class.java)
 
-        val call = noteApi.getNotesFromServer()
-        call.enqueue(notesCallback)
-        return notes
+        val call =
+            noteApi.getNotesFromServer(accessToken = "Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM")
+        call.enqueue(object : Callback<DataModel> {
+
+            override fun onFailure(call: Call<DataModel>, t: Throwable) {
+                Log.i(tag, t.message!!)
+                noteCallBack.onNoteReceivedFailure(t)
+            }
+
+            override fun onResponse(
+                call: Call<DataModel>,
+                response: Response<DataModel>
+            ) {
+                if (!response.isSuccessful) {
+                    Log.i(tag, response.code().toString())
+                    return
+                }
+
+                val dataResponse: DataModel = response.body()!!
+                Log.i(tag, dataResponse.toString())
+                for (noteResponseModel in dataResponse.data.listOfNoteResponses!!) {
+                    Log.i(tag, noteResponseModel.toString())
+                    noteCallBack.onNoteReceivedSuccess(noteResponseModel)
+                }
+            }
+        }
+        )
     }
 
-    private val notesCallback = object : Callback<DataModel> {
+    private fun setNotes(noteResponseModel: NoteResponseModel) {
+        val note = noteResponseModel.getNote()
+        notes.add(note)
+    }
 
-        override fun onFailure(call: Call<DataModel>, t: Throwable) {
-            Log.i(tag, t.message!!)
-        }
-
-        override fun onResponse(
-            call: Call<DataModel>,
-            response: Response<DataModel>
-        ) {
-            if (!response.isSuccessful) {
-                Log.i(tag, response.code().toString())
-                return
-            }
-
-            val dataResponse: DataModel = response.body()!!
-            Log.i(tag, dataResponse.toString())
-            for (noteResponseModel in dataResponse.data.listOfNoteResponses!!) {
-                Log.i(tag, noteResponseModel.toString())
-                val note = noteResponseModel.getNote()
-                notes.add(note)
-            }
-        }
+    fun getNotes(): ArrayList<Note> {
+        return notes
     }
 }
 
-private fun NoteResponseModel.getNote(): Note {
+ fun NoteResponseModel.getNote(): Note {
     val note = Note()
     note.title = this.title!!
     note.description = this.description!!
@@ -65,4 +73,3 @@ private fun NoteResponseModel.getNote(): Note {
 
     return note
 }
-
