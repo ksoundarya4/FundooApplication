@@ -29,8 +29,11 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
+import com.bridgelabz.fundoonotes.repository.api_service.NoteCallBack
+import com.bridgelabz.fundoonotes.repository.api_service.NoteResponseModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.api_service.RetrofitHelper
+import com.bridgelabz.fundoonotes.repository.api_service.getNote
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
@@ -47,6 +50,17 @@ import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
+    private val notes = ArrayList<Note>()
+    private val noteCallBack = object : NoteCallBack {
+        override fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel) {
+            val note = noteResponseModel.getNote()
+            notes.add(note)
+        }
+
+        override fun onNoteReceivedFailure(exception: Throwable) {
+            Log.i(tag, exception.message!!)
+        }
+    }
     private val tag = "HomeDashBoardActivity"
     private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
         DashBoardViewModelFactory(DatabaseHelper(this))
@@ -94,7 +108,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
-        Log.d(tag, retrofitHelper.getNotesFromServer().toString())
+        retrofitHelper.getNotesFromServer(noteCallBack)
+        Log.i(tag, notes.toString())
     }
 
     private fun observeCurrentFragment() {
@@ -112,7 +127,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun setGoogleSignInClient() {
         val signInOption =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                .build()
         signInClient = GoogleSignIn.getClient(this, signInOption)
         googleAccount = GoogleSignIn.getLastSignedInAccount(this)
         updateUI(googleAccount)
