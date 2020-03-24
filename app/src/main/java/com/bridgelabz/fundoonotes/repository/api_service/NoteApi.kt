@@ -1,9 +1,18 @@
 package com.bridgelabz.fundoonotes.repository.api_service
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface NoteApi {
-    @GET("getNotesList?access_token=Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM")
-    fun getNotesFromServer(): Call<DataModel>
+    @GET("getNotesList")
+    fun getNotesFromServer(@Query("access_token") accessToken: String): Call<DataModel>
+
+    @POST("addNotes")
+    fun addNoteToServer(
+        @Query("access_token") accessToken: String,
+        @Body noteResponseModel: NoteResponseModel
+    ): Call<DataModel>
 }
