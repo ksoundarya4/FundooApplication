@@ -108,6 +108,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
+        retrofitHelper.addNoteToServer()
         retrofitHelper.getNotesFromServer(noteCallBack)
         Log.i(tag, notes.toString())
     }
