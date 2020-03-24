@@ -53,7 +53,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private val notes = ArrayList<Note>()
     private val noteCallBack = object : NoteCallBack {
         override fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel) {
+            Log.i(tag, noteResponseModel.toString())
             val note = noteResponseModel.getNote()
+            Log.i(tag, note.toString())
             notes.add(note)
         }
 
