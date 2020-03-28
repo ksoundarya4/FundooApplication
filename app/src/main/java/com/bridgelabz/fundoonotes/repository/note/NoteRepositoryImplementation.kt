@@ -1,7 +1,7 @@
 package com.bridgelabz.fundoonotes.repository.note
 
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.repository.api_service.NoteApi
+import com.bridgelabz.fundoonotes.repository.web_service.NoteApi
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
 
 class NoteRepositoryImplementation(
