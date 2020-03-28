@@ -12,7 +12,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -29,11 +28,7 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
-import com.bridgelabz.fundoonotes.repository.api_service.NoteCallBack
-import com.bridgelabz.fundoonotes.repository.api_service.NoteResponseModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.api_service.RetrofitHelper
-import com.bridgelabz.fundoonotes.repository.api_service.getNote
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
 import com.bridgelabz.fundoonotes.user_module.registration.model.User
@@ -50,20 +45,20 @@ import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
-    private val notes = ArrayList<Note>()
-    private val noteCallBack = object : NoteCallBack {
-        override fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel) {
-            Log.i(tag, noteResponseModel.toString())
-            val note = noteResponseModel.getNote()
-            Log.i(tag, note.toString())
-            notes.add(note)
-        }
-
-        override fun onNoteReceivedFailure(exception: Throwable) {
-            Log.i(tag, exception.message!!)
-        }
-    }
-    private val tag = "HomeDashBoardActivity"
+//    private val notes = ArrayList<Note>()
+//    private val noteCallBack = object : NoteCallBack {
+//        override fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel) {
+//            Log.i(tag, noteResponseModel.toString())
+//            val note = noteResponseModel.getNote()
+//            Log.i(tag, note.toString())
+//            notes.add(note)
+//        }
+//
+//        override fun onNoteReceivedFailure(exception: Throwable) {
+//            Log.i(tag, exception.message!!)
+//        }
+//    }
+//    private val tag = "HomeDashBoardActivity"
     private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
         DashBoardViewModelFactory(DatabaseHelper(this))
     }
@@ -97,8 +92,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
     private var accessToken: AccessToken? = null
-    //    private var currentFragment: Fragment = NoteFragment()
-    private val retrofitHelper = RetrofitHelper()
+
+//    private val retrofitHelper = RetrofitHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,9 +105,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
-        retrofitHelper.addNoteToServer()
-        retrofitHelper.getNotesFromServer(noteCallBack)
-        Log.i(tag, notes.toString())
+//        retrofitHelper.addNoteToServer()
+//        retrofitHelper.getNotesFromServer(noteCallBack)
+//        Log.i(tag, notes.toString())
     }
 
     private fun observeCurrentFragment() {
@@ -185,14 +180,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         observeCurrentFragment()
         getUserSharedPreferences()
         setActionBarToggle()
-//        setNoteFragment()
     }
-
-//    private fun setNoteFragment() {
-//        navigationView.setCheckedItem(R.id.nav_home)
-//        val fragment = NoteFragment()
-//        replaceFragment(currentFragment)
-//    }
 
     private fun getUserSharedPreferences() {
         val editor = preferences.edit()
