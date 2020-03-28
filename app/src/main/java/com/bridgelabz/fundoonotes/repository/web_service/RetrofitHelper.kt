@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.api_service
+package com.bridgelabz.fundoonotes.repository.web_service
 
 import android.util.Log
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
@@ -7,7 +7,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.log
 
 class RetrofitHelper {
 

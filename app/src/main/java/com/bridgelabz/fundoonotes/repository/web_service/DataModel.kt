@@ -7,6 +7,6 @@
  * @version 1.0
  * @since 23/03/2020
  */
-package com.bridgelabz.fundoonotes.repository.api_service
+package com.bridgelabz.fundoonotes.repository.web_service
 
 data class DataModel(val data: ResponseModel)

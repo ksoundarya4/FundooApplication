@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.api_service
+package com.bridgelabz.fundoonotes.repository.web_service
 
 interface NoteCallBack {
     fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel)

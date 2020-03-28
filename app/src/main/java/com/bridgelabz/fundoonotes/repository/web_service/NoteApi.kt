@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.api_service
+package com.bridgelabz.fundoonotes.repository.web_service
 
 import retrofit2.Call
 import retrofit2.http.*
