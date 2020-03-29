@@ -21,6 +21,7 @@ data class UserSignUpModel(
     var addresses: List<Addresses>? = null,
     var realm: String? = null,
     var username: String? = null,
+    var password: String? = null,
     var email: String? = null,
     var emailVerified: Boolean = false,
     var id: String? = null
