@@ -10,9 +10,13 @@
 package com.bridgelabz.fundoonotes.repository.user.web_services
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface UserApi {
     @POST("/user/login")
-    fun userLogin(): Call<UserSignUpModel>
+    fun userLogin(@Body userLoginModel: UserLoginModel): Call<UserLoginResponseModel>
+
+    @POST("/user/userSignUp")
+    fun userSignUp(@Body userSignUpModel: UserSignUpModel): Call<UserSignUpResponseModel>
 }
