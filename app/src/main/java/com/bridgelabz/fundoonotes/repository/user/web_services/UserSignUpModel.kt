@@ -1,7 +1,7 @@
 /**
  * Fundoo Notes
  * @description UserSignUpModel is data class that
- * contains user information of logged in user.
+ * contains user information for sign up.
  * @file UserSignUpModel.kt
  * @author ksoundarya4
  * @version 1.0
