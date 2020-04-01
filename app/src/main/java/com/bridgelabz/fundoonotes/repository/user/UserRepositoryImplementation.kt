@@ -59,47 +59,63 @@ class UserRepositoryImplementation(
 
     override fun fetchUser(email: String, password: String): LiveData<AuthState> {
         val authState = MutableLiveData<AuthState>()
-        val user = userTableManager.fetchUser(email)
-        if (user != null) {
-            if (UserRepositoryUtils.isUserAuthenticated(
-                    user = user,
-                    email = email,
-                    password = password
-                )
+
+        val call = userApi.userLogin(getUserLoginModel(email, password))
+        call.enqueue(object : Callback<UserLoginResponseModel> {
+            override fun onFailure(call: Call<UserLoginResponseModel>, t: Throwable) {
+                Log.i(tag, t.message!!)
+            }
+
+            override fun onResponse(
+                call: Call<UserLoginResponseModel>,
+                response: Response<UserLoginResponseModel>
             ) {
 
-                val call = userApi.userLogin(user.getUserLoginModel())
-                call.enqueue(object : Callback<UserLoginResponseModel> {
-                    override fun onFailure(call: Call<UserLoginResponseModel>, t: Throwable) {
-                        Log.i(tag, t.message!!)
-                    }
+                if (!response.isSuccessful) {
+                    Log.i(tag, response.code().toString())
+                    authState.value = AuthState.AUTH_FAILED
+                    return
+                }
 
-                    override fun onResponse(
-                        call: Call<UserLoginResponseModel>,
-                        response: Response<UserLoginResponseModel>
-                    ) {
-
-                        if (!response.isSuccessful) {
-                            Log.i(tag, response.code().toString())
-                            return
-                        }
-
-                        val userLoginResponseModel = response.body()
-                        val getUserWithServerId = userLoginResponseModel!!.getUser(user)
-                        userTableManager.update(user.id!!.toLong(), getUserWithServerId)
-                        authState.value = AuthState.AUTH
-                    }
-                })
-            } else {
-                authState.value = AuthState.AUTH_FAILED
+                val userLoginResponseModel = response.body()
+                if (isUserPresentInLocalDb(email)) {
+                    updateLocalDbUser(email, userLoginResponseModel)
+                } else {
+                    insertUserToLocalDb(userLoginResponseModel = userLoginResponseModel!!)
+                    updateLocalDbUser(email, userLoginResponseModel)
+                }
+                authState.value = AuthState.AUTH
             }
-            authState.value = AuthState.NOT_AUTH
-        }
+        })
+
         return authState
+    }
+
+    private fun insertUserToLocalDb(userLoginResponseModel: UserLoginResponseModel) {
+        val firstName = userLoginResponseModel.firstName
+        val lastName = userLoginResponseModel.lastName
+        val email = userLoginResponseModel.email
+        val image = userLoginResponseModel.imageUrl
+        val user = User(firstName = firstName!!, lastName = lastName!!, email = email!!)
+        user.image = image
+        userTableManager.insert(user)
+    }
+
+    private fun updateLocalDbUser(email: String, userLoginResponseModel: UserLoginResponseModel?) {
+        val user = userTableManager.fetchUser(email)
+        val getUserWithServerId = userLoginResponseModel!!.getUserIdFromServer(user!!)
+        userTableManager.update(user.id!!.toLong(), getUserWithServerId)
+    }
+
+    private fun isUserPresentInLocalDb(email: String): Boolean {
+        val user = userTableManager.fetchUser(email)
+        if (user != null)
+            return true
+        return false
     }
 }
 
-private fun UserLoginResponseModel.getUser(user: User): User {
+private fun UserLoginResponseModel.getUserIdFromServer(user: User): User {
     user.id = this.userId
     return user
 }
@@ -116,9 +132,9 @@ private fun User.getUserSignUpModel(): UserSignUpModel {
     return userSignUpModel
 }
 
-private fun User.getUserLoginModel(): UserLoginModel {
+private fun getUserLoginModel(email: String, password: String): UserLoginModel {
     val userLoginModel = UserLoginModel()
-    userLoginModel.email = this.email
-    userLoginModel.password = this.password
+    userLoginModel.email = email
+    userLoginModel.password = password
     return userLoginModel
 }
