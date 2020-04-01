@@ -7,7 +7,7 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
-import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
+import com.bridgelabz.fundoonotes.user_module.view.LoginActivity
 
 const val SPLASH_TIME = 2000L
 
@@ -18,7 +18,7 @@ class LaunchScreenActivity : AppCompatActivity() {
     private val runnable = Runnable {
         if (!isFinishing) {
 
-            val sharedPreference = getSharedPreferences("LaunchScreen", Context.MODE_PRIVATE)
+            val sharedPreference = FundooNotesPreference.setPreference(this)
             if (sharedPreference.contains("email")) {
                 val intent = Intent(this, HomeDashBoardActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
