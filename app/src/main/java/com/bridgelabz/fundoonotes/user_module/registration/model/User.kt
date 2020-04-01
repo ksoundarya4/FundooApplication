@@ -22,6 +22,7 @@ data class User(
 ) : Serializable {
     var id: String? = null
     var image: String? = null
+    var userId: String? = null
 
     constructor(firstName: String, lastName: String, email: String) : this(
         firstName = firstName,
