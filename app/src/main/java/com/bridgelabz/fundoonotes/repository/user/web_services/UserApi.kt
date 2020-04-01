@@ -14,9 +14,9 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface UserApi {
-    @POST("/user/login")
+    @POST("user/login")
     fun userLogin(@Body userLoginModel: UserLoginModel): Call<UserLoginResponseModel>
 
-    @POST("/user/userSignUp")
+    @POST("user/userSignUp")
     fun userSignUp(@Body userSignUpModel: UserSignUpModel): Call<UserSignUpResponseModel>
 }
