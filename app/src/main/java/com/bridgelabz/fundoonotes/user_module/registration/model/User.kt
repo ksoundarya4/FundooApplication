@@ -21,8 +21,9 @@ data class User(
     val phoneNumber: String
 ) : Serializable {
     var id: String? = null
+    var image: String? = null
 
-    constructor(firstName: String,lastName: String , email: String ) : this(
+    constructor(firstName: String, lastName: String, email: String) : this(
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = "",
