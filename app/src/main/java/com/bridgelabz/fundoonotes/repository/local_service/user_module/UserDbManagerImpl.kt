@@ -23,7 +23,7 @@ class UserDbManagerImpl(
 
     companion object UserEntry {
         const val TABLE_USER = "UserEntry"
-        const val USER_ID = "ID"
+        const val ID = "ID"
         const val KEY_FIRSTNAME = "FirstName"
         const val KEY_LASTNAME = "LastName"
         const val KEY_DOB = "DateOfBirth"
@@ -31,17 +31,19 @@ class UserDbManagerImpl(
         const val KEY_PASSWORD = "Password"
         const val KEY_PHONE_NUMBER = "PhoneNumber"
         const val KEY_IMAGE = "Image"
+        const val KEY_USER_ID = "userID"
 
         const val CREATE_USER_TABLE =
             " Create Table $TABLE_USER (" +
-                    "$USER_ID INTEGER PRIMARY KEY," +
+                    "$ID INTEGER PRIMARY KEY," +
                     "$KEY_FIRSTNAME CHAR(15)," +
                     "$KEY_LASTNAME CHAR(15)," +
                     "$KEY_DOB CHAR(10)," +
                     "$KEY_EMAIL VARCHAR(200)," +
                     "$KEY_PASSWORD VARCHAR(20)," +
                     "$KEY_PHONE_NUMBER CHAR(20)," +
-                    "$KEY_IMAGE VARCHAR(50))"
+                    "$KEY_IMAGE VARCHAR(50), " +
+                    "$KEY_USER_ID VARCHAR(25))"
     }
 
     private lateinit var database: SQLiteDatabase
@@ -63,6 +65,7 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
             put(KEY_IMAGE, user.image)
+            put(KEY_USER_ID, user.userId)
         }
         val rowId = database.insert(TABLE_USER, null, values)
         databaseHelper.close()
@@ -79,14 +82,15 @@ class UserDbManagerImpl(
         var user: User? = null
         val columns =
             arrayOf(
-                USER_ID,
+                ID,
                 KEY_FIRSTNAME,
                 KEY_LASTNAME,
                 KEY_DOB,
                 KEY_EMAIL,
                 KEY_PASSWORD,
                 KEY_PHONE_NUMBER,
-                KEY_IMAGE
+                KEY_IMAGE,
+                KEY_USER_ID
             )
         val selection = "$KEY_EMAIL = ?"
         val selectionArgs = arrayOf(email)
@@ -108,12 +112,14 @@ class UserDbManagerImpl(
             val userEmail = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
             val password = cursor.getString(cursor.getColumnIndex(KEY_PASSWORD))
             val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
-            val id = cursor.getString(cursor.getColumnIndex(USER_ID))
+            val id = cursor.getString(cursor.getColumnIndex(ID))
             val image = cursor.getString(cursor.getColumnIndex(KEY_IMAGE))
+            val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
             user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
             user.id = id
             user.image = image
+            user.userId = userId
         }
         cursor.close()
         database.close()
@@ -130,7 +136,7 @@ class UserDbManagerImpl(
         database = databaseHelper.open()
 
         val values = ContentValues().apply {
-            put(USER_ID, user.id)
+            put(ID, user.id)
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
             put(KEY_DOB, user.dateOfBirth)
@@ -138,11 +144,12 @@ class UserDbManagerImpl(
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
             put(KEY_IMAGE, user.image)
+            put(KEY_USER_ID, user.userId)
         }
         val status = database.update(
             TABLE_USER,
             values,
-            "$USER_ID=$_id",
+            "$ID=$_id",
             null
         )
         databaseHelper.close()
@@ -155,7 +162,7 @@ class UserDbManagerImpl(
      */
     override fun delete(_id: Long) {
         database = databaseHelper.open()
-        database.delete(TABLE_USER, "$USER_ID=$_id", null)
+        database.delete(TABLE_USER, "$ID=$_id", null)
         database.close()
     }
 
@@ -179,7 +186,7 @@ class UserDbManagerImpl(
 
         val columns =
             arrayOf(
-                USER_ID,
+                ID,
                 KEY_FIRSTNAME,
                 KEY_LASTNAME,
                 KEY_DOB,
@@ -223,7 +230,7 @@ class UserDbManagerImpl(
         database = databaseHelper.readableDatabase
 
         val columns = arrayOf(
-            USER_ID,
+            ID,
             KEY_FIRSTNAME,
             KEY_LASTNAME,
             KEY_DOB,
@@ -294,7 +301,7 @@ class UserDbManagerImpl(
         )
         //if cursor has value then in user database there is user associated with this given email so return true
         passwordUpdateSuccess = if (cursor != null && cursor.moveToFirst() && cursor.count > 0) {
-            val rowId = cursor.getLong(cursor.getColumnIndex(USER_ID))
+            val rowId = cursor.getLong(cursor.getColumnIndex(ID))
             val firstName = cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME))
             val lastName = cursor.getString(cursor.getColumnIndex(KEY_LASTNAME))
             val dateOfBirth = cursor.getString(cursor.getColumnIndex(KEY_DOB))
