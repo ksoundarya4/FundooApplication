@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private val baseUrl = "http://fundoonotes.incubation.bridgelabz.com/api"
+    private val baseUrl = "http://fundoonotes.incubation.bridgelabz.com/api/"
     private var retrofit: Retrofit? = null
 
     fun getRetrofitClient(): Retrofit {
