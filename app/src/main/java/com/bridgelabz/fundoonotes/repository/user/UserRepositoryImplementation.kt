@@ -82,7 +82,6 @@ class UserRepositoryImplementation(
                     updateLocalDbUser(email, userLoginResponseModel)
                 } else {
                     insertUserToLocalDb(userLoginResponseModel = userLoginResponseModel!!)
-                    updateLocalDbUser(email, userLoginResponseModel)
                 }
                 authState.value = AuthState.AUTH
             }
@@ -96,8 +95,10 @@ class UserRepositoryImplementation(
         val lastName = userLoginResponseModel.lastName
         val email = userLoginResponseModel.email
         val image = userLoginResponseModel.imageUrl
+        val userId = userLoginResponseModel.userId
         val user = User(firstName = firstName!!, lastName = lastName!!, email = email!!)
         user.image = image
+        user.userId = userId
         userTableManager.insert(user)
     }
 
@@ -116,7 +117,7 @@ class UserRepositoryImplementation(
 }
 
 private fun UserLoginResponseModel.getUserIdFromServer(user: User): User {
-    user.id = this.userId
+    user.userId = this.userId
     return user
 }
 
