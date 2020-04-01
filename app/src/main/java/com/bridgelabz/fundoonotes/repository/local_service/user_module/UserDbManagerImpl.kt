@@ -40,7 +40,7 @@ class UserDbManagerImpl(
                     "$KEY_DOB CHAR(10)," +
                     "$KEY_EMAIL VARCHAR(200)," +
                     "$KEY_PASSWORD VARCHAR(20)," +
-                    "$KEY_PHONE_NUMBER CHAR(20))," +
+                    "$KEY_PHONE_NUMBER CHAR(20)," +
                     "$KEY_IMAGE VARCHAR(50))"
     }
 
