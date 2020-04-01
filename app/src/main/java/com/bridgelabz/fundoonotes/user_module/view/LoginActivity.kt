@@ -79,10 +79,11 @@ class LoginActivity : AppCompatActivity() {
     }
     private val callbackManager = CallbackManager.Factory.create()
 
-    private val userViewModelFactory =
+    private val userViewModelFactory by lazy {
         UserViewModelFactory(
             this
         )
+    }
     private val userViewModel by lazy {
         ViewModelProvider(this, userViewModelFactory).get(UserViewModel::class.java)
     }
