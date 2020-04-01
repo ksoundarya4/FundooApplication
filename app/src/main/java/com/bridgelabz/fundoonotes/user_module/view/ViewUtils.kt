@@ -83,6 +83,6 @@ fun isNetworkAvailable(context: Context): Boolean {
     }
 }
 
-fun setSnackBar(view: View, message: String) {
+fun showSnackBar(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 }
