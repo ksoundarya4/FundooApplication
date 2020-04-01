@@ -12,6 +12,7 @@ package com.bridgelabz.fundoonotes.user_module.viewModel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.repository.user.UserRepository
@@ -24,7 +25,8 @@ class UserViewModelFactory(context: Context) : ViewModelProvider.Factory {
     private val retrofit = RetrofitClient.getRetrofitClient()
     private val userApi = retrofit.create(UserApi::class.java)
     private val userTableManger = UserDbManagerImpl(DatabaseHelper(context))
-    private val repository = UserRepositoryImplementation(userApi, userTableManger)
+    private val preferences = FundooNotesPreference.getPreference(context)
+    private val repository = UserRepositoryImplementation(userApi, userTableManger, preferences)
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(UserRepository::class.java).newInstance(repository)
