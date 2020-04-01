@@ -40,9 +40,9 @@ import com.google.android.gms.tasks.Task
 
 class LoginActivity : AppCompatActivity() {
 
-    private val RC_SIGN_IN = 0
-    private var signInCLient: GoogleSignInClient? = null
-    private val EMAIL = "email"
+    private val signInRequestCode = 0
+    private var signInClient: GoogleSignInClient? = null
+    private val emailKey = "email"
     private val tag = "LoginActivity"
     private val emailEditText by lazy {
         findViewById<EditText>(R.id.login_email)
@@ -65,9 +65,6 @@ class LoginActivity : AppCompatActivity() {
     private val registerButton by lazy {
         findViewById<Button>(R.id.button_register)
     }
-    //    private val viewModel by lazy {
-//        ViewModelProvider(this).get(AuthViewModel::class.java)
-//    }
     private val loginActivity by lazy {
         findViewById<ConstraintLayout>(R.id.login_constaint_layout)
     }
@@ -111,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
-        signInCLient = GoogleSignIn.getClient(this, googleSignInOption)
+        signInClient = GoogleSignIn.getClient(this, googleSignInOption)
     }
 
     private fun setButtonClickListeners() {
@@ -126,15 +123,12 @@ class LoginActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val inputEmail = emailEditText.editableText.toString()
             val inputPassword = passwordEditText.editableText.toString()
-//            viewModel.onLoginButtonClick(
-//                View(this),
-//                inputEmail,
-//                inputPassword
-//            )
-//            viewModel.getLoginStatus().observe(this, Observer { handelLoginStatus(it) })
-
-            userViewModel.userLogin(inputEmail, inputPassword)
-            userViewModel.getLoginResponse().observe(this, Observer { handelLoginStatus(it) })
+            if (isNetworkAvailable(this)) {
+                userViewModel.userLogin(inputEmail, inputPassword)
+                userViewModel.getLoginResponse().observe(this, Observer { handelLoginStatus(it) })
+            } else {
+                showSnackBar(loginActivity, "No Internet Connection")
+            }
         }
     }
 
@@ -156,7 +150,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setUpFacebookButton() {
-        facebookSignInButton.setPermissions(listOf(EMAIL))
+        facebookSignInButton.setPermissions(listOf(emailKey))
         facebookSignInButton.registerCallback(callbackManager, facebookCallback)
     }
 
@@ -183,8 +177,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onGoogleSignInButtonClicked() {
-        val signIntent = signInCLient!!.signInIntent
-        startActivityForResult(signIntent, RC_SIGN_IN)
+        val signIntent = signInClient!!.signInIntent
+        startActivityForResult(signIntent, signInRequestCode)
     }
 
     /**Function to notify user based on Login status
@@ -211,7 +205,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setSharedPreference(email: String) {
-        FundooNotesPreference.editPreference(preference = preferences, key = "email", value = email)
+        FundooNotesPreference.editPreference(
+            preference = preferences,
+            key = emailKey,
+            value = email
+        )
     }
 
     /**Email text watcher*/
@@ -256,7 +254,7 @@ class LoginActivity : AppCompatActivity() {
 
         callbackManager.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == signInRequestCode) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleSignInResult(task!!)
         }
