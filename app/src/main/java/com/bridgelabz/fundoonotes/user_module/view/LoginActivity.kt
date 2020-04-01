@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
 import com.bridgelabz.fundoonotes.user_module.viewModel.UserViewModel
 import com.bridgelabz.fundoonotes.user_module.viewModel.UserViewModelFactory
@@ -72,10 +73,7 @@ class LoginActivity : AppCompatActivity() {
         findViewById<ConstraintLayout>(R.id.login_constaint_layout)
     }
     private val preferences: SharedPreferences by lazy {
-        this.getSharedPreferences(
-            "LaunchScreen",
-            Context.MODE_PRIVATE
-        )
+        FundooNotesPreference.setPreference(this)
     }
     private val googleSignInButton by lazy {
         findViewById<SignInButton>(R.id.google_sign_in_button)
@@ -206,17 +204,15 @@ class LoginActivity : AppCompatActivity() {
             }
             AuthState.AUTH -> {
                 val inputEmail = emailEditText.editableText.toString()
-                getSharedPreference(inputEmail)
+                setSharedPreference(inputEmail)
                 toast(getString(R.string.toast_login_successful))
                 navigateToHomeDashBoard()
             }
         }
     }
 
-    private fun getSharedPreference(email: String) {
-        val editor = preferences.edit()
-        editor.putString("email", email)
-        editor.apply()
+    private fun setSharedPreference(email: String) {
+        FundooNotesPreference.editPreference(preference = preferences, key = "email", value = email)
     }
 
     /**Email text watcher*/
@@ -271,7 +267,7 @@ class LoginActivity : AppCompatActivity() {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val userEmail = account!!.email
-            getSharedPreference(userEmail!!)
+            setSharedPreference(userEmail!!)
             navigateToHomeDashBoard()
         } catch (exception: ApiException) {
             toast("Sign in Failed")
