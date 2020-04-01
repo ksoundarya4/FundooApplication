@@ -7,15 +7,15 @@
  * @version 1.0
  * @since 01.04/2020
  */
-package com.bridgelabz.fundoonotes.user_module
+package com.bridgelabz.fundoonotes.user_module.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.repository.user.UserRepository
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
 

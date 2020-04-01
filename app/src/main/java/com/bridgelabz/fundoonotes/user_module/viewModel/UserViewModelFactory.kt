@@ -7,7 +7,7 @@
  * @version 1.0
  * @since 01/04/2020
  */
-package com.bridgelabz.fundoonotes.user_module
+package com.bridgelabz.fundoonotes.user_module.viewModel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
