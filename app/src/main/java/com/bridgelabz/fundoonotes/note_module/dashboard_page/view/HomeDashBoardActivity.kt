@@ -8,7 +8,6 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -24,14 +23,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
+import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
-import com.bridgelabz.fundoonotes.user_module.login.view.toast
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.view.LoginActivity
+import com.bridgelabz.fundoonotes.user_module.view.toast
+import com.bridgelabz.fundoonotes.user_module.model.User
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
@@ -45,20 +45,6 @@ import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
-//    private val notes = ArrayList<Note>()
-//    private val noteCallBack = object : NoteCallBack {
-//        override fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel) {
-//            Log.i(tag, noteResponseModel.toString())
-//            val note = noteResponseModel.getNote()
-//            Log.i(tag, note.toString())
-//            notes.add(note)
-//        }
-//
-//        override fun onNoteReceivedFailure(exception: Throwable) {
-//            Log.i(tag, exception.message!!)
-//        }
-//    }
-//    private val tag = "HomeDashBoardActivity"
     private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
         DashBoardViewModelFactory(DatabaseHelper(this))
     }
@@ -82,10 +68,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private val preferences: SharedPreferences by lazy {
-        this.getSharedPreferences(
-            "LaunchScreen",
-            Context.MODE_PRIVATE
-        )
+        FundooNotesPreference.getPreference(this)
     }
     private lateinit var authenticatedEmail: String
     private var authenticatedUser: User? = null
@@ -105,9 +88,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
-//        retrofitHelper.addNoteToServer()
-//        retrofitHelper.getNotesFromServer(noteCallBack)
-//        Log.i(tag, notes.toString())
     }
 
     private fun observeCurrentFragment() {
@@ -138,7 +118,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
             val lastName = googleAccount.familyName
             val email = googleAccount.email
             val id = googleAccount.id
-            authenticatedUser = User(firstname!!, lastName!!, email!!)
+            authenticatedUser =
+                User(
+                    firstname!!,
+                    lastName!!,
+                    email!!
+                )
             authenticatedUser!!.id = id!!
         } else {
             authenticateUser()
@@ -168,7 +153,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 val firstName = `object`!!.getString("name")
                 val lastNAme = ""
                 val email = `object`.getString("email")
-                authenticatedUser = User(firstName, lastNAme, email)
+                authenticatedUser =
+                    User(
+                        firstName,
+                        lastNAme,
+                        email
+                    )
                 authenticatedEmail = email
             } catch (exception: Exception) {
                 exception.printStackTrace()
@@ -296,10 +286,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun removePreference() {
-        if (preferences.contains("email")) {
-            val editor = preferences.edit()
-            editor.clear().apply()
-        }
+        FundooNotesPreference.removePreference(preferences, "email")
     }
 
     /**Function that performs sign out alert operation*/
