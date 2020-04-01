@@ -1,6 +1,5 @@
 package com.bridgelabz.fundoonotes.launch_module
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -18,7 +17,7 @@ class LaunchScreenActivity : AppCompatActivity() {
     private val runnable = Runnable {
         if (!isFinishing) {
 
-            val sharedPreference = FundooNotesPreference.setPreference(this)
+            val sharedPreference = FundooNotesPreference.getPreference(this)
             if (sharedPreference.contains("email")) {
                 val intent = Intent(this, HomeDashBoardActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

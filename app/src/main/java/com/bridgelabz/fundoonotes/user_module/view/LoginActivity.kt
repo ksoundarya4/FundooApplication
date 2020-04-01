@@ -9,7 +9,6 @@
  */
 package com.bridgelabz.fundoonotes.user_module.view
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -73,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
         findViewById<ConstraintLayout>(R.id.login_constaint_layout)
     }
     private val preferences: SharedPreferences by lazy {
-        FundooNotesPreference.setPreference(this)
+        FundooNotesPreference.getPreference(this)
     }
     private val googleSignInButton by lazy {
         findViewById<SignInButton>(R.id.google_sign_in_button)
