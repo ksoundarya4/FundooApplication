@@ -7,7 +7,7 @@
  * @version 1.0
  * @since 02/02/2020
  */
-package com.bridgelabz.fundoonotes.user_module.login.view
+package com.bridgelabz.fundoonotes.user_module.view
 
 import android.content.Context
 import android.content.Intent
@@ -25,10 +25,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
-import com.bridgelabz.fundoonotes.user_module.UserViewModel
-import com.bridgelabz.fundoonotes.user_module.UserViewModelFactory
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
+import com.bridgelabz.fundoonotes.user_module.viewModel.UserViewModel
+import com.bridgelabz.fundoonotes.user_module.viewModel.UserViewModelFactory
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -86,7 +85,10 @@ class LoginActivity : AppCompatActivity() {
     }
     private val callbackManager = CallbackManager.Factory.create()
 
-    private val userViewModelFactory = UserViewModelFactory(this)
+    private val userViewModelFactory =
+        UserViewModelFactory(
+            this
+        )
     private val userViewModel by lazy {
         ViewModelProvider(this, userViewModelFactory).get(UserViewModel::class.java)
     }
@@ -97,7 +99,10 @@ class LoginActivity : AppCompatActivity() {
         emailEditText.addTextChangedListener(emailWatcher)
         passwordEditText.addTextChangedListener(passwordWatcher)
         setButtonClickListeners()
-        setHideKeyboardOnTouch(context = this, view = loginActivity)
+        setHideKeyboardOnTouch(
+            context = this,
+            view = loginActivity
+        )
         setGoogleSignInOption()
     }
 

@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.user_module.login.view
+package com.bridgelabz.fundoonotes.user_module.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
 import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
-import com.bridgelabz.fundoonotes.user_module.registration.model.validateConfirmPassword
+import com.bridgelabz.fundoonotes.user_module.model.validateConfirmPassword
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
@@ -37,7 +37,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_forgot_password)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setSubmitButtonClickListener()
-        setHideKeyboardOnTouch(this, forgotPasswordActivity)
+        setHideKeyboardOnTouch(
+            this,
+            forgotPasswordActivity
+        )
     }
 
     private fun setSubmitButtonClickListener() {
@@ -45,7 +48,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
         submiteButton.setOnClickListener {
             val newPassword = newPasswordEditText.editableText.toString()
             val newConfirmPassword = confirmPasswordEditText.editableText.toString()
-            if (validateConfirmPassword(newPassword, newConfirmPassword)) {
+            if (validateConfirmPassword(
+                    newPassword,
+                    newConfirmPassword
+                )
+            ) {
                 viewModel.onPasswordSubmitButtonClick(View(this), email!!, newPassword)
                 viewModel.getUpdateStatus().observe(this, Observer { handleUpdatePassword(it) })
             } else {

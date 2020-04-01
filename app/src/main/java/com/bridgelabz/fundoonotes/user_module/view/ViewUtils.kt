@@ -6,7 +6,7 @@
  * @version 1.0
  * @since 02/02/2020
  */
-package com.bridgelabz.fundoonotes.user_module.login.view
+package com.bridgelabz.fundoonotes.user_module.view
 
 import android.content.Context
 import android.view.MotionEvent
@@ -41,7 +41,10 @@ fun setHideKeyboardOnTouch(context: Context, view: View) {
         if (view is ViewGroup) {
             for (index in 0.until(view.childCount)) {
                 val innerView = view.getChildAt(index)
-                setHideKeyboardOnTouch(context, innerView)
+                setHideKeyboardOnTouch(
+                    context,
+                    innerView
+                )
             }
         }
     } catch (exception: Exception) {
