@@ -15,7 +15,7 @@ import com.bridgelabz.fundoonotes.R
 
 object FundooNotesPreference {
 
-    fun setPreference(context: Context): SharedPreferences {
+    fun getPreference(context: Context): SharedPreferences {
         return context.getSharedPreferences(
             context.getString(R.string.app_name),
             Context.MODE_PRIVATE
@@ -26,5 +26,11 @@ object FundooNotesPreference {
         val editor = preference.edit()
         editor.putString(key, value)
         editor.apply()
+    }
+
+    fun removePreference(preference: SharedPreferences, key: String) {
+        preference.contains(key)
+        val editor = preference.edit()
+        editor.clear().apply()
     }
 }
