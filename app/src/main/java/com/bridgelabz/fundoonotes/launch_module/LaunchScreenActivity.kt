@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.user_module.launch_module
+package com.bridgelabz.fundoonotes.launch_module
 
 import android.content.Context
 import android.content.Intent
