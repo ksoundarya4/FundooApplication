@@ -8,6 +8,6 @@
  * @version 1.0
  * @since 02/02/2020
  */
-package com.bridgelabz.fundoonotes.user_module.login.model
+package com.bridgelabz.fundoonotes.user_module.model
 
 enum class AuthState { NOT_AUTH, AUTH, AUTH_FAILED }

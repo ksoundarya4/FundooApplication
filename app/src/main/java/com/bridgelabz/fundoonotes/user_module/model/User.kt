@@ -8,7 +8,7 @@
  * @version 1.0
  * @since 30/01/2020
  */
-package com.bridgelabz.fundoonotes.user_module.registration.model
+package com.bridgelabz.fundoonotes.user_module.model
 
 import java.io.Serializable
 

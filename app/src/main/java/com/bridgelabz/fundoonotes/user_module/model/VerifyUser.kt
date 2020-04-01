@@ -7,7 +7,7 @@
  * @version 1.0
  * @since 03/02/2020
  */
-package com.bridgelabz.fundoonotes.user_module.registration.model
+package com.bridgelabz.fundoonotes.user_module.model
 
 import com.bridgelabz.fundoonotes.user_module.regex_util.RegexUtil
 
