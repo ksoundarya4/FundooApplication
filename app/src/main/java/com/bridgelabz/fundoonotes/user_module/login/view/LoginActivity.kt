@@ -16,7 +16,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -26,8 +25,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.HomeDashBoardActivity
+import com.bridgelabz.fundoonotes.user_module.UserViewModel
+import com.bridgelabz.fundoonotes.user_module.UserViewModelFactory
 import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.login.viewmodel.AuthViewModel
 import com.bridgelabz.fundoonotes.user_module.registration.view.RegisterActivity
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -66,9 +66,9 @@ class LoginActivity : AppCompatActivity() {
     private val registerButton by lazy {
         findViewById<Button>(R.id.button_register)
     }
-    private val viewModel by lazy {
-        ViewModelProvider(this).get(AuthViewModel::class.java)
-    }
+    //    private val viewModel by lazy {
+//        ViewModelProvider(this).get(AuthViewModel::class.java)
+//    }
     private val loginActivity by lazy {
         findViewById<ConstraintLayout>(R.id.login_constaint_layout)
     }
@@ -85,6 +85,11 @@ class LoginActivity : AppCompatActivity() {
         findViewById<LoginButton>(R.id.facebook_sign_in_button)
     }
     private val callbackManager = CallbackManager.Factory.create()
+
+    private val userViewModelFactory = UserViewModelFactory(this)
+    private val userViewModel by lazy {
+        ViewModelProvider(this, userViewModelFactory).get(UserViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,12 +124,15 @@ class LoginActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val inputEmail = emailEditText.editableText.toString()
             val inputPassword = passwordEditText.editableText.toString()
-            viewModel.onLoginButtonClick(
-                View(this),
-                inputEmail,
-                inputPassword
-            )
-            viewModel.getLoginStatus().observe(this, Observer { handelLoginStatus(it) })
+//            viewModel.onLoginButtonClick(
+//                View(this),
+//                inputEmail,
+//                inputPassword
+//            )
+//            viewModel.getLoginStatus().observe(this, Observer { handelLoginStatus(it) })
+
+            userViewModel.userLogin(inputEmail, inputPassword)
+            userViewModel.getLoginResponse().observe(this, Observer { handelLoginStatus(it) })
         }
     }
 

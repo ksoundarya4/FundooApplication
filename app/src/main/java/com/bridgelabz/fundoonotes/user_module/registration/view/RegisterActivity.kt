@@ -18,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.user_module.UserViewModel
+import com.bridgelabz.fundoonotes.user_module.UserViewModelFactory
 import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
 import com.bridgelabz.fundoonotes.user_module.login.view.toast
@@ -27,9 +29,9 @@ import com.google.android.material.textfield.TextInputEditText
 
 class RegisterActivity : AppCompatActivity() {
 
-    private val registerViewModel by lazy {
-        ViewModelProvider(this).get(RegisterViewModel::class.java)
-    }
+    //    private val registerViewModel by lazy {
+//        ViewModelProvider(this).get(RegisterViewModel::class.java)
+//    }
     private val firstName by lazy {
         findViewById<TextInputEditText>(R.id.first_name)
     }
@@ -59,6 +61,12 @@ class RegisterActivity : AppCompatActivity() {
     }
     private lateinit var user: User
 
+    private val userViewModelFactory = UserViewModelFactory(this)
+
+    private val userViewModel by lazy {
+        ViewModelProvider(this, userViewModelFactory).get(UserViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -81,11 +89,16 @@ class RegisterActivity : AppCompatActivity() {
             val cPassword = confirmPassword.editableText.toString()
             validateUserInput()
             if (validateConfirmPassword(userPass, cPassword)) {
-                registerViewModel.onSignUpButtonClick((View(this)), user)
+//                    registerViewModel.onSignUpButtonClick((View(this)), user)
+//
+//                    registerViewModel.getRegistrationStatus().observe(
+//                        this,
+//                        Observer { handleRegistrationStatus(it) })
 
-                registerViewModel.getRegistrationStatus().observe(
-                    this,
-                    Observer { handleRegistrationStatus(it) })
+                userViewModel.signUpUser(user)
+                userViewModel.getRegistrationStatus().observe(this, Observer {
+                    handleRegistrationStatus(it)
+                })
             } else {
                 confirmPassword.error = "Did not match password"
             }
@@ -102,7 +115,7 @@ class RegisterActivity : AppCompatActivity() {
                 finish()
             }
             RegistrationStatus.Failed -> {
-                toast("User already exist")
+                toast("Registration Failed")
             }
         }
     }
