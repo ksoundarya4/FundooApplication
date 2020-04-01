@@ -1,8 +1,10 @@
 package com.bridgelabz.fundoonotes.repository.user
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.user.web_services.*
 import com.bridgelabz.fundoonotes.user_module.model.AuthState
@@ -14,7 +16,8 @@ import retrofit2.Response
 
 class UserRepositoryImplementation(
     private val userApi: UserApi,
-    private val userTableManager: UserDatabaseManager
+    private val userTableManager: UserDatabaseManager,
+    private val preferences: SharedPreferences
 ) : UserRepository {
     private val tag = "UserRepository"
 
@@ -41,7 +44,6 @@ class UserRepositoryImplementation(
 
                 val userSignUpResponse = response.body() as UserSignUpResponseModel
                 Log.i(tag, userSignUpResponse.message!!)
-//                userTableManager.insert(user)
                 registrationStatus.value = RegistrationStatus.Successful
             }
         })
@@ -79,10 +81,11 @@ class UserRepositoryImplementation(
                 }
 
                 val userLoginResponseModel = response.body()
+                addAccessTokenToPreference(preferences, userLoginResponseModel!!.id!!)
                 if (isUserPresentInLocalDb(email)) {
                     updateLocalDbUser(email, userLoginResponseModel)
                 } else {
-                    insertUserToLocalDb(userLoginResponseModel = userLoginResponseModel!!)
+                    insertUserToLocalDb(userLoginResponseModel = userLoginResponseModel)
                 }
                 authState.value = AuthState.AUTH
             }
@@ -118,6 +121,13 @@ class UserRepositoryImplementation(
         if (user != null)
             return true
         return false
+    }
+
+    private fun addAccessTokenToPreference(
+        preferences: SharedPreferences,
+        accessToken: String
+    ) {
+        FundooNotesPreference.editPreference(preferences, "access_token", accessToken)
     }
 }
 
