@@ -30,6 +30,7 @@ class UserDbManagerImpl(
         const val KEY_EMAIL = "Email"
         const val KEY_PASSWORD = "Password"
         const val KEY_PHONE_NUMBER = "PhoneNumber"
+        const val KEY_IMAGE = "Image"
 
         const val CREATE_USER_TABLE =
             " Create Table $TABLE_USER (" +
@@ -39,8 +40,8 @@ class UserDbManagerImpl(
                     "$KEY_DOB CHAR(10)," +
                     "$KEY_EMAIL VARCHAR(200)," +
                     "$KEY_PASSWORD VARCHAR(20)," +
-
-                    "$KEY_PHONE_NUMBER CHAR(20))"
+                    "$KEY_PHONE_NUMBER CHAR(20))," +
+                    "$KEY_IMAGE VARCHAR(50))"
     }
 
     private lateinit var database: SQLiteDatabase
@@ -61,6 +62,7 @@ class UserDbManagerImpl(
             put(KEY_EMAIL, user.email)
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
+            put(KEY_IMAGE, user.image)
         }
         val rowId = database.insert(TABLE_USER, null, values)
         databaseHelper.close()
@@ -83,7 +85,8 @@ class UserDbManagerImpl(
                 KEY_DOB,
                 KEY_EMAIL,
                 KEY_PASSWORD,
-                KEY_PHONE_NUMBER
+                KEY_PHONE_NUMBER,
+                KEY_IMAGE
             )
         val selection = "$KEY_EMAIL = ?"
         val selectionArgs = arrayOf(email)
@@ -106,9 +109,11 @@ class UserDbManagerImpl(
             val password = cursor.getString(cursor.getColumnIndex(KEY_PASSWORD))
             val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
             val id = cursor.getString(cursor.getColumnIndex(USER_ID))
+            val image = cursor.getString(cursor.getColumnIndex(KEY_IMAGE))
 
             user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
             user.id = id
+            user.image = image
         }
         cursor.close()
         database.close()
@@ -125,12 +130,14 @@ class UserDbManagerImpl(
         database = databaseHelper.open()
 
         val values = ContentValues().apply {
+            put(USER_ID, user.id)
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
             put(KEY_DOB, user.dateOfBirth)
             put(KEY_EMAIL, user.email)
             put(KEY_PASSWORD, user.password)
             put(KEY_PHONE_NUMBER, user.phoneNumber)
+            put(KEY_IMAGE, user.image)
         }
         val status = database.update(
             TABLE_USER,
