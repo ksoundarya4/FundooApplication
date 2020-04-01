@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.user.web_services.*
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
+import com.bridgelabz.fundoonotes.user_module.model.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +41,7 @@ class UserRepositoryImplementation(
 
                 val userSignUpResponse = response.body() as UserSignUpResponseModel
                 Log.i(tag, userSignUpResponse.message!!)
-                userTableManager.insert(user)
+//                userTableManager.insert(user)
                 registrationStatus.value = RegistrationStatus.Successful
             }
         })
@@ -62,6 +62,7 @@ class UserRepositoryImplementation(
 
         val call = userApi.userLogin(getUserLoginModel(email, password))
         call.enqueue(object : Callback<UserLoginResponseModel> {
+
             override fun onFailure(call: Call<UserLoginResponseModel>, t: Throwable) {
                 Log.i(tag, t.message!!)
             }
@@ -96,7 +97,11 @@ class UserRepositoryImplementation(
         val email = userLoginResponseModel.email
         val image = userLoginResponseModel.imageUrl
         val userId = userLoginResponseModel.userId
-        val user = User(firstName = firstName!!, lastName = lastName!!, email = email!!)
+        val user = User(
+            firstName = firstName!!,
+            lastName = lastName!!,
+            email = email!!
+        )
         user.image = image
         user.userId = userId
         userTableManager.insert(user)

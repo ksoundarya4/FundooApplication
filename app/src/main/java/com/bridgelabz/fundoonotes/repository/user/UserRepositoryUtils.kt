@@ -1,6 +1,6 @@
 package com.bridgelabz.fundoonotes.repository.user
 
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 
 object UserRepositoryUtils {
