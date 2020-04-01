@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.NoteFragment
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 class DashBoardViewModel(dbHelper: DatabaseHelper) : ViewModel() {
 

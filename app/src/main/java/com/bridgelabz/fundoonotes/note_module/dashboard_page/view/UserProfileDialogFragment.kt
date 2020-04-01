@@ -20,12 +20,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.User
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-
 
 class UserProfileDialogFragment : DialogFragment() {
 
@@ -68,8 +67,9 @@ class UserProfileDialogFragment : DialogFragment() {
 
         val pictureDialogItems = arrayOf("Select photo from gallery", "capture photo from camera")
 
-        pictureDialog.setItems(pictureDialogItems
-        ) { dialog, which ->
+        pictureDialog.setItems(
+            pictureDialogItems
+        ) { _, which ->
             when (which) {
                 0 -> choosePhotoFromGallery()
                 1 -> takePhotoFromCamera()
@@ -83,7 +83,6 @@ class UserProfileDialogFragment : DialogFragment() {
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
-
         startActivityForResult(galleryIntent, galleryAccessRequestCode)
     }
 
