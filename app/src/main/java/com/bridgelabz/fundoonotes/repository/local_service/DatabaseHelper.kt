@@ -25,13 +25,16 @@ class DatabaseHelper(context: Context) :
 
     /**Function to upgrade the existing user database*/
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (DATABASE_VERSION < VERSION_TWO) {
+        if (DATABASE_VERSION > VERSION_ONE) {
+            db.execSQL(CREATE_USER_TABLE)
+        }
+        if (DATABASE_VERSION > VERSION_TWO) {
             db.execSQL(CREATE_NOTE_TABLE)
         }
-        if (DATABASE_VERSION < VERSION_THREE) {
+        if (DATABASE_VERSION > VERSION_THREE) {
             db.execSQL(CREATE_TABLE_LABEL)
         }
-        if (DATABASE_VERSION < VERSION_FOUR)
+        if (DATABASE_VERSION > VERSION_FOUR)
             db.execSQL(CREATE_TABLE_NOTE_LABEL)
     }
 
@@ -50,7 +53,8 @@ class DatabaseHelper(context: Context) :
         const val VERSION_TWO = 2
         const val VERSION_THREE = 3
         const val VERSION_FOUR = 4
-        const val DATABASE_VERSION = VERSION_THREE
+        const val VERSION_FIVE = 5
+        const val DATABASE_VERSION = VERSION_FIVE
         const val DATABASE_NAME = "App.db"
     }
 }
