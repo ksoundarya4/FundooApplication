@@ -14,8 +14,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import android.util.Log
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 class UserDbManagerImpl(
     private val databaseHelper: DatabaseHelper
@@ -116,7 +116,14 @@ class UserDbManagerImpl(
             val image = cursor.getString(cursor.getColumnIndex(KEY_IMAGE))
             val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
-            user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
+            user = User(
+                firstName,
+                lastName,
+                dateOfBirth,
+                userEmail,
+                password,
+                phoneNumber
+            )
             user.id = id
             user.image = image
             user.userId = userId
@@ -307,7 +314,14 @@ class UserDbManagerImpl(
             val dateOfBirth = cursor.getString(cursor.getColumnIndex(KEY_DOB))
             val userEmail = cursor.getString(cursor.getColumnIndex(KEY_EMAIL))
             val phoneNumber = cursor.getString(cursor.getColumnIndex(KEY_PHONE_NUMBER))
-            val user = User(firstName, lastName, dateOfBirth, userEmail, password, phoneNumber)
+            val user = User(
+                firstName,
+                lastName,
+                dateOfBirth,
+                userEmail,
+                password,
+                phoneNumber
+            )
             Log.d("userInfo", user.toString())
             update(rowId, user)
             true

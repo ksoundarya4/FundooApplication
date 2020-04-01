@@ -9,9 +9,8 @@
  */
 package com.bridgelabz.fundoonotes.repository.local_service.user_module
 
-import android.database.Cursor
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 interface UserDatabaseManager {
     fun insert(user: User): Long
