@@ -90,6 +90,11 @@ class UserRepositoryImplementation(
         return authState
     }
 
+    override fun fetchUserFromLocalDb(email: String): User {
+        val user = userTableManager.fetchUser(email)
+        return user!!
+    }
+
     private fun insertUserToLocalDb(userLoginResponseModel: UserLoginResponseModel) {
         val userTobeInserted = userLoginResponseModel.getUser()
         userTableManager.insert(userTobeInserted)
