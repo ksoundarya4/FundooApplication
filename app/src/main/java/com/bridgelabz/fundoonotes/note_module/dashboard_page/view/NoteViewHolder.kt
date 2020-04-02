@@ -29,7 +29,8 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     ) {
         title.text = note.title
         description.text = note.description
-        if (note.colour != null) {
+
+        if (!note.colour.isNullOrEmpty()) {
             var colour = 0
             try {
                 colour = Color.parseColor(note.colour)

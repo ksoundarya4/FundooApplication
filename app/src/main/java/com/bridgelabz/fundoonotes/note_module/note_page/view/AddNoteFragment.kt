@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
 import android.annotation.TargetApi
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -105,9 +106,10 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     }
 
     private fun setLayoutBackground() {
-        if (note.colour != null) {
-            addNoteFragment.setBackgroundColor(note.colour!!.toInt())
-            fragmentContainerLayout.setBackgroundColor(note.colour!!.toInt())
+        if (!note.colour.isNullOrEmpty()) {
+            val colour = Color.parseColor(note.colour)
+            addNoteFragment.setBackgroundColor(colour)
+            fragmentContainerLayout.setBackgroundColor(colour)
         }
     }
 
