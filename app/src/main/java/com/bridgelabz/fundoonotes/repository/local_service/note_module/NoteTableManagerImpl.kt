@@ -48,8 +48,8 @@ class NoteTableManagerImpl(
                     "$KEY_REMINDER VARCHAR(20), " +
                     "$KEY_POSITION INTEGER, " +
                     "$KEY_COLOUR INTEGER, " +
-                    "$KEY_USER_ID VARCHAR(25), " +
                     "$KEY_NOTE_ID VARCHAR(25), " +
+                    "$KEY_USER_ID VARCHAR(25), " +
                     "FOREIGN KEY($KEY_USER_ID) REFERENCES $TABLE_USER(${UserDbManagerImpl.KEY_USER_ID}) )"
     }
 
