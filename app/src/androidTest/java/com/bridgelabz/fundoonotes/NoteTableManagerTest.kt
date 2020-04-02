@@ -67,7 +67,8 @@ class NoteTableManagerTest {
 
     @Test
     fun toTestFetchFunction_countNumberOfNotesPresentInDatabase() {
-        val notes = noteDbManager.fetchNotes()
+        val userId = ""
+        val notes = noteDbManager.fetchUserNotes(userId = userId)
         val numberOfNotes = notes.size
         print(notes)
         assertEquals(2, numberOfNotes)
