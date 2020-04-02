@@ -66,6 +66,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private fun initSharedViewModel() {
         sharedViewModel =
             ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
+        sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
         sharedViewModel.getRecyclerViewType()
             .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
         sharedViewModel.getNoteLiveData(note.userId!!)
