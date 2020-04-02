@@ -7,9 +7,9 @@
  * @version 1.0
  * @since 23/03/2020
  */
-package com.bridgelabz.fundoonotes.repository.web_service
+package com.bridgelabz.fundoonotes.repository.note.web_service
 
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 class UserResponseModel {
     var firstName: String? = null

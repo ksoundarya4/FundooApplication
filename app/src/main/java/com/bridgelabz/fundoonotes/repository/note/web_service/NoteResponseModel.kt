@@ -7,7 +7,7 @@
  * @version 1.0
  * @since 23/03/2020
  */
-package com.bridgelabz.fundoonotes.repository.web_service
+package com.bridgelabz.fundoonotes.repository.note.web_service
 
 import com.bridgelabz.fundoonotes.repository.user.web_services.UserSignUpModel
 

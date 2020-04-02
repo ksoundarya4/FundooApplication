@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.web_service
+package com.bridgelabz.fundoonotes.repository.note.web_service
 
 import android.util.Log
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
@@ -22,23 +22,23 @@ class RetrofitHelper {
 
         val call =
             noteApi.getNotesFromServer(accessToken = "Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM")
-        call.enqueue(object : Callback<DataModel> {
+        call.enqueue(object : Callback<GetNoteResponseModel> {
 
-            override fun onFailure(call: Call<DataModel>, t: Throwable) {
+            override fun onFailure(call: Call<GetNoteResponseModel>, t: Throwable) {
                 Log.i(tag, t.message!!)
                 noteCallBack.onNoteReceivedFailure(t)
             }
 
             override fun onResponse(
-                call: Call<DataModel>,
-                response: Response<DataModel>
+                call: Call<GetNoteResponseModel>,
+                response: Response<GetNoteResponseModel>
             ) {
                 if (!response.isSuccessful) {
                     Log.i(tag, response.code().toString())
                     return
                 }
 
-                val dataResponse: DataModel = response.body()!!
+                val dataResponse: GetNoteResponseModel = response.body()!!
                 Log.i(tag, dataResponse.toString())
                 for (noteResponseModel in dataResponse.data.listOfNoteResponses!!) {
                     Log.i(tag, noteResponseModel.toString())
@@ -64,28 +64,28 @@ class RetrofitHelper {
         noteResponseModel.description = "How are you"
 
         val noteApi = retrofit.create(NoteApi::class.java)
-        val call = noteApi.addNoteToServer(
-            noteResponseModel = noteResponseModel,
-            accessToken = "Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM"
-        )
-
-        call.enqueue(object : Callback<DataModel> {
-            override fun onFailure(call: Call<DataModel>, t: Throwable) {
-                Log.d(tag, t.message!!)
-            }
-
-            override fun onResponse(call: Call<DataModel>, response: Response<DataModel>) {
-
-                if (!response.isSuccessful) {
-                    Log.i(tag, response.code().toString())
-                    return
-                }
-
-                val dataResponse = response.body()
-                Log.i(tag, dataResponse.toString())
-            }
-
-        })
+//        val call = noteApi.addNoteToServer(
+//            noteResponseModel = noteResponseModel,
+//            accessToken = "Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM"
+//        )
+//
+//        call.enqueue(object : Callback<getNoteResponselModel> {
+//            override fun onFailure(call: Call<getNoteResponselModel>, t: Throwable) {
+//                Log.d(tag, t.message!!)
+//            }
+//
+//            override fun onResponse(call: Call<getNoteResponselModel>, response: Response<getNoteResponselModel>) {
+//
+//                if (!response.isSuccessful) {
+//                    Log.i(tag, response.code().toString())
+//                    return
+//                }
+//
+//                val dataResponse = response.body()
+//                Log.i(tag, dataResponse.toString())
+//            }
+//
+//        })
     }
 }
 
