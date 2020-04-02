@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
 
-class NoteTableManagerFactory(private val noteTableManager: NoteTableManager) :
+class ShareViewModelFactory(private val noteTableManager: NoteTableManager) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
