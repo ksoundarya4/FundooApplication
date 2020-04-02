@@ -47,8 +47,9 @@ class NoteRepositoryImplementation(
                 }
 
                 val addNoteResponseModel = response.body()
-                Log.i(tag, response.message())
+                Log.i(tag, addNoteResponseModel!!.status.toString())
                 noteInsertionStatus.value = NoteServerResponse.Success
+                fetchNotesFromServer(accessToken, addNoteResponseModel.status.details.userId!!)
             }
         })
         return noteInsertionStatus
@@ -120,9 +121,12 @@ class NoteRepositoryImplementation(
 
     private fun getPostParameters(note: Note): Map<String, Any> {
         val noteParameters = HashMap<String, Any>()
-        noteParameters["title"] = note.title
-        noteParameters["description"] = note.description
-        noteParameters["color"] = note.colour.toString()
+        if (note.title.isNotEmpty())
+            noteParameters["title"] = note.title
+        if (note.description.isNotEmpty())
+            noteParameters["description"] = note.description
+        if (!note.colour.isNullOrEmpty())
+            noteParameters["color"] = note.colour.toString()
         if (note.reminder != null)
             noteParameters["reminder"] = note.reminder.toString()
         noteParameters["isPined"] = note.isPinned == 1
