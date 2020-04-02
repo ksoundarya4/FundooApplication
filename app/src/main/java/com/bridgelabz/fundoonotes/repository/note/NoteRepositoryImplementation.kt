@@ -28,7 +28,6 @@ class NoteRepositoryImplementation(
     }
 
     override fun fetchNotes(accessToken: String, userId: String): ArrayList<Note> {
-        var notes = ArrayList<Note>()
 
         val call =
             noteApi.getNotesFromServer(accessToken = accessToken)
@@ -57,8 +56,7 @@ class NoteRepositoryImplementation(
             }
         }
         )
-        notes = noteTableManager.fetchUserNotes(userId)
-        return notes
+        return noteTableManager.fetchUserNotes(userId)
     }
 
     private fun updateNoteTable(noteResponseModel: NoteResponseModel) {
