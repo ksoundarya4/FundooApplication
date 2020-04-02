@@ -16,19 +16,19 @@ class NoteRepositoryImplementation(
 ) : NoteRepository {
     private val tag = "NoteRepository"
     override fun insertNote(note: Note) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun updateNote(note: Note) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun deleteNote(note: Note) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
-    override fun fetchNotes(accessToken: String): ArrayList<Note> {
-        val notes = ArrayList<Note>()
+    override fun fetchNotes(accessToken: String, userId: String): ArrayList<Note> {
+        var notes = ArrayList<Note>()
 
         val call =
             noteApi.getNotesFromServer(accessToken = accessToken)
@@ -52,12 +52,12 @@ class NoteRepositoryImplementation(
                 val listOfNoteResponseModel = dataResponse.data.listOfNoteResponses
                 for (noteResponseModel in listOfNoteResponseModel!!) {
                     Log.i(tag, noteResponseModel.toString())
-//                    val note = noteResponseModel.getNote()
                     updateNoteTable(noteResponseModel)
                 }
             }
         }
         )
+        notes = noteTableManager.fetchUserNotes(userId)
         return notes
     }
 

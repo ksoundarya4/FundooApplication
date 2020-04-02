@@ -6,5 +6,5 @@ interface NoteRepository {
     fun insertNote(note: Note)
     fun updateNote(note: Note)
     fun deleteNote(note: Note)
-    fun fetchNotes(accessToken: String): ArrayList<Note>
+    fun fetchNotes(accessToken: String, userId: String): ArrayList<Note>
 }
