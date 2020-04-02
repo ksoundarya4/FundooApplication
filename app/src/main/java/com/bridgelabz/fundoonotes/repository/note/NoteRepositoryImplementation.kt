@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteInsertionStatus
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
 import com.bridgelabz.fundoonotes.repository.note.web_service.NoteApi
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
 import com.bridgelabz.fundoonotes.repository.note.web_service.AddNoteResponseModel
@@ -20,8 +20,8 @@ class NoteRepositoryImplementation(
 ) : NoteRepository {
     private val tag = "NoteRepository"
 
-    override fun insertNote(note: Note, accessToken: String): LiveData<NoteInsertionStatus> {
-        val noteInsertionStatus = MutableLiveData<NoteInsertionStatus>()
+    override fun insertNote(note: Note, accessToken: String): LiveData<NoteServerResponse> {
+        val noteInsertionStatus = MutableLiveData<NoteServerResponse>()
         val postParametersToInsertNote: Map<String, Any> = getPostParameters(note)
 
         val call = noteApi.addNoteToServer(
@@ -32,7 +32,7 @@ class NoteRepositoryImplementation(
         call.enqueue(object : Callback<AddNoteResponseModel> {
             override fun onFailure(call: Call<AddNoteResponseModel>, t: Throwable) {
                 Log.i(tag, t.message!!)
-                noteInsertionStatus.value = NoteInsertionStatus.Failure
+                noteInsertionStatus.value = NoteServerResponse.Failure
             }
 
             override fun onResponse(
@@ -42,13 +42,13 @@ class NoteRepositoryImplementation(
 
                 if (!response.isSuccessful) {
                     Log.i(tag, response.code().toString())
-                    noteInsertionStatus.value = NoteInsertionStatus.Failure
+                    noteInsertionStatus.value = NoteServerResponse.Failure
                     return
                 }
 
                 val addNoteResponseModel = response.body()
                 Log.i(tag, response.message())
-                noteInsertionStatus.value = NoteInsertionStatus.Success
+                noteInsertionStatus.value = NoteServerResponse.Success
             }
         })
         return noteInsertionStatus
