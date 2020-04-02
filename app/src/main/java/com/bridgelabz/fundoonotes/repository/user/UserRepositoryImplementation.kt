@@ -115,8 +115,19 @@ class UserRepositoryImplementation(
     ) {
         FundooNotesPreference.editPreference(preferences, "access_token", accessToken)
     }
+
+    private fun getUserLoginModel(email: String, password: String): UserLoginModel {
+        val userLoginModel = UserLoginModel()
+        userLoginModel.email = email
+        userLoginModel.password = password
+        return userLoginModel
+    }
 }
 
+/**
+ * Extension Function of UserLoginResponseModel data class.
+ * @returns User
+ */
 private fun UserLoginResponseModel.getUser(): User {
     val firstName = this.firstName
     val lastName = this.lastName
@@ -133,6 +144,10 @@ private fun UserLoginResponseModel.getUser(): User {
     return user
 }
 
+/**
+ * Extension Function of User data class.
+ * @return UserSignUpModel
+ */
 private fun User.getUserSignUpModel(): UserSignUpModel {
     val userSignUpModel = UserSignUpModel()
     userSignUpModel.firstName = this.firstName
@@ -146,9 +161,3 @@ private fun User.getUserSignUpModel(): UserSignUpModel {
     return userSignUpModel
 }
 
-private fun getUserLoginModel(email: String, password: String): UserLoginModel {
-    val userLoginModel = UserLoginModel()
-    userLoginModel.email = email
-    userLoginModel.password = password
-    return userLoginModel
-}
