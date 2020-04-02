@@ -42,7 +42,6 @@ class NoteRepositoryImplementation(
 
                 if (!response.isSuccessful) {
                     Log.i(tag, response.code().toString())
-                    noteInsertionStatus.value = NoteServerResponse.Failure
                     return
                 }
 
