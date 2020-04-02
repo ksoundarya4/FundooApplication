@@ -28,8 +28,10 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     ) {
         title.text = note.title
         description.text = note.description
-        setViewBackgroundColour(note.colour!!.toInt())
-        setReminderView(note.reminder)
+        if (note.colour != null) {
+            setViewBackgroundColour(note.colour!!.toInt())
+            setReminderView(note.reminder)
+        }
     }
 
     private fun setViewBackgroundColour(colour: Int) {
@@ -38,10 +40,12 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     private fun setReminderView(reminder: String?) {
-        if (!reminder.isNullOrBlank() || !reminder!!.contains("[]")) {
-            reminderTextView.text = reminder
-        } else
-            reminderCardView.visibility = View.GONE
+        when (reminder) {
+            null -> {
+                reminderCardView.visibility = View.GONE
+            }
+            else -> reminderTextView.text = reminder
+        }
     }
 
     fun onNoteCLickListener(onNoteClick: OnNoteClickListener, adapterPosition: Int) {
