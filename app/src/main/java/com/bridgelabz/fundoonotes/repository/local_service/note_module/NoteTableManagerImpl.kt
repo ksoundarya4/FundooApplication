@@ -14,8 +14,8 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl.UserEntry.TABLE_USER
-import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl.UserEntry.USER_ID
 
 class NoteTableManagerImpl(
     private val noteDbHelper: DatabaseHelper
@@ -23,7 +23,7 @@ class NoteTableManagerImpl(
 
     companion object NoteEntry {
         private const val TABLE_NOTE = "Notes"
-        private const val NOTE_ID = "ID"
+        private const val ID = "ID"
         private const val KEY_TITLE = "Title"
         private const val KEY_DESCRIPTION = "Description"
         private const val KEY_ARCHIVE = "Archive"
@@ -34,9 +34,11 @@ class NoteTableManagerImpl(
         private const val KEY_POSITION = "Position"
         private const val KEY_COLOUR = "Colour"
         private const val KEY_USER_ID = "UserId"
+        private const val KEY_NOTE_ID = "NoteId"
+
         const val CREATE_NOTE_TABLE =
             " Create Table $TABLE_NOTE ( " +
-                    "$NOTE_ID INTEGER PRIMARY KEY, " +
+                    "$ID INTEGER PRIMARY KEY, " +
                     "$KEY_TITLE TEXT NOT NULL, " +
                     "$KEY_DESCRIPTION TEXT NOT NULL, " +
                     "$KEY_ARCHIVE INTEGER, " +
@@ -46,8 +48,9 @@ class NoteTableManagerImpl(
                     "$KEY_REMINDER VARCHAR(20), " +
                     "$KEY_POSITION INTEGER, " +
                     "$KEY_COLOUR INTEGER, " +
-                    "$KEY_USER_ID INTEGER, " +
-                    "FOREIGN KEY($KEY_USER_ID) REFERENCES $TABLE_USER($USER_ID) )"
+                    "$KEY_USER_ID VARCHAR(25), " +
+                    "$KEY_NOTE_ID VARCHAR(25), " +
+                    "FOREIGN KEY($KEY_USER_ID) REFERENCES $TABLE_USER(${UserDbManagerImpl.KEY_USER_ID}) )"
     }
 
     private lateinit var database: SQLiteDatabase
@@ -71,6 +74,7 @@ class NoteTableManagerImpl(
             put(KEY_REMINDER, note.reminder)
             put(KEY_POSITION, note.position)
             put(KEY_COLOUR, note.colour)
+            put(KEY_NOTE_ID, note.noteId)
             put(KEY_USER_ID, note.userId)
         }
 
@@ -89,7 +93,7 @@ class NoteTableManagerImpl(
         database = noteDbHelper.readableDatabase
 
         val columns = arrayOf(
-            NOTE_ID,
+            ID,
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
@@ -99,6 +103,7 @@ class NoteTableManagerImpl(
             KEY_REMINDER,
             KEY_POSITION,
             KEY_COLOUR,
+            KEY_NOTE_ID,
             KEY_USER_ID
         )
         val cursor = database.query(
@@ -113,7 +118,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -123,6 +128,7 @@ class NoteTableManagerImpl(
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
                 val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -135,6 +141,7 @@ class NoteTableManagerImpl(
                 note.position = position
                 note.colour = colour
                 note.userId = userId
+                note.noteId = noteId
 
                 notes.add(note)
             } while (cursor.moveToNext())
@@ -169,12 +176,13 @@ class NoteTableManagerImpl(
             put(KEY_REMINDER, note.reminder)
             put(KEY_POSITION, note.position)
             put(KEY_COLOUR, note.colour)
+            put(KEY_NOTE_ID, note.noteId)
             put(KEY_USER_ID, note.userId)
         }
         database.update(
             TABLE_NOTE,
             values,
-            "$NOTE_ID = ${note.id}",
+            "$ID = ${note.id}",
             null
         )
         database.close()
@@ -190,7 +198,7 @@ class NoteTableManagerImpl(
         database = noteDbHelper.open()
 
         val columns = arrayOf(
-            NOTE_ID,
+            ID,
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
@@ -200,6 +208,7 @@ class NoteTableManagerImpl(
             KEY_REMINDER,
             KEY_POSITION,
             KEY_COLOUR,
+            KEY_NOTE_ID,
             KEY_USER_ID
         )
 
@@ -218,7 +227,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -228,6 +237,7 @@ class NoteTableManagerImpl(
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
                 val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -240,6 +250,7 @@ class NoteTableManagerImpl(
                 note.position = position
                 note.colour = colour
                 note.userId = userId
+                note.noteId = noteId
 
                 archiveNotes.add(note)
             } while (cursor.moveToNext())
@@ -258,7 +269,7 @@ class NoteTableManagerImpl(
         database = noteDbHelper.open()
 
         val columns = arrayOf(
-            NOTE_ID,
+            ID,
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
@@ -286,7 +297,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -326,7 +337,7 @@ class NoteTableManagerImpl(
         database = noteDbHelper.open()
 
         val columns = arrayOf(
-            NOTE_ID,
+            ID,
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
@@ -354,7 +365,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -394,7 +405,7 @@ class NoteTableManagerImpl(
         database = noteDbHelper.open()
 
         val columns = arrayOf(
-            NOTE_ID,
+            ID,
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
@@ -422,7 +433,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
@@ -458,7 +469,7 @@ class NoteTableManagerImpl(
         database = noteDbHelper.open()
 
         val columns = arrayOf(
-            NOTE_ID,
+            ID,
             KEY_TITLE,
             KEY_DESCRIPTION,
             KEY_ARCHIVE,
@@ -486,7 +497,7 @@ class NoteTableManagerImpl(
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
-                val id = cursor.getString(cursor.getColumnIndex(NOTE_ID))
+                val id = cursor.getString(cursor.getColumnIndex(ID))
                 val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
                 val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
                 val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
