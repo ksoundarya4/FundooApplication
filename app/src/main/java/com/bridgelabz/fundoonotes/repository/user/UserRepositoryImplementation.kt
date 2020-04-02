@@ -82,11 +82,7 @@ class UserRepositoryImplementation(
 
                 val userLoginResponseModel = response.body()
                 addAccessTokenToPreference(preferences, userLoginResponseModel!!.id!!)
-                if (isUserPresentInLocalDb(email)) {
-                    updateLocalDbUser(email, userLoginResponseModel)
-                } else {
-                    insertUserToLocalDb(userLoginResponseModel = userLoginResponseModel)
-                }
+                updateLocalDb(userLoginResponseModel = userLoginResponseModel)
                 authState.value = AuthState.AUTH
             }
         })
@@ -95,32 +91,22 @@ class UserRepositoryImplementation(
     }
 
     private fun insertUserToLocalDb(userLoginResponseModel: UserLoginResponseModel) {
-        val firstName = userLoginResponseModel.firstName
-        val lastName = userLoginResponseModel.lastName
+        val userTobeInserted = userLoginResponseModel.getUser()
+        userTableManager.insert(userTobeInserted)
+    }
+
+    private fun updateLocalDb(userLoginResponseModel: UserLoginResponseModel) {
         val email = userLoginResponseModel.email
-        val image = userLoginResponseModel.imageUrl
-        val userId = userLoginResponseModel.userId
-        val user = User(
-            firstName = firstName!!,
-            lastName = lastName!!,
-            email = email!!
-        )
-        user.image = image
-        user.userId = userId
-        userTableManager.insert(user)
-    }
-
-    private fun updateLocalDbUser(email: String, userLoginResponseModel: UserLoginResponseModel?) {
-        val user = userTableManager.fetchUser(email)
-        val getUserWithServerId = userLoginResponseModel!!.getUserIdFromServer(user!!)
-        userTableManager.update(user.id!!.toLong(), getUserWithServerId)
-    }
-
-    private fun isUserPresentInLocalDb(email: String): Boolean {
-        val user = userTableManager.fetchUser(email)
+        val user = userTableManager.fetchUser(email!!)
         if (user != null)
-            return true
-        return false
+            updateUserInLocalDb(user, userLoginResponseModel)
+        else
+            insertUserToLocalDb(userLoginResponseModel)
+    }
+
+    private fun updateUserInLocalDb(user: User, userLoginResponseModel: UserLoginResponseModel) {
+        val userTobeUpdated = userLoginResponseModel.getUser()
+        userTableManager.update(user.id!!.toLong(), userTobeUpdated)
     }
 
     private fun addAccessTokenToPreference(
@@ -131,8 +117,19 @@ class UserRepositoryImplementation(
     }
 }
 
-private fun UserLoginResponseModel.getUserIdFromServer(user: User): User {
-    user.userId = this.userId
+private fun UserLoginResponseModel.getUser(): User {
+    val firstName = this.firstName
+    val lastName = this.lastName
+    val email = this.email
+    val image = this.imageUrl
+    val userId = this.userId
+    val user = User(
+        firstName = firstName!!,
+        lastName = lastName!!,
+        email = email!!
+    )
+    user.image = image
+    user.userId = userId
     return user
 }
 
@@ -145,6 +142,7 @@ private fun User.getUserSignUpModel(): UserSignUpModel {
     userSignUpModel.password = this.password
     userSignUpModel.role = "user"
     userSignUpModel.service = "advanced"
+    userSignUpModel.imageUrl = this.image
     return userSignUpModel
 }
 
