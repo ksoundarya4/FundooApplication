@@ -2,6 +2,7 @@ package com.bridgelabz.fundoonotes.repository.note.web_service
 
 import retrofit2.Call
 import retrofit2.http.*
+import java.io.File
 
 interface NoteApi {
     @GET("getNotesList")
@@ -10,7 +11,7 @@ interface NoteApi {
     @FormUrlEncoded
     @POST("addNotes")
     fun addNoteToServer(
-        @Query("access_token") accessToken: String,
-        @FieldMap addNoteModel: Map<String, String>
-    ): Call<GetNoteResponseModel>
+        @FieldMap addNoteModel: Map<String, Any>,
+        @Query("access_token") accessToken: String
+    ): Call<AddNoteResponseModel>
 }
