@@ -9,4 +9,4 @@
  */
 package com.bridgelabz.fundoonotes.repository.web_service
 
-data class DataModel(val data: ResponseModel)
+data class GetNoteResponseModel(val data: ResponseModel)
