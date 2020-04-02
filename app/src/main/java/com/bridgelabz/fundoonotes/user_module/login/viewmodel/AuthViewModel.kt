@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.model.User
 
 class AuthViewModel : ViewModel() {
 
@@ -41,7 +41,7 @@ class AuthViewModel : ViewModel() {
         return loginResponse
     }
 
-    fun onPasswordSubmitButtonClick(view: View, email: String, password: String){
+    fun onPasswordSubmitButtonClick(view: View, email: String, password: String) {
         dbManager = UserDbManagerImpl(
             DatabaseHelper(view.context)
         )
@@ -56,7 +56,7 @@ class AuthViewModel : ViewModel() {
         return updatePasswordStatus
     }
 
-    fun getAuthenticatedUser(email : String) : User? {
+    fun getAuthenticatedUser(email: String): User? {
         return dbManager.fetchUser(email)
     }
 }

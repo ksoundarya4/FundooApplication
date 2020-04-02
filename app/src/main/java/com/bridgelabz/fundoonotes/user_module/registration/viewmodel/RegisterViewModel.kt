@@ -17,9 +17,9 @@ import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user.Use
 import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
-import com.bridgelabz.fundoonotes.user_module.registration.model.validateUser
+import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
+import com.bridgelabz.fundoonotes.user_module.model.User
+import com.bridgelabz.fundoonotes.user_module.model.validateUser
 
 class RegisterViewModel : ViewModel() {
 
