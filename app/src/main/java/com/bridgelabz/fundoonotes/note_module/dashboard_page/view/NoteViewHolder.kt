@@ -8,6 +8,7 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
+import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -29,7 +30,7 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         title.text = note.title
         description.text = note.description
         if (note.colour != null) {
-            setViewBackgroundColour(note.colour!!.toInt())
+            setViewBackgroundColour(Color.parseColor(note.colour))
             setReminderView(note.reminder)
         }
     }
