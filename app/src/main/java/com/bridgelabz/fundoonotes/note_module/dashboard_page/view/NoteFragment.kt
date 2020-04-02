@@ -68,7 +68,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
             ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
         sharedViewModel.getRecyclerViewType()
             .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
-        sharedViewModel.getSimpleNoteLiveData(note.userId!!)
+        sharedViewModel.getNoteLiveData(note.userId!!)
             .observe(viewLifecycleOwner, Observer { observeNotes(it) })
     }
 
@@ -81,9 +81,18 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     private fun observeNotes(noteList: ArrayList<Note>) {
         Log.d("noteList", noteList.toString())
-        notes = noteList
+        notes = getSimpleNote(noteList)
         noteAdapter = NoteViewAdapter(notes, this)
         initRecyclerView()
+    }
+
+    private fun getSimpleNote(noteList: ArrayList<Note>): ArrayList<Note> {
+        val notes = ArrayList<Note>()
+        for (note in noteList) {
+            if (note.isArchived == 0 && note.isPinned == 0 && note.isDeleted == 0)
+                notes.add(note)
+        }
+        return notes
     }
 
     override fun onClick(adapterPosition: Int) {
