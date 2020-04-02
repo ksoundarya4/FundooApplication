@@ -9,6 +9,8 @@
  */
 package com.bridgelabz.fundoonotes.repository.web_service
 
+import com.bridgelabz.fundoonotes.repository.user.web_services.UserSignUpModel
+
 data class NoteResponseModel(
     var title: String? = null,
     var description: String? = null,
@@ -29,7 +31,7 @@ data class NoteResponseModel(
     var noteCheckLists: ArrayList<String> = ArrayList(),
     var noteLabels: ArrayList<String> = ArrayList(),
     var questionAndAnswerNotes: ArrayList<String> = ArrayList(),
-    var user: UserResponseModel? = null
+    var user: UserSignUpModel? = null
 ) {
     fun convertBooleanToInt(property: Boolean?): Int {
         if (property!!)
