@@ -26,12 +26,11 @@ import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
 import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModel
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
 import com.bridgelabz.fundoonotes.user_module.view.LoginActivity
 import com.bridgelabz.fundoonotes.user_module.view.toast
 import com.bridgelabz.fundoonotes.user_module.model.User
+import com.bridgelabz.fundoonotes.user_module.viewModel.UserViewModelFactory
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
@@ -45,11 +44,14 @@ import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
-    private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
-        DashBoardViewModelFactory(DatabaseHelper(this))
+    //    private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
+//        DashBoardViewModelFactory(DatabaseHelper(this))
+//    }
+    private val userViewModelFactory by lazy {
+        UserViewModelFactory(this)
     }
     private val dashBoardViewModel: DashBoardViewModel by lazy {
-        ViewModelProvider(this, dashBoadViewModelFactory).get(DashBoardViewModel::class.java)
+        ViewModelProvider(this, userViewModelFactory).get(DashBoardViewModel::class.java)
     }
     private val toolbar by lazy {
         findViewById<Toolbar>(R.id.toolbar)
@@ -70,6 +72,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private val preferences: SharedPreferences by lazy {
         FundooNotesPreference.getPreference(this)
     }
+    private val emailKey = "email"
     private lateinit var authenticatedEmail: String
     private var authenticatedUser: User? = null
     private var signInClient: GoogleSignInClient? = null
@@ -152,7 +155,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
             try {
                 val firstName = `object`!!.getString("name")
                 val lastNAme = ""
-                val email = `object`.getString("email")
+                val email = `object`.getString(emailKey)
                 authenticatedUser =
                     User(
                         firstName,
@@ -173,10 +176,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun getUserSharedPreferences() {
-        val editor = preferences.edit()
-        val email = preferences.getString("email", "")
+        val email = preferences.getString(emailKey, "")
         authenticatedEmail = email!!
-        editor.apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -212,7 +213,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
         val bundle = Bundle()
         val note = Note()
         if (authenticatedUser != null)
-            note.userId = authenticatedUser!!.id
+            note.userId = authenticatedUser!!.userId
         bundle.putSerializable(getString(R.string.note), note)
         return bundle
     }
@@ -286,7 +287,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun removePreference() {
-        FundooNotesPreference.removePreference(preferences, "email")
+        FundooNotesPreference.removePreference(preferences, emailKey)
     }
 
     /**Function that performs sign out alert operation*/
