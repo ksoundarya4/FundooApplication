@@ -88,7 +88,7 @@ class NoteTableManagerImpl(
      *
      * @return List of Notes.
      */
-    override fun fetchNotes(userId: String): ArrayList<Note> {
+    override fun fetchUserNotes(userId: String): ArrayList<Note> {
         val notes = ArrayList<Note>()
         database = noteDbHelper.readableDatabase
 
@@ -151,6 +151,75 @@ class NoteTableManagerImpl(
         cursor.close()
         database.close()
         return notes
+    }
+
+    /**
+     * Function to retrieve a note based on its note_ID from FundooNotes.db
+     *
+     * @return Note.
+     */
+    override fun fetchNoteByNoteId(noteId: String): Note? {
+        var note: Note? = null
+        database = noteDbHelper.readableDatabase
+
+        val columns = arrayOf(
+            ID,
+            KEY_TITLE,
+            KEY_DESCRIPTION,
+            KEY_ARCHIVE,
+            KEY_TRASH,
+            KEY_PINNED,
+            KEY_LABEL,
+            KEY_REMINDER,
+            KEY_POSITION,
+            KEY_COLOUR,
+            KEY_NOTE_ID,
+            KEY_USER_ID
+        )
+        val selection = "$KEY_NOTE_ID =?"
+        val selectionArgs = arrayOf(noteId)
+        val cursor = database.query(
+            TABLE_NOTE,
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getString(cursor.getColumnIndex(ID))
+                val title = cursor.getString(cursor.getColumnIndex(KEY_TITLE))
+                val description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
+                val isArchived = cursor.getInt(cursor.getColumnIndex(KEY_ARCHIVE))
+                val isDeleted = cursor.getInt(cursor.getColumnIndex(KEY_TRASH))
+                val isPinned = cursor.getInt(cursor.getColumnIndex(KEY_PINNED))
+                val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
+                val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val noteIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
+                val userIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
+
+                note = Note(title, description)
+                note.id = id
+                note.isArchived = isArchived
+                note.isDeleted = isDeleted
+                note.isPinned = isPinned
+                note.label = label
+                note.reminder = reminder
+                note.position = position
+                note.colour = colour
+                note.userId = userIdFromNoteTable
+                note.noteId = noteIdFromNoteTable
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        database.close()
+        return note
     }
 
     /**
