@@ -88,7 +88,7 @@ class NoteTableManagerImpl(
      *
      * @return List of Notes.
      */
-    override fun fetchNotes(): ArrayList<Note> {
+    override fun fetchNotes(userId: String): ArrayList<Note> {
         val notes = ArrayList<Note>()
         database = noteDbHelper.readableDatabase
 
@@ -106,11 +106,13 @@ class NoteTableManagerImpl(
             KEY_NOTE_ID,
             KEY_USER_ID
         )
+        val selection = "$KEY_USER_ID =?"
+        val selectionArgs = arrayOf(userId)
         val cursor = database.query(
             TABLE_NOTE,
             columns,
-            null,
-            null,
+            selection,
+            selectionArgs,
             null,
             null,
             null
@@ -129,7 +131,7 @@ class NoteTableManagerImpl(
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
                 val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
-                val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
+                val userIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
                 note.id = id
@@ -140,7 +142,7 @@ class NoteTableManagerImpl(
                 note.reminder = reminder
                 note.position = position
                 note.colour = colour
-                note.userId = userId
+                note.userId = userIdFromNoteTable
                 note.noteId = noteId
 
                 notes.add(note)
