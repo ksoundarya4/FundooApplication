@@ -5,11 +5,12 @@ import retrofit2.http.*
 import java.io.File
 
 interface NoteApi {
-    @GET("getNotesList")
+    @GET("notes/getNotesList")
     fun getNotesFromServer(@Query("access_token") accessToken: String): Call<GetNoteResponseModel>
 
     @FormUrlEncoded
-    @POST("addNotes")
+    @POST("notes/addNotes")
+    @JvmSuppressWildcards
     fun addNoteToServer(
         @FieldMap addNoteModel: Map<String, Any>,
         @Query("access_token") accessToken: String
