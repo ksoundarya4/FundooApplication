@@ -29,9 +29,17 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
     }
 
     /**Function to return liveData of Notes*/
-    fun getSimpleNoteLiveData(userId: String): LiveData<ArrayList<Note>> {
+    fun getNoteLiveData(userId: String): LiveData<ArrayList<Note>> {
         notesLiveData = repository.fetchNotesFromLocalDb(userId)
         return notesLiveData
+    }
+
+    fun getNoteSererResponse(): LiveData<NoteServerResponse> {
+        return noteServerResponse
+    }
+
+    fun fetchNoteFromServer(accessToken: String, userId: String) {
+        repository.fetchNotesFromServer(accessToken, userId)
     }
 
     /**Function to update note in Note table*/
