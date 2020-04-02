@@ -166,8 +166,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun initHomeDashBoardActivity() {
 
-        observeCurrentFragment()
         getUserSharedPreferences()
+        authenticateUser()
+        observeCurrentFragment()
         setActionBarToggle()
     }
 
