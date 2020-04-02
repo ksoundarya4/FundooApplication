@@ -54,9 +54,9 @@ class ArchiveFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getNoteArguments()
         viewModel.getNoteLiveData(note.userId!!)
             .observe(requireActivity(), Observer { observeArchiveNotes(it) })
-        getNoteArguments()
         initRecyclerView()
     }
 
@@ -86,7 +86,7 @@ class ArchiveFragment : Fragment(), OnNoteClickListener {
             if (note.isArchived == 1)
                 archiveNote.add(note)
         }
-        return archiveNotes
+        return archiveNote
     }
 
     override fun onClick(adapterPosition: Int) {
