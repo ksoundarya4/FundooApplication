@@ -62,7 +62,7 @@ class NoteRepositoryImplementation(
 
     }
 
-    override fun fetchNotes(accessToken: String, userId: String): ArrayList<Note> {
+    override fun fetchNotesFromServer(accessToken: String, userId: String) {
 
         val call =
             noteApi.getNotesFromServer(accessToken = accessToken)
@@ -82,16 +82,20 @@ class NoteRepositoryImplementation(
                 }
 
                 val dataResponse: GetNoteResponseModel = response.body()!!
-                Log.i(tag, dataResponse.toString())
                 val listOfNoteResponseModel = dataResponse.data.listOfNoteResponses
                 for (noteResponseModel in listOfNoteResponseModel!!) {
                     Log.i(tag, noteResponseModel.toString())
                     updateNoteTable(noteResponseModel)
                 }
             }
-        }
-        )
-        return noteTableManager.fetchUserNotes(userId)
+        })
+    }
+
+    override fun fetchNotesFromLocalDb(userId: String): LiveData<ArrayList<Note>> {
+        val noteLiveData = MutableLiveData<ArrayList<Note>>()
+        val notes = noteTableManager.fetchUserNotes(userId)
+        noteLiveData.value = notes
+        return noteLiveData
     }
 
     private fun updateNoteTable(noteResponseModel: NoteResponseModel) {

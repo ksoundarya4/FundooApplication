@@ -8,5 +8,6 @@ interface NoteRepository {
     fun insertNote(note: Note, accessToken: String): LiveData<NoteServerResponse>
     fun updateNote(note: Note)
     fun deleteNote(note: Note)
-    fun fetchNotes(accessToken: String, userId: String): ArrayList<Note>
+    fun fetchNotesFromServer(accessToken: String, userId: String)
+    fun fetchNotesFromLocalDb(userId: String): LiveData<ArrayList<Note>>
 }
