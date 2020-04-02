@@ -11,17 +11,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.ViewUtils
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class TrashFragment : Fragment(), OnNoteClickListener {
 
-    private val noteFactory: NoteTableManagerFactory by lazy {
-        NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
+    private val noteFactory: ShareViewModelFactory by lazy {
+        ShareViewModelFactory(requireContext())
     }
 
     private val viewModel by lazy {
@@ -31,10 +28,6 @@ class TrashFragment : Fragment(), OnNoteClickListener {
     private val recyclerView  by lazy {
         requireActivity().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
-
-//    private val bottomAppBar by lazy {
-//        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
-//    }
 
     private val floatingActionButton by lazy {
         requireActivity().findViewById<FloatingActionButton>(R.id.fab)

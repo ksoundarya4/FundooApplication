@@ -44,9 +44,6 @@ import java.lang.Exception
 
 class HomeDashBoardActivity : AppCompatActivity() {
 
-    //    private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
-//        DashBoardViewModelFactory(DatabaseHelper(this))
-//    }
     private val userViewModelFactory by lazy {
         UserViewModelFactory(this)
     }
@@ -77,9 +74,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private var authenticatedUser: User? = null
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
-    private var accessToken: AccessToken? = null
-
-//    private val retrofitHelper = RetrofitHelper()
+    private var facebookAccessToken: AccessToken? = null
+    private var fundooNotesAccessToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,9 +97,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun setFacebookAccessToken() {
-        accessToken = AccessToken.getCurrentAccessToken()
-        if (accessToken != null)
-            useLoginInformation(accessToken!!)
+        facebookAccessToken = AccessToken.getCurrentAccessToken()
+        if (facebookAccessToken != null)
+            useLoginInformation(facebookAccessToken!!)
     }
 
     private fun setGoogleSignInClient() {
@@ -212,9 +208,11 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun setNoteArguments(): Bundle? {
         val bundle = Bundle()
         val note = Note()
+        fundooNotesAccessToken = preferences.getString("access_token", null)
         if (authenticatedUser != null)
             note.userId = authenticatedUser!!.userId
         bundle.putSerializable(getString(R.string.note), note)
+        bundle.putString("access_token", fundooNotesAccessToken)
         return bundle
     }
 
@@ -259,6 +257,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         drawerLayout.closeDrawer(navigationView)
+        val bundle = setNoteArguments()
+        fragment.arguments = bundle
         if (fragment.isAdded) return
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -303,7 +303,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 getString(R.string.sign_out_alert_positive_button)
             ) { _, _ ->
                 checkForGoogleAccount(googleAccount)
-                checkForFaceBookAccount(accessToken)
+                checkForFaceBookAccount(facebookAccessToken)
                 removePreference()
                 navigateToLoginScreen()
                 toast(
