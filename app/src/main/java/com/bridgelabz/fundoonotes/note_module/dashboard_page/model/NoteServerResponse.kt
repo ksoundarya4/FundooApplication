@@ -9,4 +9,4 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.model
 
-enum class NoteInsertionStatus { Success, Failure }
+enum class NoteServerResponse { Success, Failure }
