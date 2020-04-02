@@ -11,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.OnBackPressed
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
@@ -69,8 +71,32 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         super.onActivityCreated(savedInstanceState)
 
         getNoteArgument()
+        observeNoteServerResponse()
         setUpFragmentToolbar()
         setToolBarOnCLickListener()
+    }
+
+    private fun observeNoteServerResponse() {
+        viewModel.getNoteSererResponse()
+            .observe(viewLifecycleOwner, Observer { handleServerResponse(it) })
+    }
+
+    private fun handleServerResponse(serverResponse: NoteServerResponse) {
+        when (serverResponse) {
+            NoteServerResponse.Failure -> Toast.makeText(
+                requireContext(),
+                "Note not saved",
+                Toast.LENGTH_LONG
+            ).show()
+            NoteServerResponse.Success -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Note saved",
+                    Toast.LENGTH_LONG
+                ).show()
+                viewModel.fetchNoteFromServer(accessToken!!, note.userId!!)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,8 +105,10 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     }
 
     private fun setLayoutBackground() {
-        addNoteFragment.setBackgroundColor(note.colour!!.toInt())
-        fragmentContainerLayout.setBackgroundColor(note.colour!!.toInt())
+        if (note.colour != null) {
+            addNoteFragment.setBackgroundColor(note.colour!!.toInt())
+            fragmentContainerLayout.setBackgroundColor(note.colour!!.toInt())
+        }
     }
 
     private fun setToolBarOnCLickListener() {
@@ -185,7 +213,6 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
 
     private fun hideBottomAppbar() {
         floatingActionButton.hide()
-//        bottomAppBar.performHide()
     }
 
     @TargetApi(Build.VERSION_CODES.M)
