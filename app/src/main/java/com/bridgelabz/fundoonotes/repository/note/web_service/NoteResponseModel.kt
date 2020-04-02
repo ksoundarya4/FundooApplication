@@ -10,6 +10,7 @@
 package com.bridgelabz.fundoonotes.repository.note.web_service
 
 import com.bridgelabz.fundoonotes.repository.user.web_services.UserSignUpModel
+import com.google.gson.annotations.SerializedName
 
 data class NoteResponseModel(
     var title: String? = null,
@@ -20,6 +21,7 @@ data class NoteResponseModel(
     var reminder: ArrayList<String> = ArrayList(),
     var createdDate: String? = null,
     var modifiedDate: String? = null,
+    @SerializedName("color")
     var colour: String? = null,
     var label: ArrayList<String> = ArrayList(),
     var imageUrl: String? = null,
