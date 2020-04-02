@@ -1,10 +1,9 @@
 package com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user
 
 import android.util.Log
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.User
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
-
 
 class UserFireStoreManagerImpl : UserFireStoreManager {
 
