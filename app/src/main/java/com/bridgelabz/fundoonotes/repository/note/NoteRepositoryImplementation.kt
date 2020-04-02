@@ -1,9 +1,13 @@
 package com.bridgelabz.fundoonotes.repository.note
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteInsertionStatus
 import com.bridgelabz.fundoonotes.repository.note.web_service.NoteApi
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
+import com.bridgelabz.fundoonotes.repository.note.web_service.AddNoteResponseModel
 import com.bridgelabz.fundoonotes.repository.note.web_service.GetNoteResponseModel
 import com.bridgelabz.fundoonotes.repository.note.web_service.NoteResponseModel
 import retrofit2.Call
@@ -15,8 +19,39 @@ class NoteRepositoryImplementation(
     private val noteTableManager: NoteTableManager
 ) : NoteRepository {
     private val tag = "NoteRepository"
-    override fun insertNote(note: Note) {
 
+    override fun insertNote(note: Note, accessToken: String): LiveData<NoteInsertionStatus> {
+        val noteInsertionStatus = MutableLiveData<NoteInsertionStatus>()
+        val postParametersToInsertNote: Map<String, Any> = getPostParameters(note)
+
+        val call = noteApi.addNoteToServer(
+            addNoteModel = postParametersToInsertNote,
+            accessToken = accessToken
+        )
+
+        call.enqueue(object : Callback<AddNoteResponseModel> {
+            override fun onFailure(call: Call<AddNoteResponseModel>, t: Throwable) {
+                Log.i(tag, t.message!!)
+                noteInsertionStatus.value = NoteInsertionStatus.Failure
+            }
+
+            override fun onResponse(
+                call: Call<AddNoteResponseModel>,
+                response: Response<AddNoteResponseModel>
+            ) {
+
+                if (!response.isSuccessful) {
+                    Log.i(tag, response.code().toString())
+                    noteInsertionStatus.value = NoteInsertionStatus.Failure
+                    return
+                }
+
+                val addNoteResponseModel = response.body()
+                Log.i(tag, response.message())
+                noteInsertionStatus.value = NoteInsertionStatus.Success
+            }
+        })
+        return noteInsertionStatus
     }
 
     override fun updateNote(note: Note) {
@@ -77,6 +112,19 @@ class NoteRepositoryImplementation(
     private fun insertNoteInNoteTable(noteResponseModel: NoteResponseModel) {
         val noteTobeInserted = noteResponseModel.getNote()
         noteTableManager.insert(noteTobeInserted)
+    }
+
+    private fun getPostParameters(note: Note): Map<String, Any> {
+        val noteParameters = HashMap<String, Any>()
+        noteParameters["title"] = note.title
+        noteParameters["description"] = note.description
+        noteParameters["color"] = note.colour.toString()
+        if (note.reminder != null)
+            noteParameters["reminder"] = note.reminder.toString()
+        noteParameters["isPined"] = note.isPinned == 1
+        noteParameters["isArchived"] = note.isArchived == 1
+
+        return noteParameters
     }
 }
 
