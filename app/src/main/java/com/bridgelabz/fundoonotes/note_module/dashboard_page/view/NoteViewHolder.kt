@@ -28,7 +28,7 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     ) {
         title.text = note.title
         description.text = note.description
-        setViewBackgroundColour(note.colour!!)
+        setViewBackgroundColour(note.colour!!.toInt())
         setReminderView(note.reminder)
     }
 
@@ -38,53 +38,10 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     private fun setReminderView(reminder: String?) {
-        if (reminder != null) {
+        if (!reminder.isNullOrBlank() || !reminder!!.contains("[]")) {
             reminderTextView.text = reminder
         } else
             reminderCardView.visibility = View.GONE
-//        val reminderCardView = CardView(itemView.context)
-//        reminderCardView.id = R.id.reminderCardView
-//        reminderCardView.maxCardElevation = 4F
-//
-//        val reminderTextView = TextView(itemView.context)
-//        reminderTextView.id = R.id.reminderTextView
-//        reminderTextView.text = reminder
-//
-//        val constraintSet = ConstraintSet()
-//        constraintSet.clone(constraintLayout)
-//
-//        constraintSet.connect(
-//            reminderCardView.id,
-//            ConstraintSet.START,
-//            constraintLayout.id,
-//            ConstraintSet.START,
-//            R.dimen.margin_16dp
-//        )
-//        constraintSet.connect(
-//            reminderCardView.id,
-//            ConstraintSet.END,
-//            constraintLayout.id,
-//            ConstraintSet.END,
-//            R.dimen.margin_16dp
-//        )
-//        constraintSet.connect(
-//            reminderCardView.id,
-//            ConstraintSet.TOP,
-//            description.id,
-//            ConstraintSet.BOTTOM,
-//            R.dimen.margin_8dp
-//        )
-//        constraintSet.connect(
-//            reminderCardView.id,
-//            ConstraintSet.BOTTOM,
-//            constraintLayout.id,
-//            ConstraintSet.BOTTOM,
-//            R.dimen.margin_8dp
-//        )
-//
-//        reminderCardView.addView(reminderTextView)
-//        constraintLayout.addView(reminderCardView)
-//        constraintSet.constrainWidth(constraintLayout.id, ConstraintSet.WRAP_CONTENT)
     }
 
     fun onNoteCLickListener(onNoteClick: OnNoteClickListener, adapterPosition: Int) {
