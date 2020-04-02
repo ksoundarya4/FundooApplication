@@ -129,7 +129,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
@@ -199,7 +199,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val noteIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
@@ -307,7 +307,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
@@ -377,7 +377,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -445,7 +445,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -513,7 +513,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -577,7 +577,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
