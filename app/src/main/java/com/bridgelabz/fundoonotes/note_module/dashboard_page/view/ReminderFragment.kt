@@ -53,7 +53,7 @@ class ReminderFragment : Fragment(), OnNoteClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getNoteArguments()
-        sharedViewModel.getSimpleNoteLiveData(userId = note.userId!!)
+        sharedViewModel.getNoteLiveData(userId = note.userId!!)
             .observe(requireActivity(), Observer { observeArchiveNotes(it) })
         initRecyclerView()
     }
