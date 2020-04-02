@@ -30,9 +30,15 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         title.text = note.title
         description.text = note.description
         if (note.colour != null) {
-            setViewBackgroundColour(Color.parseColor(note.colour))
-            setReminderView(note.reminder)
+            var colour = 0
+            try {
+                colour = Color.parseColor(note.colour)
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
+            setViewBackgroundColour(colour)
         }
+        setReminderView(note.reminder)
     }
 
     private fun setViewBackgroundColour(colour: Int) {
