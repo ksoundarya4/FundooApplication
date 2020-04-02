@@ -140,7 +140,8 @@ fun NoteResponseModel.getNote(): Note {
     note.isArchived = convertBooleanToInt(this.isArchived)
     note.isDeleted = convertBooleanToInt(this.isDeleted)
     note.label = this.label.toString()
-    note.reminder = this.reminder.toString()
+    if (this.reminder.isNotEmpty())
+        note.reminder = reminder.toString()
     note.colour = this.colour
     note.userId = this.userId
     note.noteId = this.id
