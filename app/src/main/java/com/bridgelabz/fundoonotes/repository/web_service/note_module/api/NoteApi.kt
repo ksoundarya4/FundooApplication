@@ -1,9 +1,6 @@
 package com.bridgelabz.fundoonotes.repository.web_service.note_module.api
 
-import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.AddNoteResponseModel
-import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.GetNoteResponseModel
-import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.NoteModel
-import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.UpdateNoteResponseModel
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -26,5 +23,9 @@ interface NoteApi {
         @Query("access_token") accessToken: String
     ): Call<UpdateNoteResponseModel>
 
-
+    @POST("notes/archiveNotes")
+    fun archiveOrUnarchiveNotes(
+        @Query("access_token") accessToken: String,
+        @Body archiveNoteModel: ArchiveNoteModel
+    )
 }
