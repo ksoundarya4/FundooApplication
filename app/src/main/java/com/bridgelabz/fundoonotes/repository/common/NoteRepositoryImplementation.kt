@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.repository.common
 
+import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -92,7 +93,7 @@ class NoteRepositoryImplementation(
             updateNotesInServer(trashNoteModel, accessToken)
         }
         if (note.colour != null) {
-            val colourNoteModel = ColourNoteModel(note.colour, noteIdList)
+            val colourNoteModel = ColourNoteModel(note.colour.toString(), noteIdList)
             updateNotesInServer(colourNoteModel, accessToken)
         }
         if (note.reminder != null) {
@@ -208,7 +209,7 @@ class NoteRepositoryImplementation(
             noteParameters["title"] = note.title
         if (note.description.isNotEmpty())
             noteParameters["description"] = note.description
-        if (!note.colour.isNullOrEmpty())
+        if (note.colour != null)
             noteParameters["color"] = note.colour.toString()
         if (note.reminder != null)
             noteParameters["reminder"] = note.reminder.toString()
@@ -229,7 +230,8 @@ fun NoteResponseModel.getNote(): Note {
     note.label = this.label.toString()
     if (this.reminder.isNotEmpty())
         note.reminder = reminder.toString()
-    note.colour = this.colour
+    if (this.colour != null)
+        note.colour = Color.parseColor(this.colour)
     note.userId = this.userId
     note.noteId = this.id
 
