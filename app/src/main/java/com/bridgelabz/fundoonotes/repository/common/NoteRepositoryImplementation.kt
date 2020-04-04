@@ -12,6 +12,7 @@ import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class NoteRepositoryImplementation(
     private val noteApi: NoteApi,
@@ -230,8 +231,12 @@ fun NoteResponseModel.getNote(): Note {
     note.label = this.label.toString()
     if (this.reminder.isNotEmpty())
         note.reminder = reminder.toString()
-    if (this.colour != null)
-        note.colour = Color.parseColor(this.colour)
+    if (this.colour != null && this.colour!!.isNotEmpty()) {
+        if (colour!!.contains("#"))
+            note.colour = Color.parseColor(this.colour)
+        else
+            note.colour = this.colour!!.toInt()
+    }
     note.userId = this.userId
     note.noteId = this.id
 
