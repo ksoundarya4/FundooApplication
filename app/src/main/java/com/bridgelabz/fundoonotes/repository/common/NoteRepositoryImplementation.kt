@@ -144,7 +144,7 @@ class NoteRepositoryImplementation(
 
     private fun updateTitleAndDescription(note: Note, accessToken: String) {
         val updateNoteMap = HashMap<String, String>()
-        updateNoteMap["id"] = note.noteId!!
+        updateNoteMap["noteId"] = note.noteId!!
         updateNoteMap["title"] = note.title
         updateNoteMap["description"] = note.description
 
