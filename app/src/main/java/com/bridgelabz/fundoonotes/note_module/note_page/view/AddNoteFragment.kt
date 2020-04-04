@@ -106,10 +106,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     }
 
     private fun setLayoutBackground() {
-        if (!note.colour.isNullOrEmpty()) {
-            val colour = Color.parseColor(note.colour)
-            addNoteFragment.setBackgroundColor(colour)
-            fragmentContainerLayout.setBackgroundColor(colour)
+        if (note.colour != null) {
+            addNoteFragment.setBackgroundColor(note.colour!!)
+            fragmentContainerLayout.setBackgroundColor(note.colour!!)
         }
     }
 
@@ -323,7 +322,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
     }
 
     override fun onColourSubmit(colour: Int) {
-        note.colour = colour.toString()
+        note.colour = colour
         addNoteFragment.setBackgroundColor(colour)
         fragmentContainerLayout.setBackgroundColor(colour)
     }
