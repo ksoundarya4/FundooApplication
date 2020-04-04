@@ -12,4 +12,4 @@ package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 data class ColourNoteModel(
     var color: String? = null,
     var noteIdList: ArrayList<String>? = null
-)
+) : UpdateNoteModel

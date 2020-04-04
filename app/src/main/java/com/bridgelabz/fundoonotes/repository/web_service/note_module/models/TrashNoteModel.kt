@@ -12,4 +12,4 @@ package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 data class TrashNoteModel(
     var isDeleted: Boolean = false,
     var noteIdList: ArrayList<String>? = null
-)
+) : UpdateNoteModel
