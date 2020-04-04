@@ -8,7 +8,7 @@
  * @version 1.0
  * @since 02/04/2020
  */
-package com.bridgelabz.fundoonotes.repository.note.web_service
+package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 
 data class StatusResponseModel(
     var success: Boolean,

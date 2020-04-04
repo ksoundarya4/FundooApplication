@@ -1,15 +1,13 @@
-package com.bridgelabz.fundoonotes.repository.note
+package com.bridgelabz.fundoonotes.repository.common
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
-import com.bridgelabz.fundoonotes.repository.note.web_service.NoteApi
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
-import com.bridgelabz.fundoonotes.repository.note.web_service.AddNoteResponseModel
-import com.bridgelabz.fundoonotes.repository.note.web_service.GetNoteResponseModel
-import com.bridgelabz.fundoonotes.repository.note.web_service.NoteResponseModel
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.api.NoteApi
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,7 +52,25 @@ class NoteRepositoryImplementation(
         return noteInsertionStatus
     }
 
-    override fun updateNote(note: Note) {
+    override fun updateNote(note: Note, accessToken: String) {
+
+        val noteId = note.id!!
+        val noteModel = note.getNoteModel()
+
+        val call = noteApi.updateNoteInServer(noteId, accessToken, noteModel)
+        call.enqueue(object : Callback<UpdateNoteResponseModel>{
+            override fun onFailure(call: Call<UpdateNoteResponseModel>, t: Throwable) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                ̥}
+
+            override fun onResponse(
+                call: Call<UpdateNoteResponseModel>,
+                response: Response<UpdateNoteResponseModel>
+            ) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
 
     }
 
@@ -150,4 +166,21 @@ fun NoteResponseModel.getNote(): Note {
     note.noteId = this.id
 
     return note
+}
+
+fun Note.getNoteModel(): NoteModel {
+    val noteModel = NoteModel()
+    noteModel.title = this.title
+    noteModel.description = this.description
+    noteModel.isPined = this.isPinned == 1
+    noteModel.isArchived = this.isArchived == 1
+    noteModel.isDeleted = this.isDeleted == 1
+    if (this.reminder != null) {
+        val reminderArray = ArrayList<String>()
+        reminderArray.add(this.reminder!!)
+        noteModel.reminder = reminderArray
+    }
+    if (this.colour != null)
+        noteModel.color = this.colour
+    return noteModel
 }

@@ -13,7 +13,7 @@ package com.bridgelabz.fundoonotes.repository.local_service.note_module
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl.UserEntry.TABLE_USER
 

@@ -1,7 +1,9 @@
-package com.bridgelabz.fundoonotes.repository.note.web_service
+package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 
 import android.util.Log
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.api.NoteApi
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.api.NoteCallBack
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +20,8 @@ class RetrofitHelper {
 
     fun getNotesFromServer(noteCallBack: NoteCallBack) {
 
-        val noteApi: NoteApi = retrofit.create(NoteApi::class.java)
+        val noteApi: NoteApi = retrofit.create(
+            NoteApi::class.java)
 
         val call =
             noteApi.getNotesFromServer(accessToken = "Ntr4sdRxow4lKOTdciFT63cue4ejHDWSpgx9JBKFNsJBdQ0BGALGnbHZucKHewPM")

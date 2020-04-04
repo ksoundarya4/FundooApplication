@@ -14,7 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.NoteFragment
-import com.bridgelabz.fundoonotes.repository.user.UserRepository
+import com.bridgelabz.fundoonotes.repository.common.UserRepository
 import com.bridgelabz.fundoonotes.user_module.model.User
 
 class DashBoardViewModel(private val repository: UserRepository) : ViewModel() {

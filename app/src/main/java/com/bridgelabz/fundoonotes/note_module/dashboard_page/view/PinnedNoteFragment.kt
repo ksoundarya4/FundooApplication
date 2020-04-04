@@ -13,8 +13,6 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.ViewUtils
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PinnedNoteFragment : Fragment(), OnNoteClickListener {

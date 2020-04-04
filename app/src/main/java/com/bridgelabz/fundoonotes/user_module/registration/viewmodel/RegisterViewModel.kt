@@ -14,7 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user.UserFireStoreManager
 import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_user.UserFireStoreManagerImpl
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
 import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
@@ -31,7 +31,9 @@ class RegisterViewModel : ViewModel() {
         if (validateUser(user)) {
             dbManager =
                 UserDbManagerImpl(
-                    DatabaseHelper(view.context)
+                    DatabaseHelper(
+                        view.context
+                    )
                 )
             userFireStoreManager = UserFireStoreManagerImpl()
             handelRegistration(user)

@@ -13,7 +13,7 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bridgelabz.fundoonotes.label_module.model.Label
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManager
 import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManagerImpl
 import junit.framework.Assert.assertEquals
@@ -30,7 +30,8 @@ class LabelTableManagerTest {
     @Before
     fun onCreate() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        dbHelper = DatabaseHelper(context)
+        dbHelper =
+            DatabaseHelper(context)
         labelTableManager = LabelTableManagerImpl(dbHelper)
     }
 

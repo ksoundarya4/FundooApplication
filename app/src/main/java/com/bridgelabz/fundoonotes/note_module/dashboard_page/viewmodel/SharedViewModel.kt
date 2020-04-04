@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
-import com.bridgelabz.fundoonotes.repository.note.NoteRepository
+import com.bridgelabz.fundoonotes.repository.common.NoteRepository
 
 class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 

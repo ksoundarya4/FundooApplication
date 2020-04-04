@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.user
+package com.bridgelabz.fundoonotes.repository.common
 
 import android.content.SharedPreferences
 import android.util.Log
@@ -6,7 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
-import com.bridgelabz.fundoonotes.repository.user.web_services.*
+import com.bridgelabz.fundoonotes.repository.web_service.user_module.api.UserApi
+import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.*
 import com.bridgelabz.fundoonotes.user_module.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.model.User

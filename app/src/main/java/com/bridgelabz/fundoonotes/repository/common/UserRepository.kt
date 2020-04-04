@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.user
+package com.bridgelabz.fundoonotes.repository.common
 
 import androidx.lifecycle.LiveData
 import com.bridgelabz.fundoonotes.user_module.model.AuthState

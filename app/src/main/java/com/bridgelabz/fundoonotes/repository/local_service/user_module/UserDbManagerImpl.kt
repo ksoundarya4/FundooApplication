@@ -13,7 +13,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import android.util.Log
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.user_module.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.model.User
 

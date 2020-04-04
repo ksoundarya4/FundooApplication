@@ -12,7 +12,7 @@ package com.bridgelabz.fundoonotes.user_module.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bridgelabz.fundoonotes.repository.user.UserRepository
+import com.bridgelabz.fundoonotes.repository.common.UserRepository
 import com.bridgelabz.fundoonotes.user_module.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.model.User

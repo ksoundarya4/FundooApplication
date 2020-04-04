@@ -7,9 +7,9 @@
  * @version 1.0
  * @since 23/03/2020
  */
-package com.bridgelabz.fundoonotes.repository.note.web_service
+package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 
-import com.bridgelabz.fundoonotes.repository.user.web_services.UserSignUpModel
+import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.UserSignUpModel
 import com.google.gson.annotations.SerializedName
 
 data class NoteResponseModel(

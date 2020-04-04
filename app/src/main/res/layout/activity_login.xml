@@ -10,7 +10,7 @@
         android:id="@+id/login_constaint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".user_module.login.view.LoginActivity">
+        tools:context=".user_module.view.LoginActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_email_layout"

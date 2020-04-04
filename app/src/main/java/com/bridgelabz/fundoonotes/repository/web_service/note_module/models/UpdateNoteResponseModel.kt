@@ -1,15 +1,15 @@
 /**
  * Fundoo Notes
- * @Description NoteModel is used to update the
- * note in server.
- * @file NoteModel.kt
+ * @Description UpdateNoteResponseModel is used to receive response
+ * from server after updating the note in server.
+ * @file UpdateNoteResponseModel.kt
  * @author ksoundarya4
  * @version 1.0
  * @since 03/04/2020
  */
-package com.bridgelabz.fundoonotes.repository.note.web_service
+package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 
-data class NoteModel(
+data class UpdateNoteResponseModel(
     var title: String? = null,
     var description: String? = null,
     var isPined: Boolean = false,
@@ -21,10 +21,11 @@ data class NoteModel(
     var color: String? = null,
     var label: ArrayList<String>? = null,
     var typeOfNote: String? = null,
-    var checkList: ArrayList<Any>? = null,
+    var checkList: ArrayList<String>? = null,
     var imageUrl: String? = null,
     var linkUrl: String? = null,
     var collaborators: ArrayList<Any>? = null,
     var id: String? = null,
-    var userId: String? = null
+    var userId: String? = null,
+    var collaberator: ArrayList<Any>? = null
 )

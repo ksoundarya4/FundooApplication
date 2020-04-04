@@ -1,5 +1,9 @@
-package com.bridgelabz.fundoonotes.repository.note.web_service
+package com.bridgelabz.fundoonotes.repository.web_service.note_module.api
 
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.AddNoteResponseModel
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.GetNoteResponseModel
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.NoteModel
+import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.UpdateNoteResponseModel
 import retrofit2.Call
 import retrofit2.http.*
 

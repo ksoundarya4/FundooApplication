@@ -1,4 +1,4 @@
-package com.bridgelabz.fundoonotes.repository.local_service
+package com.bridgelabz.fundoonotes.repository.common
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -47,7 +47,8 @@ class DatabaseHelper(context: Context) :
         const val VERSION_TWO = 2
         const val VERSION_THREE = 3
         const val VERSION_FOUR = 4
-        const val DATABASE_VERSION = VERSION_ONE
+        const val DATABASE_VERSION =
+            VERSION_ONE
         const val DATABASE_NAME = "App.db"
     }
 }
