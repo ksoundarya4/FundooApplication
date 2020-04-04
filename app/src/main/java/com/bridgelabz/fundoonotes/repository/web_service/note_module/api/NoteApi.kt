@@ -19,10 +19,12 @@ interface NoteApi {
         @Query("access_token") accessToken: String
     ): Call<AddNoteResponseModel>
 
-    @PATCH("notes/{id}")
+    @FormUrlEncoded
+    @POST("notes/updateNotes")
     fun updateNoteInServer(
-        @Path("id") noteId: String,
-        @Query("access_token") accessToken: String,
-        @Body noteModel: NoteModel
+        @FieldMap updateNote: Map<String, String>,
+        @Query("access_token") accessToken: String
     ): Call<UpdateNoteResponseModel>
+
+
 }
