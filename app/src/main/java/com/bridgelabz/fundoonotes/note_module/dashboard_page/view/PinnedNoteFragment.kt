@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -31,6 +32,8 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
     }
     private val noteAdapter = NoteViewAdapter(ArrayList(), this)
     private lateinit var pinnedNotes: ArrayList<Note>
+    private var note = Note()
+    private var accessToken: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,9 +50,18 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getPinnedNoteLiveData()
+        getNoteArguments()
+        viewModel.getNoteLiveData(userId = note.userId!!)
             .observe(requireActivity(), Observer { observeArchiveNotes(it) })
         initRecyclerView()
+    }
+
+    private fun getNoteArguments() {
+        if (arguments != null) {
+            note = arguments!!.get(getString(R.string.note)) as Note
+            accessToken = arguments!!.getString("access_token")!!
+            Log.d("noteBundle", note.toString())
+        }
     }
 
     private fun initRecyclerView() {
@@ -58,10 +70,19 @@ class PinnedNoteFragment : Fragment(), OnNoteClickListener {
         recyclerView.adapter = noteAdapter
     }
 
-    private fun observeArchiveNotes(pinnedNotes: ArrayList<Note>) {
-        this.pinnedNotes = pinnedNotes
+    private fun observeArchiveNotes(noteList: ArrayList<Note>) {
+        pinnedNotes = getPinnedNotes(noteList)
         noteAdapter.setListOfNotes(pinnedNotes)
         noteAdapter.notifyDataSetChanged()
+    }
+
+    private fun getPinnedNotes(noteList: ArrayList<Note>): ArrayList<Note> {
+        val notes = ArrayList<Note>()
+        for (note in noteList) {
+            if (note.isPinned == 1)
+                notes.add(note)
+        }
+        return notes
     }
 
     override fun onClick(adapterPosition: Int) {
