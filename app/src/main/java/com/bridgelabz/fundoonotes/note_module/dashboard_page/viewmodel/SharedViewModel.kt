@@ -47,42 +47,31 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
         repository.updateNote(note, accessToken)
     }
 
+    fun markNoteAsArchiveOrUnarchive(note: Note, accessToken: String) {
+        repository.markNoteAsArchiveOrUnarchive(note, accessToken)
+    }
+
+    fun markNoteAsPinOrUnpin(note: Note, accessToken: String) {
+        repository.markNoteAsPinOrUnpin(note, accessToken)
+    }
+
+    fun markNoteAsTrash(note: Note, accessToken: String) {
+        repository.markNoteAsTrash(note, accessToken)
+    }
+
+    fun updateColourOfNote(note: Note, accessToken: String) {
+        repository.updateColourOfNote(note, accessToken)
+    }
+
+    fun updateReminderOfNote(note: Note, accessToken: String) {
+        repository.updateReminderOfNote(note, accessToken)
+    }
+
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
         return recyclerViewTypeLiveData
     }
 
     fun setRecyclerViewType(recyclerViewType: RecyclerViewType) {
         recyclerViewTypeLiveData.value = recyclerViewType
-    }
-
-    /**Function to fetch ArchiveNotes from Notes table*/
-    private fun fetchArchiveNote() {
-//        notesLiveData.value = noteTableManager.fetchArchiveNote()
-    }
-
-    /**Function to return liveData of ArchiveNote*/
-    fun getArchiveNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchArchiveNote()
-        return notesLiveData
-    }
-
-    /**Function to return live data of Deleted Note*/
-    private fun fetchDeletedNotes() {
-//        notesLiveData.value = noteTableManager.fetchDeletedNote()
-    }
-
-    fun getDeletedNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchDeletedNotes()
-        return notesLiveData
-    }
-
-    /**Function to return Array of Pinned Note*/
-    private fun fetchPinnedNotes() {
-//        notesLiveData.value = noteTableManager.fetchPinnedNote()
-    }
-
-    fun getPinnedNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchPinnedNotes()
-        return notesLiveData
     }
 }
