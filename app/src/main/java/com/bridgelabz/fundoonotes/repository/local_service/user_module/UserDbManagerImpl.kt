@@ -143,7 +143,6 @@ class UserDbManagerImpl(
         database = databaseHelper.open()
 
         val values = ContentValues().apply {
-            put(ID, user.id)
             put(KEY_FIRSTNAME, user.firstName)
             put(KEY_LASTNAME, user.lastName)
             put(KEY_DOB, user.dateOfBirth)
