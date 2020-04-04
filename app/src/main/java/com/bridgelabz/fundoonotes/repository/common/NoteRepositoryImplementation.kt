@@ -19,6 +19,7 @@ class NoteRepositoryImplementation(
 ) : NoteRepository {
 
     private val tag = "NoteRepository"
+
     private val noteUpdateCallback = object : Callback<UpdateNoteResponseModel> {
         override fun onFailure(call: Call<UpdateNoteResponseModel>, t: Throwable) {
             Log.i(tag, t.message!!)
@@ -79,27 +80,56 @@ class NoteRepositoryImplementation(
 
         noteTableManager.updateNote(note)
         updateTitleAndDescription(note, accessToken)
+    }
 
-        if (note.isArchived == 1) {
-            val archiveNoteModel = ArchiveNoteModel(isArchived = true, noteIdList = noteIdList)
-            updateNotesInServer(archiveNoteModel, accessToken)
-        }
-        if (note.isPinned == 1) {
-            val pinNoteModel = PinNoteModel(true, noteIdList)
-            updateNotesInServer(pinNoteModel, accessToken)
-        }
-        if (note.isDeleted == 1) {
-            val trashNoteModel = TrashNoteModel(true, noteIdList)
-            updateNotesInServer(trashNoteModel, accessToken)
-        }
-        if (note.colour != null) {
-            val colourNoteModel = ColourNoteModel(note.colour.toString(), noteIdList)
-            updateNotesInServer(colourNoteModel, accessToken)
-        }
-        if (note.reminder != null) {
-            val reminderNoteModel = ReminderNoteModel(note.reminder, noteIdList)
-            updateNotesInServer(reminderNoteModel, accessToken)
-        }
+    override fun markNoteAsArchiveOrUnarchive(note: Note, accessToken: String) {
+        val noteIdList = ArrayList<String>()
+        noteIdList.add(note.noteId!!)
+        val isArchived = note.isArchived == 1
+        val archiveNoteModel = ArchiveNoteModel(isArchived, noteIdList)
+
+        val call = noteApi.archiveOrUnarchiveNotes(accessToken, archiveNoteModel)
+        call.enqueue(noteUpdateCallback)
+    }
+
+    override fun markNoteAsPinOrUnpin(note: Note, accessToken: String) {
+        val noteIdList = ArrayList<String>()
+        noteIdList.add(note.noteId!!)
+        val isPinned = note.isPinned == 1
+        val pinNoteModel = PinNoteModel(isPinned, noteIdList)
+
+        val call = noteApi.pinUnpinNotes(accessToken, pinNoteModel)
+        call.enqueue(noteUpdateCallback)
+    }
+
+    override fun markNoteAsTrash(note: Note, accessToken: String) {
+        val noteIdList = ArrayList<String>()
+        noteIdList.add(note.noteId!!)
+        val isDeleted = note.isDeleted == 1
+        val trashNoteModel = TrashNoteModel(isDeleted, noteIdList)
+
+        val call = noteApi.trashNotes(accessToken, trashNoteModel)
+        call.enqueue(noteUpdateCallback)
+    }
+
+    override fun updateColourOfNote(note: Note, accessToken: String) {
+        val noteIdList = ArrayList<String>()
+        noteIdList.add(note.noteId!!)
+        val colour = note.colour.toString()
+        val colourNoteModel = ColourNoteModel(colour, noteIdList)
+
+        val call = noteApi.changeColourOfNotes(accessToken, colourNoteModel)
+        call.enqueue(noteUpdateCallback)
+    }
+
+    override fun updateReminderOfNote(note: Note, accessToken: String) {
+        val noteIdList = ArrayList<String>()
+        noteIdList.add(note.noteId!!)
+        val reminder = note.reminder
+        val reminderNoteModel = ReminderNoteModel(reminder, noteIdList)
+
+        val call = noteApi.updateRemindersForNotes(accessToken, reminderNoteModel)
+        call.enqueue(noteUpdateCallback)
     }
 
     override fun deleteNote(note: Note) {
@@ -152,36 +182,6 @@ class NoteRepositoryImplementation(
         call.enqueue(noteUpdateCallback)
     }
 
-    private fun updateNotesInServer(
-        updateNoteModel: UpdateNoteModel,
-        accessToken: String
-    ) {
-        val call: Call<UpdateNoteResponseModel>
-        when (updateNoteModel) {
-            is ArchiveNoteModel -> {
-                call = noteApi.archiveOrUnarchiveNotes(accessToken, updateNoteModel)
-                call.enqueue(noteUpdateCallback)
-            }
-            is PinNoteModel -> {
-                call =
-                    noteApi.pinUnpinNotes(accessToken, updateNoteModel)
-                call.enqueue(noteUpdateCallback)
-            }
-            is TrashNoteModel -> {
-                call = noteApi.trashNotes(accessToken, updateNoteModel)
-                call.enqueue(noteUpdateCallback)
-            }
-            is ReminderNoteModel -> {
-                call =
-                    noteApi.updateRemindersForNotes(accessToken, updateNoteModel)
-                call.enqueue(noteUpdateCallback)
-            }
-            is ColourNoteModel -> {
-                call = noteApi.changeColourOfNotes(accessToken, updateNoteModel)
-                call.enqueue(noteUpdateCallback)
-            }
-        }
-    }
 
     private fun updateNoteTable(noteResponseModel: NoteResponseModel) {
         val noteId = noteResponseModel.id
