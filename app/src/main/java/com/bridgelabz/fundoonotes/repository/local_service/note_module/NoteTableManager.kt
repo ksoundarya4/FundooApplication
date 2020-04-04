@@ -16,6 +16,7 @@ interface NoteTableManager {
     fun fetchUserNotes(userId: String): ArrayList<Note>
     fun fetchNoteByNoteId(noteId: String): Note?
     fun delete(_id: Long)
+    fun deleteNotesByUserId(userId: String)
     fun updateNote(note: Note)
     fun fetchArchiveNote(): ArrayList<Note>
     fun fetchDeletedNote(): ArrayList<Note>

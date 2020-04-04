@@ -234,6 +234,13 @@ class NoteTableManagerImpl(
         database.close()
     }
 
+    override fun deleteNotesByUserId(userId: String) {
+        database = noteDbHelper.open()
+        val whereClause = "$KEY_NOTE_ID =?"
+        val whereArgs = arrayOf(userId)
+        database.delete(TABLE_NOTE, whereClause, whereArgs)
+    }
+
     override fun updateNote(note: Note) {
         database = noteDbHelper.open()
 
