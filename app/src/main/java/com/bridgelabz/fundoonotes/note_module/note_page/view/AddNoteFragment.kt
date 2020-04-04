@@ -1,7 +1,6 @@
 package com.bridgelabz.fundoonotes.note_module.note_page.view
 
 import android.annotation.TargetApi
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -159,6 +158,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
 
     private fun deleteNote(): Boolean {
         note.isDeleted = 1
+        viewModel.markNoteAsTrash(note, accessToken!!)
         snackBar(requireView(), getString(R.string.delete_note_snackbar_message))
         requireActivity().onBackPressed()
         return true
@@ -168,6 +168,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         note.isPinned = 1
         if (note.isArchived == 1)
             note.isArchived = 0
+        viewModel.markNoteAsPinOrUnpin(note, accessToken!!)
         snackBar(requireView(), getString(R.string.pin_note_snackbar_message))
         return true
     }
@@ -176,6 +177,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         note.isArchived = 1
         if (note.isPinned == 1)
             note.isPinned = 0
+        viewModel.markNoteAsArchiveOrUnarchive(note, accessToken!!)
         snackBar(
             requireView(),
             getString(R.string.archive_note_snackbar_message)
@@ -251,7 +253,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            val createdNote = createNewNote(noteTitle, noteDescription)
+            val createdNote = createNote(noteTitle, noteDescription)
             viewModel.insertNoteOnCLick(accessToken = accessToken!!, note = createdNote)
         } else {
             Toast.makeText(
@@ -262,7 +264,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         }
     }
 
-    private fun createNewNote(noteTitle: String, noteDescription: String): Note {
+    private fun createNote(noteTitle: String, noteDescription: String): Note {
         val newNote = Note(noteTitle, noteDescription)
         newNote.isArchived = note.isArchived
         newNote.isDeleted = note.isDeleted
@@ -279,7 +281,8 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            val noteToUpdate = noteToBeUpdated(noteTitle, noteDescription)
+            val noteToUpdate = createNote(noteTitle, noteDescription)
+            noteToUpdate.id = note.id
             Log.d("note", noteToUpdate.toString())
             viewModel.updateNoteOnClick(noteToUpdate, accessToken!!)
         } else {
@@ -291,23 +294,9 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         }
     }
 
-    private fun noteToBeUpdated(noteTitle: String, noteDescription: String): Note {
-        val noteToUpdate = Note(noteTitle, noteDescription)
-        noteToUpdate.id = note.id
-        noteToUpdate.isArchived = note.isArchived
-        noteToUpdate.isDeleted = note.isDeleted
-        noteToUpdate.isPinned = note.isPinned
-        noteToUpdate.label = note.label
-        noteToUpdate.reminder = note.reminder
-        noteToUpdate.position = note.position
-        noteToUpdate.colour = note.colour
-        noteToUpdate.userId = note.userId
-        noteToUpdate.noteId = note.noteId
-        return noteToUpdate
-    }
-
     override fun onReminderSubmit(date: String, time: String) {
         note.reminder = "$date,$time"
+        viewModel.updateReminderOfNote(note, accessToken!!)
     }
 
     private fun snackBar(view: View, message: String) {
@@ -323,6 +312,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
 
     override fun onColourSubmit(colour: Int) {
         note.colour = colour
+        viewModel.updateColourOfNote(note, accessToken!!)
         addNoteFragment.setBackgroundColor(colour)
         fragmentContainerLayout.setBackgroundColor(colour)
     }
