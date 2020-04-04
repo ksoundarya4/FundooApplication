@@ -12,7 +12,6 @@ package com.bridgelabz.fundoonotes.repository.local_service.note_module
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import android.graphics.Color
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
@@ -130,7 +129,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
@@ -142,8 +141,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userIdFromNoteTable
                 note.noteId = noteId
 
@@ -201,7 +199,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val noteIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userIdFromNoteTable = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
@@ -213,8 +211,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userIdFromNoteTable
                 note.noteId = noteIdFromNoteTable
 
@@ -317,7 +314,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val noteId = cursor.getString(cursor.getColumnIndex(KEY_NOTE_ID))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
@@ -329,8 +326,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userId
                 note.noteId = noteId
 
@@ -388,7 +384,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -399,8 +395,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userId
 
                 deletedNotes.add(note)
@@ -457,7 +452,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -468,8 +463,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userId
 
                 pinnedNotes.add(note)
@@ -526,7 +520,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -537,8 +531,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userId
 
                 simpleNotes.add(note)
@@ -591,7 +584,7 @@ class NoteTableManagerImpl(
                 val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
                 val reminder = cursor.getString(cursor.getColumnIndex(KEY_REMINDER))
                 val position = cursor.getInt(cursor.getColumnIndex(KEY_POSITION))
-                val colour = cursor.getString(cursor.getColumnIndex(KEY_COLOUR))
+                val colour = cursor.getInt(cursor.getColumnIndex(KEY_COLOUR))
                 val userId = cursor.getString(cursor.getColumnIndex(KEY_USER_ID))
 
                 val note = Note(title, description)
@@ -602,8 +595,7 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                if (colour != null)
-                    note.colour = Color.parseColor(colour)
+                note.colour = colour
                 note.userId = userId
 
                 reminderNotes.add(note)
