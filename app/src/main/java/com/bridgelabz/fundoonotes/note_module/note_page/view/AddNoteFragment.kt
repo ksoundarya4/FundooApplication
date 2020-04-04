@@ -282,7 +282,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
             val noteToUpdate = noteToBeUpdated(noteTitle, noteDescription)
             Log.d("note", noteToUpdate.toString())
-            viewModel.updateNoteOnClick(noteToUpdate)
+            viewModel.updateNoteOnClick(noteToUpdate, accessToken!!)
         } else {
             Toast.makeText(
                 requireContext(),
