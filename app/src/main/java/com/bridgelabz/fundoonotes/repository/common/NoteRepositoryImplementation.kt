@@ -76,6 +76,7 @@ class NoteRepositoryImplementation(
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
 
+        noteTableManager.updateNote(note)
         updateTitleAndDescription(note, accessToken)
 
         if (note.isArchived == 1) {
