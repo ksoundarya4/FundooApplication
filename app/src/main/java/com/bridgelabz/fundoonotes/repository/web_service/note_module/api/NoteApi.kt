@@ -26,6 +26,30 @@ interface NoteApi {
     @POST("notes/archiveNotes")
     fun archiveOrUnarchiveNotes(
         @Query("access_token") accessToken: String,
-        @Body archiveNoteModel: ArchiveNoteModel
+        @Body archiveNoteModel: ReminderNoteModel
+    )
+
+    @POST("notes/pinUnpinNotes")
+    fun pinUnpinNotes(
+        @Query("access_token") accessToken: String,
+        @Body pinNoteModel: ReminderNoteModel
+    )
+
+    @POST("notes/trashNotes")
+    fun trashNotes(
+        @Query("access_token") accessToken: String,
+        @Body trashNoteModel: ReminderNoteModel
+    )
+
+    @POST("notes/changesColorNotes")
+    fun changeColourOfNotes(
+        @Query("access_token") accessToken: String,
+        @Body colourNoteModel: ReminderNoteModel
+    )
+
+    @POST("notes/addUpdateReminderNotes")
+    fun updateRemindersForNotes(
+        @Query("access_token") accessToken: String,
+        @Body colourNoteModel: ReminderNoteModel
     )
 }
