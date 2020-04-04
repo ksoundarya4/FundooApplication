@@ -12,6 +12,7 @@ package com.bridgelabz.fundoonotes.repository.local_service.note_module
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Color
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
@@ -141,7 +142,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userIdFromNoteTable
                 note.noteId = noteId
 
@@ -211,7 +213,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userIdFromNoteTable
                 note.noteId = noteIdFromNoteTable
 
@@ -326,7 +329,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userId
                 note.noteId = noteId
 
@@ -395,7 +399,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userId
 
                 deletedNotes.add(note)
@@ -463,7 +468,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userId
 
                 pinnedNotes.add(note)
@@ -531,7 +537,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userId
 
                 simpleNotes.add(note)
@@ -595,7 +602,8 @@ class NoteTableManagerImpl(
                 note.label = label
                 note.reminder = reminder
                 note.position = position
-                note.colour = colour
+                if (colour != null)
+                    note.colour = Color.parseColor(colour)
                 note.userId = userId
 
                 reminderNotes.add(note)
