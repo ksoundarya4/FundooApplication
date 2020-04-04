@@ -43,8 +43,8 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
     }
 
     /**Function to update note in Note table*/
-    fun updateNoteOnClick(note: Note) {
-//        noteTableManager.updateNote(note)
+    fun updateNoteOnClick(note: Note, accessToken: String) {
+        repository.updateNote(note, accessToken)
     }
 
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
