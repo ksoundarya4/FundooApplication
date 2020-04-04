@@ -281,8 +281,7 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         val noteTitle = title.editableText.toString()
         val noteDescription = description.editableText.toString()
         if (noteTitle.isNotEmpty() || noteDescription.isNotEmpty()) {
-            val noteToUpdate = createNote(noteTitle, noteDescription)
-            noteToUpdate.id = note.id
+            val noteToUpdate = createUpdateNote(noteTitle, noteDescription)
             Log.d("note", noteToUpdate.toString())
             viewModel.updateNoteOnClick(noteToUpdate, accessToken!!)
         } else {
@@ -292,6 +291,21 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun createUpdateNote(noteTitle: String, noteDescription: String): Note {
+        val noteTobeUpdated = Note(noteTitle, noteDescription)
+        noteTobeUpdated.id = note.id
+        noteTobeUpdated.isArchived = note.isArchived
+        noteTobeUpdated.isDeleted = note.isDeleted
+        noteTobeUpdated.isPinned = note.isPinned
+        noteTobeUpdated.label = note.label
+        noteTobeUpdated.reminder = note.reminder
+        noteTobeUpdated.position = note.position
+        noteTobeUpdated.colour = note.colour
+        noteTobeUpdated.noteId = note.noteId
+        noteTobeUpdated.userId = note.userId
+        return noteTobeUpdated
     }
 
     override fun onReminderSubmit(date: String, time: String) {
