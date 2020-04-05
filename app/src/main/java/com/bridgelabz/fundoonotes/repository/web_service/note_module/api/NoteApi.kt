@@ -50,6 +50,6 @@ interface NoteApi {
     @POST("notes/addUpdateReminderNotes")
     fun updateRemindersForNotes(
         @Query("access_token") accessToken: String,
-        @Body colourNoteModel: ReminderNoteModel
+        @Body reminderNoteModel: ReminderNoteModel
     ): Call<UpdateNoteResponseModel>
 }
