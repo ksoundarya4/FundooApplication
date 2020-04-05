@@ -116,7 +116,8 @@ class NoteRepositoryImplementation(
     override fun updateColourOfNote(note: Note, accessToken: String) {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
-        val colour = note.colour.toString()
+        val hexColour = Integer.toHexString(note.colour!!)
+        val colour =  "#" + hexColour.substring(2)
         val colourNoteModel = ColourNoteModel(colour, noteIdList)
 
         val call = noteApi.changeColourOfNotes(accessToken, colourNoteModel)
