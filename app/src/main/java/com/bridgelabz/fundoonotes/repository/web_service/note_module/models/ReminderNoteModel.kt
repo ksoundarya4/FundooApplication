@@ -10,6 +10,6 @@
 package com.bridgelabz.fundoonotes.repository.web_service.note_module.models
 
 data class ReminderNoteModel(
-    var color: String? = null,
+    var reminder: String? = null,
     var noteIdList: ArrayList<String>? = null
 ) : UpdateNoteModel
