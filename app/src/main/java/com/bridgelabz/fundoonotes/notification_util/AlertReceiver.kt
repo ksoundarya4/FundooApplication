@@ -19,7 +19,7 @@ class AlertReceiver : BroadcastReceiver() {
 
         val notificationHelper = NotificationHelper(context)
         val notificationBuilder =
-            notificationHelper.getChannelNotification("Note Reminder", "Display note notification")
+            notificationHelper.getChannelNotification("Fundoo Notes", "Note Reminder")
         notificationHelper.getManager().notify(1, notificationBuilder.build())
     }
 }
