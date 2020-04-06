@@ -186,19 +186,19 @@ class NoteRepositoryImplementation(
 
 
     private fun updateNoteTable(noteResponseModel: NoteResponseModel) {
-        val noteId = noteResponseModel.id
-        val note = noteTableManager.fetchNoteByNoteId(noteId!!)
-        if (note != null)
-            updateNoteInNoteTable(note, noteResponseModel)
-        else
+//        val noteId = noteResponseModel.id
+//        val note = noteTableManager.fetchNoteByNoteId(noteId!!)
+//        if (note != null)
+//            updateNoteInNoteTable(note, noteResponseModel)
+//        else
             insertNoteInNoteTable(noteResponseModel)
     }
 
-    private fun updateNoteInNoteTable(note: Note, noteResponseModel: NoteResponseModel) {
-        val noteTobeUpdated = noteResponseModel.getNote()
-        noteTobeUpdated.id = note.id
-        noteTableManager.updateNote(noteTobeUpdated)
-    }
+//    private fun updateNoteInNoteTable(note: Note, noteResponseModel: NoteResponseModel) {
+//        val noteTobeUpdated = noteResponseModel.getNote()
+//        noteTobeUpdated.id = note.id
+//        noteTableManager.updateNote(noteTobeUpdated)
+//    }
 
     private fun insertNoteInNoteTable(noteResponseModel: NoteResponseModel) {
         val noteTobeInserted = noteResponseModel.getNote()
