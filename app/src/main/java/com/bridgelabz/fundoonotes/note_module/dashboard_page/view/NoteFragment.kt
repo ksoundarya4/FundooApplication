@@ -63,12 +63,12 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     }
 
     private fun setRefreshLayoutListener() {
-        refresh.setOnClickListener {
+        refresh.setOnRefreshListener {
             if (isNetworkAvailable(requireContext())) {
-                    sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
+                sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
                 refresh.isRefreshing = false
-            }else{
-                showSnackBar(refresh , "No internet connection")
+            } else {
+                showSnackBar(refresh, "No internet connection")
                 refresh.isRefreshing = false
             }
         }
