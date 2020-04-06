@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
@@ -20,6 +21,8 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.Vie
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
+import com.bridgelabz.fundoonotes.user_module.view.isNetworkAvailable
+import com.bridgelabz.fundoonotes.user_module.view.showSnackBar
 
 class NoteFragment : Fragment(), OnNoteClickListener {
 
@@ -35,6 +38,9 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private lateinit var note: Note
     private lateinit var notes: ArrayList<Note>
     private var recyclerViewType = RecyclerViewType.ListView
+    private val refresh by lazy {
+        requireView().findViewById<SwipeRefreshLayout>(R.id.refresh_note_layout)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +58,21 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getNoteArguments()
+        setRefreshLayoutListener()
         initSharedViewModel()
+    }
+
+    private fun setRefreshLayoutListener() {
+        refresh.setOnClickListener {
+            if (isNetworkAvailable(requireContext())) {
+                if (note.noteId != null)
+                    sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
+                refresh.isRefreshing = false
+            }else{
+                showSnackBar(refresh , "No internet connection")
+                refresh.isRefreshing = false
+            }
+        }
     }
 
     private fun getNoteArguments() {
