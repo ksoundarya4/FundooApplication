@@ -58,14 +58,13 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getNoteArguments()
-        setRefreshLayoutListener()
         initSharedViewModel()
+        setRefreshLayoutListener()
     }
 
     private fun setRefreshLayoutListener() {
         refresh.setOnClickListener {
             if (isNetworkAvailable(requireContext())) {
-                if (note.noteId != null)
                     sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
                 refresh.isRefreshing = false
             }else{
