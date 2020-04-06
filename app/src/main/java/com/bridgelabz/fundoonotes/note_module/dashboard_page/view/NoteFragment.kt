@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,7 +40,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private lateinit var notes: ArrayList<Note>
     private var recyclerViewType = RecyclerViewType.ListView
     private val refresh by lazy {
-        requireView().findViewById<SwipeRefreshLayout>(R.id.refresh_note_layout)
+        requireView().findViewById<ConstraintLayout>(R.id.note_layout)
     }
 
     override fun onCreateView(
@@ -59,20 +60,20 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         super.onActivityCreated(savedInstanceState)
         getNoteArguments()
         initSharedViewModel()
-        setRefreshLayoutListener()
+//        setRefreshLayoutListener()
     }
 
-    private fun setRefreshLayoutListener() {
-        refresh.setOnRefreshListener {
-            if (isNetworkAvailable(requireContext())) {
-                sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
-                refresh.isRefreshing = false
-            } else {
-                showSnackBar(refresh, "No internet connection")
-                refresh.isRefreshing = false
-            }
-        }
-    }
+//    private fun setRefreshLayoutListener() {
+//        refresh.setD{
+//            if (isNetworkAvailable(requireContext())) {
+//                sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
+//                refresh.isRefreshing = false
+//            } else {
+//                showSnackBar(refresh, "No internet connection")
+//                refresh.isRefreshing = false
+//            }
+//        }
+//    }
 
     private fun getNoteArguments() {
         if (arguments != null) {
