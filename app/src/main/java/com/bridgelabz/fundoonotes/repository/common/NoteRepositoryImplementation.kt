@@ -12,7 +12,6 @@ import com.bridgelabz.fundoonotes.repository.web_service.note_module.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 class NoteRepositoryImplementation(
     private val noteApi: NoteApi,
@@ -117,7 +116,7 @@ class NoteRepositoryImplementation(
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
         val hexColour = Integer.toHexString(note.colour!!)
-        val colour =  "#" + hexColour.substring(2)
+        val colour = "#" + hexColour.substring(2)
         val colourNoteModel = ColourNoteModel(colour, noteIdList)
 
         val call = noteApi.changeColourOfNotes(accessToken, colourNoteModel)
@@ -211,8 +210,11 @@ class NoteRepositoryImplementation(
             noteParameters["title"] = note.title
         if (note.description.isNotEmpty())
             noteParameters["description"] = note.description
-        if (note.colour != null)
-            noteParameters["color"] = note.colour.toString()
+        if (note.colour != null) {
+            val hexColour = Integer.toHexString(note.colour!!)
+            val colour = "#" + hexColour.substring(2)
+            noteParameters["color"] = colour
+        }
         if (note.reminder != null)
             noteParameters["reminder"] = note.reminder.toString()
         noteParameters["isPined"] = note.isPinned == 1
