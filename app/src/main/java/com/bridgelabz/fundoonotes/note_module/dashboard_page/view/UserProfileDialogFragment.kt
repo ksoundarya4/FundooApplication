@@ -24,10 +24,8 @@ import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.checkPermission
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.requestAllPermission
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.shouldRequestPermissionRationale
 import com.bridgelabz.fundoonotes.user_module.model.User
 import com.bridgelabz.fundoonotes.user_module.view.showSnackBar
-import kotlinx.android.synthetic.main.content_home_dash_board.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -51,12 +49,11 @@ class UserProfileDialogFragment : DialogFragment() {
     private val appCompatActivity by lazy {
         requireActivity() as AppCompatActivity
     }
-    val permissionArray = arrayOf(
+    private val permissionArray = arrayOf(
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
         android.Manifest.permission.CAMERA
     )
-    val permissionRequestCode = 777
-
+    private val permissionRequestCode = 777
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -188,22 +185,22 @@ class UserProfileDialogFragment : DialogFragment() {
 
         try {
             Log.d("heel", wallpaperDirectory.toString())
-            val f = File(
+            val file = File(
                 wallpaperDirectory, ((Calendar.getInstance()
-                    .timeInMillis).toString() + ".jpg")
+                    .timeInMillis).toString() + ".jpeg")
             )
-            f.createNewFile()
-            val fo = FileOutputStream(f)
+            file.createNewFile()
+            val fo = FileOutputStream(file)
             fo.write(bytes.toByteArray())
             MediaScannerConnection.scanFile(
                 requireContext(),
-                arrayOf(f.getPath()),
+                arrayOf(file.path),
                 arrayOf("image/jpeg"), null
             )
             fo.close()
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath())
+            Log.d("TAG", "File Saved::--->" + file.absolutePath)
 
-            return f.absolutePath
+            return file.absolutePath
         } catch (e1: IOException) {
             e1.printStackTrace()
         }
