@@ -6,14 +6,13 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.LinearRecyclerViewManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewLayoutManager
@@ -22,8 +21,6 @@ import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.Vie
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
-import com.bridgelabz.fundoonotes.user_module.view.isNetworkAvailable
-import com.bridgelabz.fundoonotes.user_module.view.showSnackBar
 
 class NoteFragment : Fragment(), OnNoteClickListener {
 
@@ -39,9 +36,6 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private lateinit var note: Note
     private lateinit var notes: ArrayList<Note>
     private var recyclerViewType = RecyclerViewType.ListView
-    private val refresh by lazy {
-        requireView().findViewById<ConstraintLayout>(R.id.note_layout)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,20 +54,7 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         super.onActivityCreated(savedInstanceState)
         getNoteArguments()
         initSharedViewModel()
-//        setRefreshLayoutListener()
     }
-
-//    private fun setRefreshLayoutListener() {
-//        refresh.setD{
-//            if (isNetworkAvailable(requireContext())) {
-//                sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
-//                refresh.isRefreshing = false
-//            } else {
-//                showSnackBar(refresh, "No internet connection")
-//                refresh.isRefreshing = false
-//            }
-//        }
-//    }
 
     private fun getNoteArguments() {
         if (arguments != null) {
@@ -86,11 +67,26 @@ class NoteFragment : Fragment(), OnNoteClickListener {
     private fun initSharedViewModel() {
         sharedViewModel =
             ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
-        sharedViewModel.fetchNoteFromServer(accessToken, note.userId!!)
+        sharedViewModel.getNoteSererResponse()
+            .observe(viewLifecycleOwner, Observer { handleNoteResponse(it) })
         sharedViewModel.getRecyclerViewType()
             .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
         sharedViewModel.getNoteLiveData(note.userId!!)
             .observe(viewLifecycleOwner, Observer { observeNotes(it) })
+    }
+
+    private fun handleNoteResponse(noteResponse: NoteServerResponse) {
+        when (noteResponse) {
+            NoteServerResponse.Success -> {
+                sharedViewModel.fetchNoteFromServer(
+                    accessToken,
+                    note.userId!!
+                )
+                ViewUtils.displayToast(requireContext(), "Note Saved")
+            }
+            NoteServerResponse.Failure -> ViewUtils.displayToast(requireContext(), "Note not Saved")
+        }
+
     }
 
     private fun initRecyclerView() {
