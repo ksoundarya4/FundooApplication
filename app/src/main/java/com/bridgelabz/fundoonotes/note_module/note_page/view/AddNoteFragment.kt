@@ -71,32 +71,8 @@ class AddNoteFragment : Fragment(), OnBackPressed, OnReminderListener, OnColourL
         super.onActivityCreated(savedInstanceState)
 
         getNoteArgument()
-        observeNoteServerResponse()
         setUpFragmentToolbar()
         setToolBarOnCLickListener()
-    }
-
-    private fun observeNoteServerResponse() {
-        viewModel.getNoteSererResponse()
-            .observe(viewLifecycleOwner, Observer { handleServerResponse(it) })
-    }
-
-    private fun handleServerResponse(serverResponse: NoteServerResponse) {
-        when (serverResponse) {
-            NoteServerResponse.Failure -> Toast.makeText(
-                requireContext(),
-                "Note not saved",
-                Toast.LENGTH_LONG
-            ).show()
-            NoteServerResponse.Success -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Note saved",
-                    Toast.LENGTH_LONG
-                ).show()
-                viewModel.fetchNoteFromServer(accessToken!!, note.userId!!)
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
