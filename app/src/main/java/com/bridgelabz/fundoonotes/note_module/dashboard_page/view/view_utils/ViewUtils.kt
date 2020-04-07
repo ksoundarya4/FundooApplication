@@ -8,6 +8,8 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 object ViewUtils {
@@ -15,5 +17,9 @@ object ViewUtils {
         activity.supportActionBar?.let {
             it.title = title
         }
+    }
+
+    fun displayToast(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }
