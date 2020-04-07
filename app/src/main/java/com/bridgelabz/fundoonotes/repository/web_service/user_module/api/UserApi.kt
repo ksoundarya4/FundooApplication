@@ -14,6 +14,7 @@ import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.User
 import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.UserSignUpModel
 import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.UserSignUpResponseModel
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface UserApi {
@@ -28,5 +29,5 @@ interface UserApi {
     fun resetPassword(
         @Field("newPassword") newPassword: String,
         @Query("access_token") accessToken: String
-    ): Call<String>
+    ): Call<Unit>
 }
