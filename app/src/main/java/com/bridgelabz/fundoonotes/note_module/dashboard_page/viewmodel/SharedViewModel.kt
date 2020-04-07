@@ -40,6 +40,7 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
     fun fetchNoteFromServer(accessToken: String, userId: String) {
         repository.fetchNotesFromServer(accessToken, userId)
+        notesLiveData = repository.fetchNotesFromLocalDb(userId)
     }
 
     /**Function to update note in Note table*/
