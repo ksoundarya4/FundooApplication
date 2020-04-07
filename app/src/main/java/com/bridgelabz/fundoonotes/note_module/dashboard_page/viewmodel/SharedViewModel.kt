@@ -45,27 +45,27 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
     /**Function to update note in Note table*/
     fun updateNoteOnClick(note: Note, accessToken: String) {
-        repository.updateNote(note, accessToken)
+       noteServerResponse = repository.updateNote(note, accessToken)
     }
 
     fun markNoteAsArchiveOrUnarchive(note: Note, accessToken: String) {
-        repository.markNoteAsArchiveOrUnarchive(note, accessToken)
+       noteServerResponse =  repository.markNoteAsArchiveOrUnarchive(note, accessToken)
     }
 
     fun markNoteAsPinOrUnpin(note: Note, accessToken: String) {
-        repository.markNoteAsPinOrUnpin(note, accessToken)
+       noteServerResponse = repository.markNoteAsPinOrUnpin(note, accessToken)
     }
 
     fun markNoteAsTrash(note: Note, accessToken: String) {
-        repository.markNoteAsTrash(note, accessToken)
+        noteServerResponse = repository.markNoteAsTrash(note, accessToken)
     }
 
     fun updateColourOfNote(note: Note, accessToken: String) {
-        repository.updateColourOfNote(note, accessToken)
+        noteServerResponse = repository.updateColourOfNote(note, accessToken)
     }
 
     fun updateReminderOfNote(note: Note, accessToken: String) {
-        repository.updateReminderOfNote(note, accessToken)
+        noteServerResponse = repository.updateReminderOfNote(note, accessToken)
     }
 
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
