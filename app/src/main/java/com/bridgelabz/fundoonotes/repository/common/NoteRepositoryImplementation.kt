@@ -19,7 +19,7 @@ class NoteRepositoryImplementation(
 ) : NoteRepository {
 
     private val tag = "NoteRepository"
-    val noteResponse = MutableLiveData<NoteServerResponse>()
+    private val noteResponse = MutableLiveData<NoteServerResponse>()
 
     private val noteUpdateCallback =
         object : Callback<UpdateNoteResponseModel> {
