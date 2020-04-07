@@ -14,8 +14,7 @@ import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.User
 import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.UserSignUpModel
 import com.bridgelabz.fundoonotes.repository.web_service.user_module.models.UserSignUpResponseModel
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface UserApi {
     @POST("user/login")
@@ -23,4 +22,11 @@ interface UserApi {
 
     @POST("user/userSignUp")
     fun userSignUp(@Body userSignUpModel: UserSignUpModel): Call<UserSignUpResponseModel>
+
+    @FormUrlEncoded
+    @POST("user/reset-password")
+    fun resetPassword(
+        @Field("newPassword") newPassword: String,
+        @Query("access_token") accessToken: String
+    ): Call<String>
 }
