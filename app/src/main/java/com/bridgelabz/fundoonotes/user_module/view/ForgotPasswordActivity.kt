@@ -56,19 +56,22 @@ class ForgotPasswordActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email")
         val accessToken = preference.getString("access_token", null)
         submitButton.setOnClickListener {
-            val newPassword = newPasswordEditText.editableText.toString()
-            val newConfirmPassword = confirmPasswordEditText.editableText.toString()
-            if (validateConfirmPassword(
-                    newPassword,
-                    newConfirmPassword
-                )
-            ) {
-                userViewModel.updateNewPassword(email!!, newPassword, accessToken!!)
-                userViewModel.getUpdatePasswordStatus()
-                    .observe(this, Observer { handleUpdatePassword(it) })
-            } else {
-                confirmPasswordEditText.error = "Did not match password"
-            }
+            if (isNetworkAvailable(this)) {
+                val newPassword = newPasswordEditText.editableText.toString()
+                val newConfirmPassword = confirmPasswordEditText.editableText.toString()
+                if (validateConfirmPassword(
+                        newPassword,
+                        newConfirmPassword
+                    )
+                ) {
+                    userViewModel.updateNewPassword(email!!, newPassword, accessToken!!)
+                    userViewModel.getUpdatePasswordStatus()
+                        .observe(this, Observer { handleUpdatePassword(it) })
+                } else {
+                    confirmPasswordEditText.error = "Did not match password"
+                }
+            } else
+                showSnackBar(forgotPasswordActivity, "No Internet Connection")
         }
     }
 
