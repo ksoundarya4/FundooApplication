@@ -2,6 +2,7 @@ package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.media.MediaScannerConnection
@@ -18,9 +19,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.bridgelabz.fundoonotes.R
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.checkPermission
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.requestAllPermission
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.shouldRequestPermissionRationale
 import com.bridgelabz.fundoonotes.user_module.model.User
+import com.bridgelabz.fundoonotes.user_module.view.showSnackBar
+import kotlinx.android.synthetic.main.content_home_dash_board.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -41,6 +48,14 @@ class UserProfileDialogFragment : DialogFragment() {
         requireView().findViewById<TextView>(R.id.user_full_name_text)
     }
     private lateinit var user: User
+    private val appCompatActivity by lazy {
+        requireActivity() as AppCompatActivity
+    }
+    val permissionArray = arrayOf(
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.CAMERA
+    )
+    val permissionRequestCode = 777
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,9 +70,22 @@ class UserProfileDialogFragment : DialogFragment() {
         setUserProfilePictureClickListenere()
     }
 
+    private fun checkPermission() {
+        if (appCompatActivity.checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+            appCompatActivity.checkPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        ) {
+            showPictureDialog()
+        } else
+            requestPermission()
+    }
+
+    private fun requestPermission() {
+        appCompatActivity.requestAllPermission(permissionArray, permissionRequestCode)
+    }
+
     private fun setUserProfilePictureClickListenere() {
         userProfilePicture.setOnClickListener {
-            showPictureDialog()
+            checkPermission()
         }
     }
 
@@ -137,7 +165,7 @@ class UserProfileDialogFragment : DialogFragment() {
         }
 
         if (requestCode == cameraAccessRequestCode) {
-            val thumbnail = data!!.extras!!["data"] as Bitmap?
+            val thumbnail = data?.extras!!["data"] as Bitmap?
             userProfilePicture.setImageBitmap(thumbnail)
             saveImage(thumbnail!!)
             Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
@@ -180,5 +208,20 @@ class UserProfileDialogFragment : DialogFragment() {
             e1.printStackTrace()
         }
         return ""
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == permissionRequestCode) {
+            if (grantResults.size == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                showPictureDialog()
+            } else {
+                showSnackBar(userProfilePicture, "Permission Denied")
+            }
+        }
     }
 }
