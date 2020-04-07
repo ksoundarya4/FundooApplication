@@ -91,11 +91,11 @@ class TrashFragment : Fragment(), OnNoteClickListener {
     }
 
     override fun onClick(adapterPosition: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onLongClick(adapterPosition: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onResume() {
@@ -110,11 +110,9 @@ class TrashFragment : Fragment(), OnNoteClickListener {
 
     private fun hideBottomAppbar() {
         floatingActionButton.hide()
-//        bottomAppBar.performHide()
     }
 
     private fun showBottomAppBar() {
         floatingActionButton.show()
-//        bottomAppBar.performShow()
     }
 }
