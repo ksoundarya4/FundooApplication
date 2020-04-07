@@ -31,6 +31,7 @@ object FundooNotesPreference {
     fun removePreference(preference: SharedPreferences, key: String) {
         preference.contains(key)
         val editor = preference.edit()
-        editor.clear().apply()
+        editor.remove(key)
+        editor.apply()
     }
 }
