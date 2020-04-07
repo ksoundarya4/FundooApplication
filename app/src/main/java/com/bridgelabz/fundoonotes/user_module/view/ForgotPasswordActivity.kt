@@ -40,6 +40,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private val preference by lazy {
         FundooNotesPreference.getPreference(this)
     }
+    private val emailKey = "email"
+    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +52,18 @@ class ForgotPasswordActivity : AppCompatActivity() {
             this,
             forgotPasswordActivity
         )
+        getEmailFromIntent()
+    }
+
+    private fun getEmailFromIntent() {
+        val emailFromIntent = intent.getStringExtra(emailKey)
+        if (emailFromIntent != null)
+            email = emailFromIntent
+        else
+            handleUpdatePassword(false)
     }
 
     private fun setSubmitButtonClickListener() {
-        val email = intent.getStringExtra("email")
         val accessToken = preference.getString("access_token", null)
         submitButton.setOnClickListener {
             if (isNetworkAvailable(this)) {
@@ -64,27 +74,41 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         newConfirmPassword
                     )
                 ) {
-                    userViewModel.updateNewPassword(email!!, newPassword, accessToken!!)
-                    userViewModel.getUpdatePasswordStatus()
-                        .observe(this, Observer { handleUpdatePassword(it) })
+                    userViewModel.updateNewPassword(email, newPassword, accessToken!!)
+                    userViewModel.getUpdatePasswordStatus().observe(
+                        this,
+                        Observer { updateStatus -> handleUpdatePassword(updateStatus) })
                 } else {
                     confirmPasswordEditText.error = "Did not match password"
                 }
             } else
-                showSnackBar(forgotPasswordActivity, "No Internet Connection")
+                showSnackBar(it, "No Internet")
         }
     }
 
     private fun handleUpdatePassword(updateStatus: Boolean) {
         if (updateStatus) {
-            Intent(this, HomeDashBoardActivity::class.java).apply {
-                startActivity(this)
-            }
+            setSharedPreference(email)
+            navigateToHomeDashBOard()
             toast("Login Successful")
-            finish()
         } else {
             toast("Email does not exist. Register and then try to login")
         }
+    }
+
+    private fun navigateToHomeDashBOard() {
+        Intent(this, HomeDashBoardActivity::class.java).apply {
+            startActivity(this)
+            finish()
+        }
+    }
+
+    private fun setSharedPreference(email: String) {
+        FundooNotesPreference.editPreference(
+            preference = preference,
+            key = emailKey,
+            value = email
+        )
     }
 
     override fun onBackPressed() {
