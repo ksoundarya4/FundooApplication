@@ -56,6 +56,31 @@ class UserRepositoryImplementation(
 
     }
 
+    override fun updatePassword(password: String, accessToken: String): Boolean {
+        var status  = false
+        val call = userApi.resetPassword(password, accessToken)
+        call.enqueue(object : Callback<String> {
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(tag, t.message!!)
+                status = false
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                if (response.code() != 204) {
+                    Log.i(tag, response.message())
+                    status = false
+                    return
+                }
+
+                Log.i(tag, response.message())
+                status = true
+            }
+        })
+        return status
+    }
+
     override fun deleteUser(user: User) {
 
     }
