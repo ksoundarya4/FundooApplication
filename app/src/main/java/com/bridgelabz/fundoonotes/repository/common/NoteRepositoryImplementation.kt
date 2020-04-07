@@ -19,29 +19,35 @@ class NoteRepositoryImplementation(
 ) : NoteRepository {
 
     private val tag = "NoteRepository"
+    val noteResponse = MutableLiveData<NoteServerResponse>()
 
-    private val noteUpdateCallback = object : Callback<UpdateNoteResponseModel> {
-        override fun onFailure(call: Call<UpdateNoteResponseModel>, t: Throwable) {
-            Log.i(tag, t.message!!)
-        }
+    private val noteUpdateCallback =
+        object : Callback<UpdateNoteResponseModel> {
 
-        override fun onResponse(
-            call: Call<UpdateNoteResponseModel>,
-            response: Response<UpdateNoteResponseModel>
-        ) {
-
-            if (!response.isSuccessful) {
-                Log.i(tag, response.code().toString())
-                return
+            override fun onFailure(call: Call<UpdateNoteResponseModel>, t: Throwable) {
+                Log.i(tag, t.message!!)
+                noteResponse.value = NoteServerResponse.Failure
             }
 
-            val updateNoteResponseModel = response.body()
-            Log.d(tag, updateNoteResponseModel!!.data.message!!)
+            override fun onResponse(
+                call: Call<UpdateNoteResponseModel>,
+                response: Response<UpdateNoteResponseModel>
+            ) {
+
+                if (!response.isSuccessful) {
+                    Log.i(tag, response.code().toString())
+                    noteResponse.value = NoteServerResponse.Failure
+                    return
+                }
+
+                val updateNoteResponseModel = response.body()
+                Log.d(tag, updateNoteResponseModel!!.data.message!!)
+                noteResponse.value = NoteServerResponse.Success
+            }
         }
-    }
 
     override fun insertNote(note: Note, accessToken: String): LiveData<NoteServerResponse> {
-        val noteInsertionStatus = MutableLiveData<NoteServerResponse>()
+
         val postParametersToInsertNote: Map<String, Any> = getPostParameters(note)
 
         val call = noteApi.addNoteToServer(
@@ -52,7 +58,7 @@ class NoteRepositoryImplementation(
         call.enqueue(object : Callback<AddNoteResponseModel> {
             override fun onFailure(call: Call<AddNoteResponseModel>, t: Throwable) {
                 Log.i(tag, t.message!!)
-                noteInsertionStatus.value = NoteServerResponse.Failure
+                noteResponse.value = NoteServerResponse.Failure
             }
 
             override fun onResponse(
@@ -67,22 +73,26 @@ class NoteRepositoryImplementation(
 
                 val addNoteResponseModel = response.body()
                 Log.i(tag, addNoteResponseModel!!.status.toString())
-                noteInsertionStatus.value = NoteServerResponse.Success
+                noteResponse.value = NoteServerResponse.Success
                 fetchNotesFromServer(accessToken, addNoteResponseModel.status.details.userId!!)
             }
         })
-        return noteInsertionStatus
+        return noteResponse
     }
 
-    override fun updateNote(note: Note, accessToken: String) {
+    override fun updateNote(note: Note, accessToken: String): LiveData<NoteServerResponse> {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
 
         noteTableManager.updateNote(note)
         updateTitleAndDescription(note, accessToken)
+        return noteResponse
     }
 
-    override fun markNoteAsArchiveOrUnarchive(note: Note, accessToken: String) {
+    override fun markNoteAsArchiveOrUnarchive(
+        note: Note,
+        accessToken: String
+    ): LiveData<NoteServerResponse> {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
         val isArchived = note.isArchived == 1
@@ -90,9 +100,13 @@ class NoteRepositoryImplementation(
 
         val call = noteApi.archiveOrUnarchiveNotes(accessToken, archiveNoteModel)
         call.enqueue(noteUpdateCallback)
+        return noteResponse
     }
 
-    override fun markNoteAsPinOrUnpin(note: Note, accessToken: String) {
+    override fun markNoteAsPinOrUnpin(
+        note: Note,
+        accessToken: String
+    ): LiveData<NoteServerResponse> {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
         val isPinned = note.isPinned == 1
@@ -100,9 +114,10 @@ class NoteRepositoryImplementation(
 
         val call = noteApi.pinUnpinNotes(accessToken, pinNoteModel)
         call.enqueue(noteUpdateCallback)
+        return noteResponse
     }
 
-    override fun markNoteAsTrash(note: Note, accessToken: String) {
+    override fun markNoteAsTrash(note: Note, accessToken: String): LiveData<NoteServerResponse> {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
         val isDeleted = note.isDeleted == 1
@@ -110,9 +125,10 @@ class NoteRepositoryImplementation(
 
         val call = noteApi.trashNotes(accessToken, trashNoteModel)
         call.enqueue(noteUpdateCallback)
+        return noteResponse
     }
 
-    override fun updateColourOfNote(note: Note, accessToken: String) {
+    override fun updateColourOfNote(note: Note, accessToken: String): LiveData<NoteServerResponse> {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
         val hexColour = Integer.toHexString(note.colour!!)
@@ -121,9 +137,13 @@ class NoteRepositoryImplementation(
 
         val call = noteApi.changeColourOfNotes(accessToken, colourNoteModel)
         call.enqueue(noteUpdateCallback)
+        return noteResponse
     }
 
-    override fun updateReminderOfNote(note: Note, accessToken: String) {
+    override fun updateReminderOfNote(
+        note: Note,
+        accessToken: String
+    ): LiveData<NoteServerResponse> {
         val noteIdList = ArrayList<String>()
         noteIdList.add(note.noteId!!)
         val reminder = note.reminder
@@ -131,6 +151,7 @@ class NoteRepositoryImplementation(
 
         val call = noteApi.updateRemindersForNotes(accessToken, reminderNoteModel)
         call.enqueue(noteUpdateCallback)
+        return noteResponse
     }
 
     override fun deleteNote(note: Note) {
@@ -173,7 +194,10 @@ class NoteRepositoryImplementation(
         return noteLiveData
     }
 
-    private fun updateTitleAndDescription(note: Note, accessToken: String) {
+    private fun updateTitleAndDescription(
+        note: Note,
+        accessToken: String
+    ): LiveData<NoteServerResponse> {
         val updateNoteMap = HashMap<String, String>()
         updateNoteMap["noteId"] = note.noteId!!
         updateNoteMap["title"] = note.title
@@ -181,6 +205,7 @@ class NoteRepositoryImplementation(
 
         val call = noteApi.updateNoteInServer(updateNoteMap, accessToken)
         call.enqueue(noteUpdateCallback)
+        return noteResponse
     }
 
 
