@@ -56,26 +56,22 @@ class UserRepositoryImplementation(
 
     }
 
-    override fun updatePassword(password: String, accessToken: String): Boolean {
-        var status  = false
+    override fun updatePassword(password: String, accessToken: String): LiveData<Boolean> {
+        val status = MutableLiveData<Boolean>()
         val call = userApi.resetPassword(password, accessToken)
-        call.enqueue(object : Callback<String> {
+        call.enqueue(object : Callback<Unit> {
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
                 Log.i(tag, t.message!!)
-                status = false
+                status.value = false
             }
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
 
-                if (response.code() != 204) {
-                    Log.i(tag, response.message())
-                    status = false
-                    return
+                if (response.code() == 204) {
+                    Log.i(tag, response.code().toString())
+                    status.value = true
                 }
-
-                Log.i(tag, response.message())
-                status = true
             }
         })
         return status
@@ -116,9 +112,9 @@ class UserRepositoryImplementation(
         return authState
     }
 
-    override fun fetchUserFromLocalDb(email: String): User? {
+    override fun fetchUserFromLocalDb(email: String): User {
         val user = userTableManager.fetchUser(email)
-        return user
+        return user!!
     }
 
     private fun insertUserToLocalDb(userLoginResponseModel: UserLoginResponseModel) {
