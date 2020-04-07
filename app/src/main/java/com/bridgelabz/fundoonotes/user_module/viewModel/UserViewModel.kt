@@ -16,12 +16,14 @@ import com.bridgelabz.fundoonotes.repository.common.UserRepository
 import com.bridgelabz.fundoonotes.user_module.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
 import com.bridgelabz.fundoonotes.user_module.model.User
+import com.facebook.AccessToken
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     private var registrationResponse: LiveData<RegistrationStatus> =
         MutableLiveData<RegistrationStatus>()
     private var loginResponse: LiveData<AuthState> = MutableLiveData<AuthState>()
+    private val updatePasswordStatus = MutableLiveData<Boolean>()
 
     fun signUpUser(user: User) {
         registrationResponse = repository.insertUser(user)
@@ -37,5 +39,18 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun getLoginResponse(): LiveData<AuthState> {
         return loginResponse
+    }
+
+    fun updateNewPassword(email: String, password: String, accessToken: String) {
+        val user = repository.fetchUserFromLocalDb(email)
+        if (user != null) {
+            updatePasswordStatus.value =
+                repository.updatePassword(password, accessToken = accessToken)
+        } else
+            updatePasswordStatus.value = false
+    }
+
+    fun getUpdatePasswordStatus(): LiveData<Boolean> {
+        return updatePasswordStatus
     }
 }
