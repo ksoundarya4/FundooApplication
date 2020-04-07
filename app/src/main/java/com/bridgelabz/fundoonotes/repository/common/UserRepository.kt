@@ -11,5 +11,5 @@ interface UserRepository {
     fun updatePassword(password: String, accessToken: String): Boolean
     fun deleteUser(user: User)
     fun fetchUser(email: String, password: String): LiveData<AuthState>
-    fun fetchUserFromLocalDb(email: String): User
+    fun fetchUserFromLocalDb(email: String): User?
 }
