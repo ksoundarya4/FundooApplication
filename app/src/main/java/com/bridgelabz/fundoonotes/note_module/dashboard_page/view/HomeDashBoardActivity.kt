@@ -42,7 +42,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import java.lang.Exception
 
-class HomeDashBoardActivity : AppCompatActivity() {
+class HomeDashBoardActivity : AppCompatActivity(), OnUserClickListener {
 
     private val userViewModelFactory by lazy {
         UserViewModelFactory(this)
@@ -374,5 +374,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
         }
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
         return true
+    }
+
+    override fun onUserSubmit(user: User) {
+        dashBoardViewModel.updateUser(user)
     }
 }
