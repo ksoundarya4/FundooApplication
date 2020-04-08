@@ -73,8 +73,8 @@ class NoteRepositoryImplementation(
 
                 val addNoteResponseModel = response.body()
                 Log.i(tag, addNoteResponseModel!!.status.toString())
-                noteResponse.value = NoteServerResponse.Success
                 fetchNotesFromServer(accessToken, addNoteResponseModel.status.details.userId!!)
+                noteResponse.value = NoteServerResponse.Success
             }
         })
         return noteResponse
@@ -248,7 +248,6 @@ class NoteRepositoryImplementation(
         return noteParameters
     }
 }
-
 fun NoteResponseModel.getNote(): Note {
     val note = Note()
     note.title = this.title!!
