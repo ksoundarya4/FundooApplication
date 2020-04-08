@@ -37,4 +37,8 @@ class DashBoardViewModel(private val repository: UserRepository) : ViewModel() {
     fun getFragmentLiveData(): LiveData<Fragment> {
         return fragmentLiveData
     }
+
+    fun updateUser(user: User) {
+        repository.updateUserInDb(user)
+    }
 }
