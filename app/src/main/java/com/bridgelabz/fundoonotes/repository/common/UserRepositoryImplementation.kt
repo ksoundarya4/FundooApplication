@@ -77,6 +77,11 @@ class UserRepositoryImplementation(
         return status
     }
 
+    override fun updateUserInDb(user: User) {
+        val id = user.id!!.toLong()
+        userTableManager.update(id, user)
+    }
+
     override fun deleteUser(user: User) {
 
     }
