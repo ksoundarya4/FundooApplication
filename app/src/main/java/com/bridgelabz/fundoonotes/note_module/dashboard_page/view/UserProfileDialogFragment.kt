@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.icu.util.Calendar
 import android.media.MediaScannerConnection
 import android.os.Build
@@ -54,6 +55,10 @@ class UserProfileDialogFragment : DialogFragment() {
         android.Manifest.permission.CAMERA
     )
     private val permissionRequestCode = 777
+    private val userInformation by lazy {
+        requireActivity() as OnUserClickListener
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +69,16 @@ class UserProfileDialogFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getUserArgument()
+        setUserProfilePicture()
         setUserProfilePictureClickListenere()
+    }
+
+    private fun setUserProfilePicture() {
+        val file = File(user.image!!)
+        if (file.exists()) {
+            val bitMap = BitmapFactory.decodeFile("${user.image}")
+            userProfilePicture.setImageBitmap(bitMap)
+        }
     }
 
     private fun checkPermission() {
@@ -151,9 +165,10 @@ class UserProfileDialogFragment : DialogFragment() {
                             requireActivity().contentResolver,
                             contentURI
                         )
-                    saveImage(bitmap)
+                    user.image = saveImage(bitmap)
                     Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
                     userProfilePicture.setImageBitmap(bitmap)
+                    userInformation.onUserSubmit(user)
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Toast.makeText(requireContext(), "Failed!", Toast.LENGTH_SHORT).show()
