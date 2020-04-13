@@ -125,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
             val inputEmail = emailEditText.editableText.toString()
             val inputPassword = passwordEditText.editableText.toString()
             if (isNetworkAvailable(this)) {
-                userViewModel.userLogin(inputEmail, inputPassword)
+                userViewModel.userLogin(inputEmail, inputPassword,preferences)
                 userViewModel.getLoginResponse().observe(this, Observer { handelLoginStatus(it) })
             } else {
                 showSnackBar(loginActivity, "No Internet Connection")
