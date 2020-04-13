@@ -10,5 +10,5 @@
 package com.bridgelabz.fundoonotes.user_module.model
 
 enum class RegistrationStatus {
-    Successful, Failed
+    Successful, Failed, Loading
 }
