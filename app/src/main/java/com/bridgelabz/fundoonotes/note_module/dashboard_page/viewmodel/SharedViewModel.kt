@@ -18,18 +18,19 @@ import com.bridgelabz.fundoonotes.repository.common.NoteRepository
 
 class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    private var notesLiveData  = MutableLiveData<ArrayList<Note>>()
+    private var notesLiveData: LiveData<ArrayList<Note>> = MutableLiveData<ArrayList<Note>>()
     private val recyclerViewTypeLiveData = MutableLiveData<RecyclerViewType>()
-    private var noteServerResponse = MutableLiveData<NoteServerResponse>()
+    private var noteServerResponse: LiveData<NoteServerResponse> =
+        MutableLiveData<NoteServerResponse>()
 
     /**Function to insert Note into Server*/
     fun insertNoteOnCLick(accessToken: String, note: Note) {
-        noteServerResponse.value = repository.insertNote(note, accessToken).value
+        noteServerResponse = repository.insertNote(note, accessToken)
     }
 
     /**Function to return liveData of Notes*/
     fun getNoteLiveData(userId: String): LiveData<ArrayList<Note>> {
-        notesLiveData.value = repository.fetchNotesFromLocalDb(userId).value
+        notesLiveData = repository.fetchNotesFromLocalDb(userId)
         return notesLiveData
     }
 
@@ -39,32 +40,32 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
     fun fetchNoteFromServer(accessToken: String, userId: String) {
         repository.fetchNotesFromServer(accessToken, userId)
-        notesLiveData.value = repository.fetchNotesFromLocalDb(userId).value
+        notesLiveData = repository.fetchNotesFromLocalDb(userId)
     }
 
     /**Function to update note in Note table*/
     fun updateNoteOnClick(note: Note, accessToken: String) {
-        noteServerResponse.value = repository.updateNote(note, accessToken).value
+        noteServerResponse = repository.updateNote(note, accessToken)
     }
 
     fun markNoteAsArchiveOrUnarchive(note: Note, accessToken: String) {
-        noteServerResponse.value = repository.markNoteAsArchiveOrUnarchive(note, accessToken).value
+        noteServerResponse = repository.markNoteAsArchiveOrUnarchive(note, accessToken)
     }
 
     fun markNoteAsPinOrUnpin(note: Note, accessToken: String) {
-        noteServerResponse.value = repository.markNoteAsPinOrUnpin(note, accessToken).value
+        noteServerResponse = repository.markNoteAsPinOrUnpin(note, accessToken)
     }
 
     fun markNoteAsTrash(note: Note, accessToken: String) {
-        noteServerResponse.value = repository.markNoteAsTrash(note, accessToken).value
+        noteServerResponse = repository.markNoteAsTrash(note, accessToken)
     }
 
     fun updateColourOfNote(note: Note, accessToken: String) {
-        noteServerResponse.value = repository.updateColourOfNote(note, accessToken).value
+        noteServerResponse = repository.updateColourOfNote(note, accessToken)
     }
 
     fun updateReminderOfNote(note: Note, accessToken: String) {
-        noteServerResponse.value = repository.updateReminderOfNote(note, accessToken).value
+        noteServerResponse = repository.updateReminderOfNote(note, accessToken)
     }
 
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
