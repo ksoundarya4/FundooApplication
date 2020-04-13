@@ -9,6 +9,7 @@
  */
 package com.bridgelabz.fundoonotes.user_module.viewModel
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,8 +33,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         return registrationResponse
     }
 
-    fun userLogin(email: String, password: String) {
-        loginResponse = repository.fetchUser(email, password)
+    fun userLogin(email: String, password: String,preferences: SharedPreferences) {
+        loginResponse = repository.fetchUser(email, password, preferences)
     }
 
     fun getLoginResponse(): LiveData<AuthState> {
