@@ -29,12 +29,11 @@ class UserViewModelFactory(context: Context) : ViewModelProvider.Factory {
             context
         )
     )
-    private val preferences = FundooNotesPreference.getPreference(context)
+//    private val preferences = FundooNotesPreference.getPreference(context)
     private val repository =
         UserRepositoryImplementation(
             userApi,
-            userTableManger,
-            preferences
+            userTableManger
         )
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
