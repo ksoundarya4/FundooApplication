@@ -20,13 +20,13 @@ import com.bridgelabz.fundoonotes.user_module.model.User
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
-    private var registrationResponse: LiveData<RegistrationStatus> =
-        MutableLiveData<RegistrationStatus>()
+    private var registrationResponse =
+        MutableLiveData<RegistrationStatus>(RegistrationStatus.Loading)
     private var loginResponse: LiveData<AuthState> = MutableLiveData<AuthState>()
     private var updatePasswordStatus: LiveData<Boolean> = MutableLiveData<Boolean>()
 
     fun signUpUser(user: User) {
-        registrationResponse = repository.insertUser(user)
+        registrationResponse.value = repository.insertUser(user).value
     }
 
     fun getRegistrationStatus(): LiveData<RegistrationStatus> {

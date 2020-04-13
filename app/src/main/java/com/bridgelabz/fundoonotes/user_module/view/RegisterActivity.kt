@@ -101,15 +101,8 @@ class RegisterActivity : AppCompatActivity() {
                     cPassword
                 )
             ) {
-//                    registerViewModel.onSignUpButtonClick((View(this)), user)
-//
-//                    registerViewModel.getRegistrationStatus().observe(
-//                        this,
-//                        Observer { handleRegistrationStatus(it) })
-
                 userViewModel.signUpUser(user)
-                userViewModel.getRegistrationStatus().observe(this, Observer {
-                    handleRegistrationStatus(it)
+                userViewModel.getRegistrationStatus().observe(this, Observer { handleRegistrationStatus(it)
                 })
             } else {
                 confirmPassword.error = "Did not match password"
@@ -128,6 +121,9 @@ class RegisterActivity : AppCompatActivity() {
             }
             RegistrationStatus.Failed -> {
                 toast("Registration Failed")
+            }
+            RegistrationStatus.Loading -> {
+                toast("Signing Up")
             }
         }
     }
