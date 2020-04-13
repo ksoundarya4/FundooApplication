@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.repository.common
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import com.bridgelabz.fundoonotes.user_module.model.AuthState
 import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
@@ -11,6 +12,11 @@ interface UserRepository {
     fun updatePassword(password: String, accessToken: String): LiveData<Boolean>
     fun updateUserInDb(user: User)
     fun deleteUser(user: User)
-    fun fetchUser(email: String, password: String): LiveData<AuthState>
+    fun fetchUser(
+        email: String,
+        password: String,
+        preferences: SharedPreferences
+    ): LiveData<AuthState>
+
     fun fetchUserFromLocalDb(email: String): User?
 }

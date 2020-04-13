@@ -1,7 +1,9 @@
 package com.bridgelabz.fundoonotes.repository.common
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
@@ -17,8 +19,7 @@ import retrofit2.Response
 
 class UserRepositoryImplementation(
     private val userApi: UserApi,
-    private val userTableManager: UserDatabaseManager,
-    private val preferences: SharedPreferences
+    private val userTableManager: UserDatabaseManager
 ) : UserRepository {
     private val tag = "UserRepository"
 
@@ -43,8 +44,8 @@ class UserRepositoryImplementation(
                     return
                 }
 
-                val userSignUpResponse = response.body() as UserSignUpResponseModel
-                Log.i(tag, userSignUpResponse.message!!)
+                val userSignUpResponse = response.body()
+                Log.i(tag, userSignUpResponse?.message!!)
                 registrationStatus.value = RegistrationStatus.Successful
             }
         })
@@ -86,7 +87,11 @@ class UserRepositoryImplementation(
 
     }
 
-    override fun fetchUser(email: String, password: String): LiveData<AuthState> {
+    override fun fetchUser(
+        email: String,
+        password: String,
+        preferences: SharedPreferences
+    ): LiveData<AuthState> {
         val authState = MutableLiveData<AuthState>()
 
         val call = userApi.userLogin(getUserLoginModel(email, password))
