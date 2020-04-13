@@ -33,7 +33,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         return registrationResponse
     }
 
-    fun userLogin(email: String, password: String,preferences: SharedPreferences) {
+    fun userLogin(email: String, password: String, preferences: SharedPreferences) {
         loginResponse = repository.fetchUser(email, password, preferences)
     }
 
