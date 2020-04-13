@@ -18,7 +18,7 @@ import com.bridgelabz.fundoonotes.repository.common.NoteRepository
 
 class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    private var notesLiveData: LiveData<ArrayList<Note>> = MutableLiveData<ArrayList<Note>>()
+    private var notesLiveData = MutableLiveData<ArrayList<Note>>()
     private val recyclerViewTypeLiveData = MutableLiveData<RecyclerViewType>()
     private var noteServerResponse: LiveData<NoteServerResponse> =
         MutableLiveData<NoteServerResponse>()
@@ -30,7 +30,7 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
     /**Function to return liveData of Notes*/
     fun getNoteLiveData(userId: String): LiveData<ArrayList<Note>> {
-        notesLiveData = repository.fetchNotesFromLocalDb(userId)
+        notesLiveData.value = repository.fetchNotesFromLocalDb(userId).value
         return notesLiveData
     }
 
@@ -40,7 +40,7 @@ class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
     fun fetchNoteFromServer(accessToken: String, userId: String) {
         repository.fetchNotesFromServer(accessToken, userId)
-        notesLiveData = repository.fetchNotesFromLocalDb(userId)
+        notesLiveData.value = repository.fetchNotesFromLocalDb(userId).value
     }
 
     /**Function to update note in Note table*/
