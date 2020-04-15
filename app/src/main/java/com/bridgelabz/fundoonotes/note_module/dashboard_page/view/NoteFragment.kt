@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
@@ -93,7 +94,14 @@ class NoteFragment : Fragment(), OnNoteClickListener {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = setRecyclerViewType(recyclerViewType)
         recyclerView.adapter = noteAdapter
+        initNoteTouchCallback(noteAdapter)
         noteAdapter.notifyDataSetChanged()
+    }
+
+    private fun initNoteTouchCallback(noteAdapter: NoteViewAdapter) {
+        val callback = NoteTouchHelperCallback(noteAdapter)
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun observeNotes(noteList: ArrayList<Note>) {
