@@ -24,9 +24,6 @@ import com.google.android.material.textfield.TextInputEditText
 
 class RegisterActivity : AppCompatActivity() {
 
-    //    private val registerViewModel by lazy {
-//        ViewModelProvider(this).get(RegisterViewModel::class.java)
-//    }
     private val firstName by lazy {
         findViewById<TextInputEditText>(R.id.first_name)
     }
@@ -102,7 +99,8 @@ class RegisterActivity : AppCompatActivity() {
                 )
             ) {
                 userViewModel.signUpUser(user)
-                userViewModel.getRegistrationStatus().observe(this, Observer { handleRegistrationStatus(it)
+                userViewModel.getRegistrationStatus().observe(this, Observer {
+                    handleRegistrationStatus(it)
                 })
             } else {
                 confirmPassword.error = "Did not match password"
