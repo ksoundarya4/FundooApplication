@@ -12,7 +12,7 @@ package com.bridgelabz.fundoonotes.repository.local_service.lable_module
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.bridgelabz.fundoonotes.label_module.model.Label
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 
 class LabelTableManagerImpl(private val dbHelper: DatabaseHelper) : LabelTableManager {
 

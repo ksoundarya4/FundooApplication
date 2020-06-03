@@ -20,15 +20,19 @@ import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.model.Label
 import com.bridgelabz.fundoonotes.label_module.viewmodel.LabelViewModel
 import com.bridgelabz.fundoonotes.label_module.viewmodel.LabelViewModelFactory
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.lable_module.LabelTableManagerImpl
-import com.bridgelabz.fundoonotes.user_module.login.view.hideKeyboard
-import com.bridgelabz.fundoonotes.user_module.login.view.setHideKeyboardOnTouch
+import com.bridgelabz.fundoonotes.user_module.view.hideKeyboard
+import com.bridgelabz.fundoonotes.user_module.view.setHideKeyboardOnTouch
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class LabelFragment : Fragment(), LabelClickListener {
     private val labelFactory by lazy {
-        LabelViewModelFactory(LabelTableManagerImpl(DatabaseHelper(requireContext())))
+        LabelViewModelFactory(LabelTableManagerImpl(
+            DatabaseHelper(
+                requireContext()
+            )
+        ))
     }
     private val labelViewModel by lazy {
         requireActivity().run {
@@ -38,9 +42,6 @@ class LabelFragment : Fragment(), LabelClickListener {
             ).get(LabelViewModel::class.java)
         }
     }
-//    private val bottomAppBar by lazy {
-//        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
-//    }
     private val floatingActionButton by lazy {
         requireActivity().findViewById<FloatingActionButton>(R.id.fab)
     }
@@ -78,7 +79,10 @@ class LabelFragment : Fragment(), LabelClickListener {
         setOnButtonClickListeners()
         labelViewModel.getLabelLiveData().observe(requireActivity(), Observer { observeLabels(it) })
         initRecyclerView()
-        setHideKeyboardOnTouch(requireContext(), requireView())
+        setHideKeyboardOnTouch(
+            requireContext(),
+            requireView()
+        )
     }
 
     private fun initRecyclerView() {
@@ -113,7 +117,6 @@ class LabelFragment : Fragment(), LabelClickListener {
     }
 
     private fun hideBottomAppToolbar() {
-//        bottomAppBar.performHide()
         floatingActionButton.hide()
     }
 

@@ -19,8 +19,9 @@ data class Note(var title: String, var description: String) : Serializable {
     var reminder: String? = null
     var label: String? = null
     var position: Int = 0
-    var colour: Int? = 0
+    var colour: Int? = null
     var userId: String? = null
+    var noteId: String? = null
 
     constructor() : this(title = "", description = "")
 }

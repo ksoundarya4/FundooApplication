@@ -14,12 +14,12 @@ package com.bridgelabz.fundoonotes
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDatabaseManager
 import com.bridgelabz.fundoonotes.repository.local_service.user_module.UserDbManagerImpl
-import com.bridgelabz.fundoonotes.user_module.login.model.AuthState
-import com.bridgelabz.fundoonotes.user_module.registration.model.RegistrationStatus
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.model.AuthState
+import com.bridgelabz.fundoonotes.user_module.model.RegistrationStatus
+import com.bridgelabz.fundoonotes.user_module.model.User
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +35,8 @@ class UserTableManagerTest {
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        dbHelper = DatabaseHelper(context)
+        dbHelper =
+            DatabaseHelper(context)
         dbManager =
             UserDbManagerImpl(
                 dbHelper

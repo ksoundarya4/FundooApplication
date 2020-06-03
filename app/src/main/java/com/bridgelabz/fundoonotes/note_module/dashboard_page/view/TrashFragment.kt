@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,30 +12,23 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.ViewUtils
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class TrashFragment : Fragment(), OnNoteClickListener {
 
-    private val noteFactory: NoteTableManagerFactory by lazy {
-        NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
+    private val noteFactory: ShareViewModelFactory by lazy {
+        ShareViewModelFactory(requireContext())
     }
 
     private val viewModel by lazy {
         ViewModelProvider(this, noteFactory).get(SharedViewModel::class.java)
     }
 
-    private val recyclerView  by lazy {
+    private val recyclerView by lazy {
         requireActivity().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
-
-//    private val bottomAppBar by lazy {
-//        requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
-//    }
 
     private val floatingActionButton by lazy {
         requireActivity().findViewById<FloatingActionButton>(R.id.fab)
@@ -42,6 +36,8 @@ class TrashFragment : Fragment(), OnNoteClickListener {
 
     private val adapter = NoteViewAdapter(ArrayList(), this)
     private var deletedNotes = ArrayList<Note>()
+    private var note = Note()
+    private var accessToken: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,9 +55,18 @@ class TrashFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getDeletedNoteLiveData()
+        getNoteArguments()
+        viewModel.getNoteLiveData(note.userId!!)
             .observe(requireActivity(), Observer { observeDeletedNote(it) })
         initRecyclerView()
+    }
+
+    private fun getNoteArguments() {
+        if (arguments != null) {
+            note = arguments!!.get(getString(R.string.note)) as Note
+            accessToken = arguments!!.getString("access_token")!!
+            Log.d("noteBundle", note.toString())
+        }
     }
 
     private fun initRecyclerView() {
@@ -70,18 +75,27 @@ class TrashFragment : Fragment(), OnNoteClickListener {
         recyclerView.adapter = adapter
     }
 
-    private fun observeDeletedNote(deletedNoteList: ArrayList<Note>) {
-        deletedNotes = deletedNoteList
-        adapter.setListOfNotes(deletedNoteList)
+    private fun observeDeletedNote(noteList: ArrayList<Note>) {
+        deletedNotes = getDeletedNotes(noteList)
+        adapter.setListOfNotes(deletedNotes)
         adapter.notifyDataSetChanged()
     }
 
+    private fun getDeletedNotes(noteList: ArrayList<Note>): ArrayList<Note> {
+        val notes = ArrayList<Note>()
+        for (note in noteList) {
+            if (note.isDeleted == 1)
+                notes.add(note)
+        }
+        return notes
+    }
+
     override fun onClick(adapterPosition: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onLongClick(adapterPosition: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onResume() {
@@ -96,11 +110,9 @@ class TrashFragment : Fragment(), OnNoteClickListener {
 
     private fun hideBottomAppbar() {
         floatingActionButton.hide()
-//        bottomAppBar.performHide()
     }
 
     private fun showBottomAppBar() {
         floatingActionButton.show()
-//        bottomAppBar.performShow()
     }
 }

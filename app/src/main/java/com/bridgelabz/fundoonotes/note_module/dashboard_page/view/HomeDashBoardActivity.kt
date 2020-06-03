@@ -8,7 +8,6 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -24,14 +23,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.label_module.view.LabelFragment
+import com.bridgelabz.fundoonotes.launch_module.FundooNotesPreference
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModel
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.DashBoardViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.user_module.login.view.LoginActivity
-import com.bridgelabz.fundoonotes.user_module.login.view.toast
-import com.bridgelabz.fundoonotes.user_module.registration.model.User
+import com.bridgelabz.fundoonotes.user_module.view.LoginActivity
+import com.bridgelabz.fundoonotes.user_module.view.toast
+import com.bridgelabz.fundoonotes.user_module.model.User
+import com.bridgelabz.fundoonotes.user_module.viewModel.UserViewModelFactory
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
@@ -43,27 +42,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import java.lang.Exception
 
-class HomeDashBoardActivity : AppCompatActivity() {
+class HomeDashBoardActivity : AppCompatActivity(), OnUserClickListener {
 
-//    private val notes = ArrayList<Note>()
-//    private val noteCallBack = object : NoteCallBack {
-//        override fun onNoteReceivedSuccess(noteResponseModel: NoteResponseModel) {
-//            Log.i(tag, noteResponseModel.toString())
-//            val note = noteResponseModel.getNote()
-//            Log.i(tag, note.toString())
-//            notes.add(note)
-//        }
-//
-//        override fun onNoteReceivedFailure(exception: Throwable) {
-//            Log.i(tag, exception.message!!)
-//        }
-//    }
-//    private val tag = "HomeDashBoardActivity"
-    private val dashBoadViewModelFactory: DashBoardViewModelFactory by lazy {
-        DashBoardViewModelFactory(DatabaseHelper(this))
+    private val userViewModelFactory by lazy {
+        UserViewModelFactory(this)
     }
     private val dashBoardViewModel: DashBoardViewModel by lazy {
-        ViewModelProvider(this, dashBoadViewModelFactory).get(DashBoardViewModel::class.java)
+        ViewModelProvider(this, userViewModelFactory).get(DashBoardViewModel::class.java)
     }
     private val toolbar by lazy {
         findViewById<Toolbar>(R.id.toolbar)
@@ -82,18 +67,15 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private val preferences: SharedPreferences by lazy {
-        this.getSharedPreferences(
-            "LaunchScreen",
-            Context.MODE_PRIVATE
-        )
+        FundooNotesPreference.getPreference(this)
     }
+    private val emailKey = "email"
     private lateinit var authenticatedEmail: String
     private var authenticatedUser: User? = null
     private var signInClient: GoogleSignInClient? = null
     private var googleAccount: GoogleSignInAccount? = null
-    private var accessToken: AccessToken? = null
-
-//    private val retrofitHelper = RetrofitHelper()
+    private var facebookAccessToken: AccessToken? = null
+    private var fundooNotesAccessToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,9 +87,6 @@ class HomeDashBoardActivity : AppCompatActivity() {
         setNavigationItemClicked()
         setGoogleSignInClient()
         setFacebookAccessToken()
-//        retrofitHelper.addNoteToServer()
-//        retrofitHelper.getNotesFromServer(noteCallBack)
-//        Log.i(tag, notes.toString())
     }
 
     private fun observeCurrentFragment() {
@@ -118,9 +97,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun setFacebookAccessToken() {
-        accessToken = AccessToken.getCurrentAccessToken()
-        if (accessToken != null)
-            useLoginInformation(accessToken!!)
+        facebookAccessToken = AccessToken.getCurrentAccessToken()
+        if (facebookAccessToken != null)
+            useLoginInformation(facebookAccessToken!!)
     }
 
     private fun setGoogleSignInClient() {
@@ -138,7 +117,12 @@ class HomeDashBoardActivity : AppCompatActivity() {
             val lastName = googleAccount.familyName
             val email = googleAccount.email
             val id = googleAccount.id
-            authenticatedUser = User(firstname!!, lastName!!, email!!)
+            authenticatedUser =
+                User(
+                    firstname!!,
+                    lastName!!,
+                    email!!
+                )
             authenticatedUser!!.id = id!!
         } else {
             authenticateUser()
@@ -167,8 +151,13 @@ class HomeDashBoardActivity : AppCompatActivity() {
             try {
                 val firstName = `object`!!.getString("name")
                 val lastNAme = ""
-                val email = `object`.getString("email")
-                authenticatedUser = User(firstName, lastNAme, email)
+                val email = `object`.getString(emailKey)
+                authenticatedUser =
+                    User(
+                        firstName,
+                        lastNAme,
+                        email
+                    )
                 authenticatedEmail = email
             } catch (exception: Exception) {
                 exception.printStackTrace()
@@ -177,16 +166,15 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun initHomeDashBoardActivity() {
 
-        observeCurrentFragment()
         getUserSharedPreferences()
+        authenticateUser()
+        observeCurrentFragment()
         setActionBarToggle()
     }
 
     private fun getUserSharedPreferences() {
-        val editor = preferences.edit()
-        val email = preferences.getString("email", "")
+        val email = preferences.getString(emailKey, "")
         authenticatedEmail = email!!
-        editor.apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -221,9 +209,11 @@ class HomeDashBoardActivity : AppCompatActivity() {
     private fun setNoteArguments(): Bundle? {
         val bundle = Bundle()
         val note = Note()
+        fundooNotesAccessToken = preferences.getString("access_token", null)
         if (authenticatedUser != null)
-            note.userId = authenticatedUser!!.id
+            note.userId = authenticatedUser!!.userId
         bundle.putSerializable(getString(R.string.note), note)
+        bundle.putString("access_token", fundooNotesAccessToken)
         return bundle
     }
 
@@ -268,6 +258,8 @@ class HomeDashBoardActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         drawerLayout.closeDrawer(navigationView)
+        val bundle = setNoteArguments()
+        fragment.arguments = bundle
         if (fragment.isAdded) return
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -296,10 +288,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
     }
 
     private fun removePreference() {
-        if (preferences.contains("email")) {
-            val editor = preferences.edit()
-            editor.clear().apply()
-        }
+        FundooNotesPreference.removePreference(preferences, emailKey)
     }
 
     /**Function that performs sign out alert operation*/
@@ -315,7 +304,7 @@ class HomeDashBoardActivity : AppCompatActivity() {
                 getString(R.string.sign_out_alert_positive_button)
             ) { _, _ ->
                 checkForGoogleAccount(googleAccount)
-                checkForFaceBookAccount(accessToken)
+                checkForFaceBookAccount(facebookAccessToken)
                 removePreference()
                 navigateToLoginScreen()
                 toast(
@@ -385,5 +374,9 @@ class HomeDashBoardActivity : AppCompatActivity() {
         }
         reminderDialog.show(fragmentManager, getString(R.string.dialog_reminder_title))
         return true
+    }
+
+    override fun onUserSubmit(user: User) {
+        dashBoardViewModel.updateUser(user)
     }
 }

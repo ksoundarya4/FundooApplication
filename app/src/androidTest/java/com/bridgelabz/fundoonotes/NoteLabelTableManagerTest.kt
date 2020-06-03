@@ -11,7 +11,7 @@ package com.bridgelabz.fundoonotes
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_label_relation_module.NoteLabelTableManager
 import com.bridgelabz.fundoonotes.repository.local_service.note_label_relation_module.NoteLabelTableManagerImpl
 import junit.framework.Assert.assertEquals
@@ -26,7 +26,8 @@ class NoteLabelTableManagerTest {
     @Before
     fun onCreate() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        dbHelper = DatabaseHelper(context)
+        dbHelper =
+            DatabaseHelper(context)
         tableManager = NoteLabelTableManagerImpl(dbHelper)
     }
 

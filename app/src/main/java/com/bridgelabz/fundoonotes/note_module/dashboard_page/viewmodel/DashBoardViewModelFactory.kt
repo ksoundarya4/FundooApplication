@@ -12,7 +12,7 @@ package com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 
 class DashBoardViewModelFactory(private val dbHelper: DatabaseHelper) : ViewModelProvider.Factory {
 

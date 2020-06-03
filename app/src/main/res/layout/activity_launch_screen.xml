@@ -5,7 +5,7 @@
     style="@style/LaunchScreenTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user_module.launch_module.LaunchScreenActivity">
+    tools:context=".launch_module.LaunchScreenActivity">
 
     <ImageView
         android:id="@+id/image_launcher_icon"

@@ -12,39 +12,60 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
-import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_note.NoteFireStoreManager
-import com.bridgelabz.fundoonotes.repository.firestore_service.firebase_note.NoteFireStoreManagerImpl
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
+import com.bridgelabz.fundoonotes.repository.common.NoteRepository
 
-class SharedViewModel(private val noteTableManager: NoteTableManager) : ViewModel() {
+class SharedViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    private val notesLiveData = MutableLiveData<ArrayList<Note>>()
+    private var notesLiveData = MutableLiveData<ArrayList<Note>>()
     private val recyclerViewTypeLiveData = MutableLiveData<RecyclerViewType>()
-    private val noteFireStore: NoteFireStoreManager = NoteFireStoreManagerImpl()
+    private var noteServerResponse: LiveData<NoteServerResponse> =
+        MutableLiveData<NoteServerResponse>()
 
-    /**Function to insert Note into Notes table*/
-    fun insertNoteOnCLick(note: Note) {
-        noteTableManager.insert(note)
-        noteFireStore.insertNote(note)
+    /**Function to insert Note into Server*/
+    fun insertNoteOnCLick(accessToken: String, note: Note) {
+        noteServerResponse = repository.insertNote(note, accessToken)
     }
 
-    /**Function to fetchSimpleNotes from Notes table*/
-    private fun fetchSimpleNotes() {
-        notesLiveData.value = noteTableManager.fetchSimpleNote()
-    }
-
-    /**Function to return liveData of SimpleNote*/
-    fun getSimpleNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchSimpleNotes()
+    /**Function to return liveData of Notes*/
+    fun getNoteLiveData(userId: String): LiveData<ArrayList<Note>> {
+        notesLiveData.value = repository.fetchNotesFromLocalDb(userId).value
         return notesLiveData
     }
 
+    fun getNoteSererResponse(): LiveData<NoteServerResponse> {
+        return noteServerResponse
+    }
+
+    fun fetchNoteFromServer(accessToken: String, userId: String) {
+        repository.fetchNotesFromServer(accessToken, userId)
+        notesLiveData.value = repository.fetchNotesFromLocalDb(userId).value
+    }
+
     /**Function to update note in Note table*/
-    fun updateNoteOnClick(note: Note) {
-        noteTableManager.updateNote(note)
-        noteFireStore.updateNote(note)
+    fun updateNoteOnClick(note: Note, accessToken: String) {
+        noteServerResponse = repository.updateNote(note, accessToken)
+    }
+
+    fun markNoteAsArchiveOrUnarchive(note: Note, accessToken: String) {
+        noteServerResponse = repository.markNoteAsArchiveOrUnarchive(note, accessToken)
+    }
+
+    fun markNoteAsPinOrUnpin(note: Note, accessToken: String) {
+        noteServerResponse = repository.markNoteAsPinOrUnpin(note, accessToken)
+    }
+
+    fun markNoteAsTrash(note: Note, accessToken: String) {
+        noteServerResponse = repository.markNoteAsTrash(note, accessToken)
+    }
+
+    fun updateColourOfNote(note: Note, accessToken: String) {
+        noteServerResponse = repository.updateColourOfNote(note, accessToken)
+    }
+
+    fun updateReminderOfNote(note: Note, accessToken: String) {
+        noteServerResponse = repository.updateReminderOfNote(note, accessToken)
     }
 
     fun getRecyclerViewType(): LiveData<RecyclerViewType> {
@@ -53,36 +74,5 @@ class SharedViewModel(private val noteTableManager: NoteTableManager) : ViewMode
 
     fun setRecyclerViewType(recyclerViewType: RecyclerViewType) {
         recyclerViewTypeLiveData.value = recyclerViewType
-    }
-
-    /**Function to fetch ArchiveNotes from Notes table*/
-    private fun fetchArchiveNote() {
-        notesLiveData.value = noteTableManager.fetchArchiveNote()
-    }
-
-    /**Function to return liveData of ArchiveNote*/
-    fun getArchiveNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchArchiveNote()
-        return notesLiveData
-    }
-
-    /**Function to return live data of Deleted Note*/
-    private fun fetchDeletedNotes() {
-        notesLiveData.value = noteTableManager.fetchDeletedNote()
-    }
-
-    fun getDeletedNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchDeletedNotes()
-        return notesLiveData
-    }
-
-    /**Function to return Array of Pinned Note*/
-    private fun fetchPinnedNotes() {
-        notesLiveData.value = noteTableManager.fetchPinnedNote()
-    }
-
-    fun getPinnedNoteLiveData(): LiveData<ArrayList<Note>> {
-        fetchPinnedNotes()
-        return notesLiveData
     }
 }

@@ -8,7 +8,10 @@
  */
 package com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 object ViewUtils {
     fun setActionBarTitle(activity: AppCompatActivity, title: String) {
@@ -16,4 +19,18 @@ object ViewUtils {
             it.title = title
         }
     }
+
+    fun displayToast(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+}
+
+fun AppCompatActivity.checkPermission(permission: String) =
+    ActivityCompat.checkSelfPermission(this, permission)
+
+fun AppCompatActivity.shouldRequestPermissionRationale(permission: String) =
+    ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+
+fun AppCompatActivity.requestAllPermission(permissionArray: Array<String>, requestCode: Int) {
+    ActivityCompat.requestPermissions(this, permissionArray, requestCode)
 }

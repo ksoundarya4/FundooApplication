@@ -11,7 +11,7 @@ package com.bridgelabz.fundoonotes.repository.local_service.note_label_relation_
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 
 class NoteLabelTableManagerImpl(private val dbHelper: DatabaseHelper) : NoteLabelTableManager {
 

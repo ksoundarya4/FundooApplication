@@ -23,7 +23,7 @@ class NoteViewAdapter(
     private var notes: ArrayList<Note>,
     private val onItemClickListener: OnNoteClickListener
 ) :
-    RecyclerView.Adapter<NoteViewHolder>(), Filterable {
+    RecyclerView.Adapter<NoteViewHolder>(), Filterable, NoteTouchHelper {
 
     //Copy of note List
     private val noteListFull = ArrayList<Note>(notes)
@@ -77,5 +77,17 @@ class NoteViewAdapter(
             notes.addAll(results!!.values as ArrayList<Note>)
             notifyDataSetChanged()
         }
+    }
+
+    override fun onNoteMove(fromPosition: Int, toPosition: Int): Boolean {
+        Collections.swap(notes, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+        return true
+    }
+
+    override fun onNoteSwipe(position: Int) {
+        val note = notes[position]
+        notes.remove(note)
+        notifyItemRemoved(position)
     }
 }

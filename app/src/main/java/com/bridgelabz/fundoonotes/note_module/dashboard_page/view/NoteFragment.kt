@@ -9,35 +9,33 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bridgelabz.fundoonotes.R
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.NoteServerResponse
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewType
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.LinearRecyclerViewManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.RecyclerViewLayoutManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.recycler_view_strategy.StaggeredRecyclerViewtManager
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.view.view_utils.ViewUtils
-import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.NoteTableManagerFactory
+import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.ShareViewModelFactory
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.viewmodel.SharedViewModel
 import com.bridgelabz.fundoonotes.note_module.note_page.view.AddNoteFragment
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
-import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 
 class NoteFragment : Fragment(), OnNoteClickListener {
 
     private val noteFactory by lazy {
-        NoteTableManagerFactory(NoteTableManagerImpl(DatabaseHelper(requireContext())))
+        ShareViewModelFactory(requireContext())
     }
     private lateinit var sharedViewModel: SharedViewModel
-
     private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.notes_recycler_view)
     }
-
+    private lateinit var accessToken: String
     private var noteAdapter: NoteViewAdapter = NoteViewAdapter(arrayListOf(), this)
-
+    private lateinit var note: Note
     private lateinit var notes: ArrayList<Note>
-
     private var recyclerViewType = RecyclerViewType.ListView
 
     override fun onCreateView(
@@ -55,31 +53,71 @@ class NoteFragment : Fragment(), OnNoteClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        getNoteArguments()
         initSharedViewModel()
+    }
+
+    private fun getNoteArguments() {
+        if (arguments != null) {
+            note = arguments!!.get(getString(R.string.note)) as Note
+            accessToken = arguments!!.getString("access_token")!!
+            Log.d("noteBundle", note.toString())
+        }
     }
 
     private fun initSharedViewModel() {
         sharedViewModel =
             ViewModelProvider(requireActivity(), noteFactory).get(SharedViewModel::class.java)
+        sharedViewModel.getNoteSererResponse()
+            .observe(viewLifecycleOwner, Observer { handleNoteResponse(it) })
         sharedViewModel.getRecyclerViewType()
             .observe(viewLifecycleOwner, Observer { recyclerViewType = it })
-        sharedViewModel.getSimpleNoteLiveData()
+        sharedViewModel.getNoteLiveData(note.userId!!)
             .observe(viewLifecycleOwner, Observer { observeNotes(it) })
+    }
+
+    private fun handleNoteResponse(noteResponse: NoteServerResponse) {
+        when (noteResponse) {
+            NoteServerResponse.Success -> {
+                sharedViewModel.fetchNoteFromServer(
+                    accessToken,
+                    note.userId!!
+                )
+                ViewUtils.displayToast(requireContext(), "Note Saved")
+            }
+            NoteServerResponse.Failure -> ViewUtils.displayToast(requireContext(), "Note not Saved")
+        }
+
     }
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = setRecyclerViewType(recyclerViewType)
         recyclerView.adapter = noteAdapter
+        initNoteTouchCallback(noteAdapter)
         noteAdapter.notifyDataSetChanged()
+    }
+
+    private fun initNoteTouchCallback(noteAdapter: NoteViewAdapter) {
+        val callback = NoteTouchHelperCallback(noteAdapter)
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun observeNotes(noteList: ArrayList<Note>) {
         Log.d("noteList", noteList.toString())
-        notes = noteList
+        notes = getSimpleNote(noteList)
         noteAdapter = NoteViewAdapter(notes, this)
         initRecyclerView()
+    }
+
+    private fun getSimpleNote(noteList: ArrayList<Note>): ArrayList<Note> {
+        val notes = ArrayList<Note>()
+        for (note in noteList) {
+            if (note.isArchived == 0 && note.isPinned == 0 && note.isDeleted == 0)
+                notes.add(note)
+        }
+        return notes
     }
 
     override fun onClick(adapterPosition: Int) {

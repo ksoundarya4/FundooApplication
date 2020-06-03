@@ -14,7 +14,7 @@ import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bridgelabz.fundoonotes.note_module.dashboard_page.model.Note
-import com.bridgelabz.fundoonotes.repository.local_service.DatabaseHelper
+import com.bridgelabz.fundoonotes.repository.common.DatabaseHelper
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManager
 import com.bridgelabz.fundoonotes.repository.local_service.note_module.NoteTableManagerImpl
 import junit.framework.Assert.assertEquals
@@ -32,7 +32,8 @@ class NoteTableManagerTest {
     @Before
     fun oncreate() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        noteDbHelper = DatabaseHelper(context)
+        noteDbHelper =
+            DatabaseHelper(context)
         noteDbManager =
             NoteTableManagerImpl(
                 noteDbHelper
@@ -67,7 +68,8 @@ class NoteTableManagerTest {
 
     @Test
     fun toTestFetchFunction_countNumberOfNotesPresentInDatabase() {
-        val notes = noteDbManager.fetchNotes()
+        val userId = ""
+        val notes = noteDbManager.fetchUserNotes(userId = userId)
         val numberOfNotes = notes.size
         print(notes)
         assertEquals(2, numberOfNotes)
